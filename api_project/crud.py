@@ -1,4 +1,6 @@
 from datetime import date
+from operator import or_
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 import models, schemas
 
@@ -82,3 +84,59 @@ def afficher_rdv_pris_par_client(db:Session,client:int):
 
 def afficher_rdv_pris_par_author(db:Session,author:int):
     return db.query(models.Rdv_pris).filter(models.Rdv_pris.id_avocat==author).all()
+
+def rate_avocat(db: Session, client_id: int, avocat_id: int, rating: float, comment: str = None):
+    rating_entry = models.Rating(client_id=client_id, avocat_id=avocat_id, rating=rating, comment=comment)
+    db.add(rating_entry)
+    db.commit()
+
+def get_top_rated_avocats(db: Session, limit: int = 5):
+    top_rated_avocats = (
+        db.query(models.Avocat,models.Rating.rating)
+        .join(models.Rating, models.Rating.avocat_id == models.Avocat.id)
+        .order_by(models.Rating.rating.desc())
+        .limit(limit)
+        .all()
+    )
+    return top_rated_avocats
+
+def get_avocat_experiences(db: Session, avocat_id: int):
+    avocat = db.query(models.Avocat).filter(models.Avocat.id == avocat_id).first()
+    if avocat:
+        return avocat.experiences
+    return None
+
+
+def standard_search(db: Session, keywords: str):
+    query = db.query(models.Avocat, models.Speciality, models.Experiences)
+
+    if keywords:
+        keyword_list = keywords.split(',')
+        conditions = []
+        for keyword in keyword_list:
+            conditions.append(
+                func.lower(models.Avocat.full_name).ilike(f"%{keyword}%") |
+                func.lower(models.Avocat.language).ilike(f"%{keyword}%") |
+                func.lower(models.Speciality.name).ilike(f"%{keyword}%") |
+                func.lower(models.Experiences.contenu).ilike(f"%{keyword}%")
+            )
+        query = query.filter(or_(*conditions))
+
+    result = query.all()
+
+    return result
+
+
+def filter_search_results(results, language=None, speciality=None, location=None):
+    filtered_results = []
+
+    for avocat, speciality, experience in results:
+       # filtering based on language, speciality,  location
+        if (
+            (not language or avocat.language == language) and
+            (not speciality or speciality.name == speciality) and
+            (not location or avocat.ville == location or avocat.region == location or avocat.codepostal == location)
+        ):
+            filtered_results.append((avocat, speciality, experience))
+
+    return filtered_results
