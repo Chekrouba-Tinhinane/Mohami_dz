@@ -50,6 +50,8 @@ class AvocatBase(BaseModel):
     region:str=None
     codepostal:str=None
     photo:str=None
+    latitude:float=None
+    longitude:float=None
 
 class AvocatCreate(AvocatBase):
     password:str
@@ -57,6 +59,7 @@ class AvocatCreate(AvocatBase):
 class Avocat(AvocatBase):
     id:int
     id_speciality:int
+    verified:str=False
     competences: list[competence]=[]
     interval_libre: list[Interval_libre]=[]
     rdv_pris: list[Rdv_pris]=[]

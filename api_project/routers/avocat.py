@@ -30,3 +30,29 @@ async def register_avocat(avocat:schemas.AvocatCreate,id_speciality:int=Body(...
 async def get_avocat(db:Session=Depends(get_db)):
     avocats=crud.show_avocats(db)
     return avocats
+
+@routerAvocat.get('/avocat_pending')
+async def get_pending_avocat(db:Session=Depends(get_db)):
+    avocats=crud.show_pending_avocats(db)
+    return avocats
+
+@routerAvocat.get('/avocats')
+async def get_approved_avocat(db:Session=Depends(get_db)):
+    avocats=crud.show_approved_avocats(db)
+    return avocats
+
+@routerAvocat.post('/avocat_verify')
+async def get_pending_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db)):
+    avocats=crud.verify_avocats(db,avocat_id)
+    return avocats
+
+@routerAvocat.post('/avocat_delete')
+async def delete_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db)):
+    avocats=crud.delete_avocats(db,avocat_id)
+    return avocats
+
+@routerAvocat.post('/avocat_update')
+async def update_Avocat(avocat:schemas.AvocatCreate,avocat_id:int=Body(...),db:Session=Depends(get_db)):
+    return crud.update_avocat(db,avocat,avocat_id)
+
+

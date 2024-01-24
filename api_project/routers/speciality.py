@@ -31,5 +31,16 @@ async def create_speciality(speciality:schemas.SpecialityCreate,db:Session=Depen
 
 @routerSpeciality.get('/speciality_list')
 async def get_speciality(db:Session=Depends(get_db)):
-    specialities=crud.show_specialities
+    specialities=crud.show_specialities(db)
     return specialities
+
+
+@routerSpeciality.post('/speciality_update')
+async def update_speciality(speciality:schemas.SpecialityCreate,id_speciality:int=Body(...),db:Session=Depends(get_db)):
+    data=crud.update_speciality(db,speciality,id_speciality)
+    return data
+
+@routerSpeciality.post('/speciality_delete')
+async def delete_speciality(id_speciality:int=Body(...),db:Session=Depends(get_db)):
+    data=crud.delete_speciality(db,id_speciality)
+    return data

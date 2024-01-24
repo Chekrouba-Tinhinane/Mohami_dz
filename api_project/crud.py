@@ -24,8 +24,51 @@ def register_avocat(db:Session,avocat:schemas.AvocatCreate,id_speciality:models.
     db.refresh(db_avocat)
     return {"success":f"avocat '{db_avocat.id}' has been created"}
 
+def update_avocat(db:Session,new_avocat:schemas.AvocatCreate,id_avocat:int):
+    print(id_avocat)
+    db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
+    if db_old_avocat is None:
+        return {"erreur":"avocat non existant"}
+    for field, value in new_avocat.model_dump(exclude_unset=True).items():
+        setattr(db_old_avocat, field, value)
+    
+    db.commit()
+    db.refresh(db_old_avocat)
+    return {"success":f"avocat '{db_old_avocat.id}' has been updated"}
+
+
+def show_pending_avocats(db:Session):
+    avocats=db.query(models.Avocat).filter(models.Avocat.verified==False).all()
+    return avocats
+
+def verify_avocats(db:Session,id_avocat:int):
+    db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
+    if db_old_avocat is None:
+        return {"erreur":"avocat non existante"}
+    
+    setattr(db_old_avocat, "verified", True)
+    
+    db.commit()
+    db.refresh(db_old_avocat)
+    return {"success":f"avocat '{db_old_avocat.id}' has been approved"}
+
+def delete_avocats(db:Session,id_avocat:int):
+    db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
+    if db_old_avocat is None:
+        return {"erreur":"avocat non existante"}
+    
+    db.delete(db_old_avocat)
+    db.commit()
+    return {"success":f"avocat '{db_old_avocat.id}' has been deleted"}
+
+def show_approved_avocats(db:Session):
+    avocats=db.query(models.Avocat).filter(models.Avocat.verified==True).all()
+    return avocats
+
 def show_specialities(db:Session):
     specialities=db.query(models.Speciality).all()
+    print("asdasd")
+    print(specialities)
     return specialities
 
 def register_specialities(db:Session,speciality:schemas.speciality):
@@ -34,6 +77,27 @@ def register_specialities(db:Session,speciality:schemas.speciality):
     db.commit()
     db.refresh(db_speciality)
     return {"success":f"speciality '{db_speciality.id}' has been created"}
+
+def update_speciality(db:Session,speciality:schemas.speciality,id_speciality:models.Speciality.id):
+    db_old_speciality = db.query(models.Speciality).filter(models.Speciality.id == id_speciality).one_or_none()
+    if db_old_speciality is None:
+        return {"erreur":"speciality non existante"}
+    for field, value in speciality.model_dump(exclude_unset=True).items():
+        setattr(db_old_speciality, field, value)
+    
+    db.commit()
+    db.refresh(db_old_speciality)
+    return {"success":f"speciality '{db_old_speciality.id}' has been updated"}
+
+def delete_speciality(db:Session,id_speciality:int):
+    db_speciality = db.query(models.Speciality).filter(models.Speciality.id == id_speciality).first()
+    if db_speciality is None:
+        return {"erreur":"speciality non existante"}
+    db.delete(db_speciality)
+    db.commit()
+    return {"success":f"speciality '{id_speciality}' has been deleted"}
+
+
 
 def show_competence(db:Session):
     competences=db.query(models.Competence).all()
@@ -45,6 +109,26 @@ def register_competence(db:Session,competence:schemas.competenceCreate,id_avocat
     db.commit()
     db.refresh(db_competence)
     return {"success":f"competence '{db_competence.id}' has been created"}
+
+def update_competence(db:Session,new_competence:schemas.competenceCreate,id_avocat:int,id_competence:int):
+    db_old_competence = db.query(models.Competence).filter(models.Competence.id == id_competence).filter(models.Competence.id_avocat==id_avocat).one_or_none()
+    if db_old_competence is None:
+        return {"erreur":"compentece non existante"}
+    for field, value in new_competence.model_dump(exclude_unset=True).items():
+        setattr(db_old_competence, field, value)
+    
+    db.commit()
+    db.refresh(db_old_competence)
+    return {"success":f"competence '{db_old_competence.id}' has been updated"}
+
+def delete_competence(db:Session,id_competence:int,id_avocat:int):
+    db_competence = db.query(models.Competence).filter(models.Competence.id == id_competence).filter(models.Competence.id_avocat==id_avocat).first()
+    if db_competence is None:
+        return {"erreur":"competence non existante"}
+    db.delete(db_competence)
+    db.commit()
+    return {"success":f"competence '{id_competence}' has been deleted"}
+
 
 def show_competence(db:Session):
     competences=db.query(models.Competence).all()

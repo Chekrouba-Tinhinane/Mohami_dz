@@ -7,8 +7,7 @@ from routers.clients import routerClient
 from routers.competence import routerCompetence
 from routers.rdv import routerRdv
 from routers.speciality import routerSpeciality
-from core.config import settings
-import schemas,crud,models
+import models
 from database import SessionLocal,engine 
 models.Base.metadata.create_all(bind=engine)
 

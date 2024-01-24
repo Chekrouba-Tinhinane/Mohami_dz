@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, ForeignKey, Integer, String,Date,Time
+from sqlalchemy import Float,Boolean, Column, ForeignKey, Integer, String,Date,Time
 from sqlalchemy.orm import relationship
 from datetime import date,time
 from database import Base
@@ -25,9 +25,11 @@ class Avocat(Base):
     region = Column(String, unique=True, index=True, nullable=True)
     codepostal = Column(String, unique=True, index=True, nullable=True)
     password = Column(String)
+    latitude = Column(Float,nullable=True,index=True)
+    longitude = Column(Float,nullable=True,index=True)
     photo = Column(String, nullable=True)
+    verified=Column(Boolean, default=False)
     id_speciality = Column(Integer, ForeignKey("speciality.id"))
-
     speciality = relationship("Speciality", back_populates="avocats")
     competence = relationship("Competence", back_populates="avocat")
     interval_libre = relationship("Interval_libre",back_populates="avocat")
