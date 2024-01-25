@@ -1,4 +1,4 @@
-from sqlalchemy import Float,Boolean, Column, ForeignKey, Integer, String,Date,Time
+from sqlalchemy import Enum,Float,Boolean, Column, ForeignKey, Integer, String,Date,Time
 from sqlalchemy.orm import relationship
 from datetime import date,time
 from database import Base
@@ -17,14 +17,16 @@ class Avocat(Base):
     __tablename__ = "avocat"
 
     id = Column(Integer, primary_key=True, index=True)
-    full_name = Column(String, unique=True, index=True)
-    email = Column(String, unique=True, index=True)
-    telephone = Column(String, unique=True, index=True, nullable=True)
-    siteweb = Column(String, unique=True, index=True, nullable=True)
-    ville = Column(String, unique=True, index=True, nullable=True)
-    region = Column(String, unique=True, index=True, nullable=True)
-    codepostal = Column(String, unique=True, index=True, nullable=True)
+    first_name = Column(String, index=True)
+    last_name = Column(String, index=True)
+    email = Column(String,  index=True)
+    telephone = Column(String, index=True, nullable=True)
+    siteweb = Column(String, index=True, nullable=True)
+    ville = Column(String, index=True, nullable=True)
+    region = Column(String, index=True, nullable=True)
+    codepostal = Column(String, index=True, nullable=True,)
     password = Column(String)
+    langue=Column(Enum("french", "arabic","both"),index=True)
     latitude = Column(Float,nullable=True,index=True)
     longitude = Column(Float,nullable=True,index=True)
     photo = Column(String, nullable=True)

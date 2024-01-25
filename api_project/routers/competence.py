@@ -1,4 +1,4 @@
-from fastapi import Body, Depends,APIRouter
+from fastapi import Body, Depends,APIRouter,Cookie
 from sqlalchemy.orm import Session
 
 
@@ -34,16 +34,16 @@ async def get_competence(db:Session=Depends(get_db),id_avocat:int=None):
 
 
 @routerCompetence.post("/create_competence")
-async def create_competence(competence:schemas.competenceCreate,id_avocat:int=Body(...),db:Session=Depends(get_db)):
-    return crud.register_competence(db,competence,id_avocat=id_avocat)
+async def create_competence(competence:schemas.competenceCreate,id_avocat:int=Body(...),db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
+    return crud.register_competence(db,competence,id_avocat,jwt)
 
 
 @routerCompetence.post("/update_competence")
-async def update_competence(competence:schemas.competenceCreate,id_competence:int=Body(...),id_avocat:int=Body(...),db:Session=Depends(get_db)):
-    return crud.update_competence(db,competence,id_competence,id_avocat)
+async def update_competence(competence:schemas.competenceCreate,id_competence:int=Body(...),id_avocat:int=Body(...),db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
+    return crud.update_competence(db,competence,id_competence,id_avocat,jwt)
 
 @routerCompetence.post("/delete_competence")
-async def update_competence(id_competence:int=Body(...),id_avocat:int=Body(...),db:Session=Depends(get_db)):
-    return crud.delete_competence(db,id_competence,id_avocat)
+async def update_competence(id_competence:int=Body(...),id_avocat:int=Body(...),db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
+    return crud.delete_competence(db,id_competence,id_avocat,jwt)
 
 

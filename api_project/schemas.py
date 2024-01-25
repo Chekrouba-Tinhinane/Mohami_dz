@@ -42,7 +42,8 @@ class Interval_libre(Interval_libreBase):
         orm_mode=True
 
 class AvocatBase(BaseModel):
-    full_name:str
+    first_name:str
+    last_name:str
     email:str
     telephone:str=None
     siteweb:str=None
@@ -52,6 +53,7 @@ class AvocatBase(BaseModel):
     photo:str=None
     latitude:float=None
     longitude:float=None
+    langue:str
 
 class AvocatCreate(AvocatBase):
     password:str
