@@ -270,11 +270,11 @@ function Hero() {
 
 function Footer() {
   return (
-    <footer id="footer" className=" relative flex w-full justify-center mt-10 ">
+    <footer id="footer" className=" relative flex w-full justify-center mt-3 ">
       <img src={footer} alt="" className="w-full object-cover" />
       {/* sixth section */}
-      <div className="absolute w-[85%]  ">
-        <div className=" flex items-center justify-between px-16 ">
+      <div className="absolute w-full ">
+        <div className=" flex justify-between px-16 ">
           <div className=" flex flex-col">
             <p>Aide</p>
             <p>Aide</p>
@@ -309,7 +309,7 @@ function Appoint() {
   return (
     <section
       id="appoint"
-      className=" flex flex-col w-full justify-center items-center gap-[3rem] my-10"
+      className=" flex flex-col w-full justify-center items-center my-4"
     >
       <div className=" flex flex-col items-center">
         <div className="flex items-center my-5 gap-4">
@@ -335,7 +335,7 @@ function Appoint() {
           </p>
           <a
             href=""
-            className=" py-3 px-5 text-white bg-primary hover:bg-opacity-65"
+            className=" py-2 px-5 text-white bg-primary hover:bg-opacity-65"
           >
             Prendre un rendez-vous{" "}
           </a>

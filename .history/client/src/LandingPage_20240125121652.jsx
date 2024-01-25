@@ -164,8 +164,8 @@ function Feedback() {
 
 function Achievements() {
   return (
-    <div className=" flex flex-col w-[80%] items-center mx-auto my-10 gap-8 ">
-      <div className="flex items-center my-5 gap-4">
+    <div className=" flex flex-col w-full ">
+      <div className="flex items-center my-5 gap-4 text-">
         <span className=" font-semibold select-none text-primary">
           ____________
         </span>
@@ -175,31 +175,23 @@ function Achievements() {
         </span>
       </div>
 
-      <div className="flex w-full justify-between  ">
-        <div className="flex flex-col items-center basis-[33%] gap-4">
+      <div className="flex justify-between">
+        <div className="flex flex-col">
           {" "}
-          <h4 className=" recursive text-primary text-3xl font-bold">
-            879+
-          </h4>{" "}
-          <span className=" w-[70%] text-center recursive font-semibold text-xl">
-            Consultations
-          </span>
+          <h4 className=" recursive">879+</h4>{" "}
+          <span className=" w-[70%]">Consultations</span>
         </div>
-        <div className="flex flex-col items-center basis-[33%] gap-4">
+        <div className="flex flex-col">
           {" "}
-          <h4 className=" recursive text-primary text-3xl font-bold">
-            12 Mil
-          </h4>{" "}
-          <span className=" w-[70%] text-center recursive font-semibold text-xl">
+          <h4 className=" recursive">12 Mil</h4>{" "}
+          <span className=" w-[70%]">
             Coûts recouvrés au bénéfice du client
           </span>
         </div>
-        <div className="flex flex-col items-center basis-[33%] gap-4">
+        <div className="flex flex-col">
           {" "}
-          <h4 className=" recursive text-primary text-3xl font-bold">
-            92%
-          </h4>{" "}
-          <span className=" w-[70%] text-center recursive font-semibold text-xl">
+          <h4 className=" recursive">92%</h4>{" "}
+          <span className=" w-[70%]">
             Affaires pénales défendues avec succès
           </span>
         </div>
@@ -210,14 +202,14 @@ function Achievements() {
 
 function Hero() {
   return (
-    <section id="hero" className=" relative flex w-screen justify-center my-8 ">
+    <section id="hero" className=" relative flex w-screen justify-center my-8">
       <img
         src={section2}
-        className="w-full h-[680px] bg-center object-cover"
+        className="w-full h-[640px] bg-center object-cover"
         alt=""
       />
       <div className="absolute top-0 text-white">
-        <div className=" flex flex-col items-center gap-[6rem]">
+        <div className=" flex flex-col items-center gap-[3rem]">
           <div className="flex items-center my-5 gap-4">
             <span className=" font-semibold select-none">____________</span>
             <h2 className=" recursive  tracking-wider ">
@@ -226,7 +218,7 @@ function Hero() {
             <span className=" font-semibold select-none">____________</span>
           </div>
 
-          <div className=" flex gap-8 w-[80%] bg-white text-black h-[26rem] px-10 my-4 ">
+          <div className=" flex gap-8 w-[80%] bg-white text-black h-[26rem] px-10 ">
             <div className="relative basis-[30%]">
               {" "}
               <img
@@ -235,7 +227,7 @@ function Hero() {
                 className=" absolute -top-12  object-contain"
               />
             </div>
-            <div className=" flex flex-col basis-[70%] my-4 gap-6  ">
+            <div className=" flex flex-col basis-[70%] my-4 gap-6 ">
               {" "}
               <h2 className=" recursive text-primary">Maria Imene</h2>{" "}
               <p className=" w-[70%] flex flex-col gap-5 ">
@@ -270,11 +262,11 @@ function Hero() {
 
 function Footer() {
   return (
-    <footer id="footer" className=" relative flex w-full justify-center mt-10 ">
+    <footer id="footer" className=" relative flex w-full justify-center mt-3 ">
       <img src={footer} alt="" className="w-full object-cover" />
       {/* sixth section */}
-      <div className="absolute w-[85%]  ">
-        <div className=" flex items-center justify-between px-16 ">
+      <div className="absolute w-full ">
+        <div className=" flex justify-between px-16 ">
           <div className=" flex flex-col">
             <p>Aide</p>
             <p>Aide</p>
@@ -307,10 +299,7 @@ function Footer() {
 
 function Appoint() {
   return (
-    <section
-      id="appoint"
-      className=" flex flex-col w-full justify-center items-center gap-[3rem] my-10"
-    >
+    <section id="appoint" className=" flex flex-col w-screen justify-center my-4">
       <div className=" flex flex-col items-center">
         <div className="flex items-center my-5 gap-4">
           <span className=" font-semibold select-none text-primary">
@@ -323,7 +312,7 @@ function Appoint() {
         </div>
       </div>
 
-      <div className=" flex w-[80%] items-center justify-between ">
+      <div className=" flex w-full ">
         <div className=" basis-[40%] mb-16 ">
           {" "}
           {/*  */}
@@ -335,9 +324,9 @@ function Appoint() {
           </p>
           <a
             href=""
-            className=" py-3 px-5 text-white bg-primary hover:bg-opacity-65"
+            className=" py-2 px-5 text-white bg-primary hover:bg-opacity-65"
           >
-            Prendre un rendez-vous{" "}
+            Trouver un avocat
           </a>
         </div>
 

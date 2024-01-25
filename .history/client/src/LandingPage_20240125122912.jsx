@@ -270,11 +270,11 @@ function Hero() {
 
 function Footer() {
   return (
-    <footer id="footer" className=" relative flex w-full justify-center mt-10 ">
+    <footer id="footer" className=" relative flex w-full justify-center mx-10 mt-10 ">
       <img src={footer} alt="" className="w-full object-cover" />
       {/* sixth section */}
-      <div className="absolute w-[85%]  ">
-        <div className=" flex items-center justify-between px-16 ">
+      <div className="absolute w-full ">
+        <div className=" flex justify-between px-16 ">
           <div className=" flex flex-col">
             <p>Aide</p>
             <p>Aide</p>

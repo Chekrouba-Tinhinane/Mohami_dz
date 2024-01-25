@@ -178,27 +178,19 @@ function Achievements() {
       <div className="flex w-full justify-between  ">
         <div className="flex flex-col items-center basis-[33%] gap-4">
           {" "}
-          <h4 className=" recursive text-primary text-3xl font-bold">
-            879+
-          </h4>{" "}
-          <span className=" w-[70%] text-center recursive font-semibold text-xl">
-            Consultations
-          </span>
+          <h4 className=" recursive text-primary text-3xl font-bold">879+</h4>{" "}
+          <span className=" w-[70%] text-center recursive font-semibold text-xl">Consultations</span>
         </div>
         <div className="flex flex-col items-center basis-[33%] gap-4">
           {" "}
-          <h4 className=" recursive text-primary text-3xl font-bold">
-            12 Mil
-          </h4>{" "}
+          <h4 className=" recursive text-primary text-3xl font-bold">12 Mil</h4>{" "}
           <span className=" w-[70%] text-center recursive font-semibold text-xl">
             Coûts recouvrés au bénéfice du client
           </span>
         </div>
         <div className="flex flex-col items-center basis-[33%] gap-4">
           {" "}
-          <h4 className=" recursive text-primary text-3xl font-bold">
-            92%
-          </h4>{" "}
+          <h4 className=" recursive text-primary text-3xl font-bold">92%</h4>{" "}
           <span className=" w-[70%] text-center recursive font-semibold text-xl">
             Affaires pénales défendues avec succès
           </span>
@@ -270,11 +262,11 @@ function Hero() {
 
 function Footer() {
   return (
-    <footer id="footer" className=" relative flex w-full justify-center mt-10 ">
+    <footer id="footer" className=" relative flex w-full justify-center mt-3 ">
       <img src={footer} alt="" className="w-full object-cover" />
       {/* sixth section */}
-      <div className="absolute w-[85%]  ">
-        <div className=" flex items-center justify-between px-16 ">
+      <div className="absolute w-full ">
+        <div className=" flex justify-between px-16 ">
           <div className=" flex flex-col">
             <p>Aide</p>
             <p>Aide</p>
@@ -307,10 +299,7 @@ function Footer() {
 
 function Appoint() {
   return (
-    <section
-      id="appoint"
-      className=" flex flex-col w-full justify-center items-center gap-[3rem] my-10"
-    >
+    <section id="appoint" className=" flex flex-col w-full justify-center items-center my-4">
       <div className=" flex flex-col items-center">
         <div className="flex items-center my-5 gap-4">
           <span className=" font-semibold select-none text-primary">
@@ -335,10 +324,9 @@ function Appoint() {
           </p>
           <a
             href=""
-            className=" py-3 px-5 text-white bg-primary hover:bg-opacity-65"
+            className=" py-2 px-5 text-white bg-primary hover:bg-opacity-65"
           >
-            Prendre un rendez-vous{" "}
-          </a>
+Prendre un rendez-vous          </a>
         </div>
 
         <img src={scene} className="" alt="" />
