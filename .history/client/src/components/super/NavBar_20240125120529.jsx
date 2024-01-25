@@ -7,7 +7,7 @@ const NavBar = () => {
     <div
       whileHover={{ scale: 1, originX: 0, color: "#D4AD6B" }}
       transition={{ type: "tween", duration: 0.2 }}
-      className=" flex items-center px-20 pt-6 mb-3 w-full justify-between "
+      className=" flex items-center px-20 py-6 w-full justify-between "
     >
       <motion.ul className="flex gap-[2rem] text-sm">
         <motion.li
@@ -32,7 +32,7 @@ const NavBar = () => {
           className=" font-semibold opacity-80 tracking-wider cursor-pointer"
         >
           <ScrollLink
-            to="hero"
+            to="events"
             spy={true}
             smooth={true}
             offset={0}
@@ -48,7 +48,7 @@ const NavBar = () => {
           className=" font-semibold opacity-80 tracking-wider cursor-pointer"
         >
           <ScrollLink
-            to="appoint"
+            to="hero"
             spy={true}
             smooth={true}
             offset={50}
@@ -64,7 +64,7 @@ const NavBar = () => {
           className=" font-semibold opacity-80 tracking-wider cursor-pointer"
         >
           <ScrollLink
-            to="footer"
+            to="services"
             spy={true}
             smooth={true}
             offset={-100}

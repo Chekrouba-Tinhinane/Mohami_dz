@@ -48,7 +48,7 @@ const NavBar = () => {
           className=" font-semibold opacity-80 tracking-wider cursor-pointer"
         >
           <ScrollLink
-            to="appoint"
+            to="hero"
             spy={true}
             smooth={true}
             offset={50}
@@ -64,7 +64,7 @@ const NavBar = () => {
           className=" font-semibold opacity-80 tracking-wider cursor-pointer"
         >
           <ScrollLink
-            to="footer"
+            to="services"
             spy={true}
             smooth={true}
             offset={-100}

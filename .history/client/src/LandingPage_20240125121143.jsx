@@ -248,7 +248,7 @@ function Hero() {
               </p>
               <a
                 href=""
-                className="flex w-max recursive text-white bg-primary px-6 py-3 font-semibold hover:bg-opacity-75"
+                className="flex w-max recursive text-white bg-primary px-4 py-3 font-semibold"
               >
                 View Profile
               </a>
@@ -262,7 +262,7 @@ function Hero() {
 
 function Footer() {
   return (
-    <footer id="footer" className=" relative flex w-full justify-center mt-3 ">
+    <footer id="contact" className=" relative flex w-full justify-center mt-3 ">
       <img src={footer} alt="" className="w-full object-cover" />
       {/* sixth section */}
       <div className="absolute w-full ">
@@ -299,7 +299,7 @@ function Footer() {
 
 function Appoint() {
   return (
-    <section id="appoint" className=" flex flex-col w-screen justify-center my-4">
+    <section id="hero" className=" flex flex-col w-screen justify-center my-4">
       <div className=" flex flex-col items-center">
         <div className="flex items-center my-5 gap-4">
           <span className=" font-semibold select-none text-primary">

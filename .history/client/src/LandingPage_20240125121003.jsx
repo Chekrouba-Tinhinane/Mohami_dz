@@ -202,14 +202,14 @@ function Achievements() {
 
 function Hero() {
   return (
-    <section id="hero" className=" relative flex w-screen justify-center my-8">
+    <section id="hero" className=" relative flex w-screen justify-center my-4">
       <img
         src={section2}
         className="w-full h-[640px] bg-center object-cover"
         alt=""
       />
       <div className="absolute top-0 text-white">
-        <div className=" flex flex-col items-center gap-[3rem]">
+        <div className=" flex flex-col items-center gap-6">
           <div className="flex items-center my-5 gap-4">
             <span className=" font-semibold select-none">____________</span>
             <h2 className=" recursive  tracking-wider ">
@@ -227,7 +227,7 @@ function Hero() {
                 className=" absolute -top-12  object-contain"
               />
             </div>
-            <div className=" flex flex-col basis-[70%] my-4 gap-6 ">
+            <div className=" flex flex-col basis-[70%] ">
               {" "}
               <h2 className=" recursive text-primary">Maria Imene</h2>{" "}
               <p className=" w-[70%] flex flex-col gap-5 ">
@@ -248,7 +248,7 @@ function Hero() {
               </p>
               <a
                 href=""
-                className="flex w-max recursive text-white bg-primary px-6 py-3 font-semibold hover:bg-opacity-75"
+                className="flex w-max recursive text-white bg-primary  p-4"
               >
                 View Profile
               </a>
@@ -262,7 +262,7 @@ function Hero() {
 
 function Footer() {
   return (
-    <footer id="footer" className=" relative flex w-full justify-center mt-3 ">
+    <footer id="contact" className=" relative flex w-full justify-center mt-3 ">
       <img src={footer} alt="" className="w-full object-cover" />
       {/* sixth section */}
       <div className="absolute w-full ">
@@ -299,7 +299,7 @@ function Footer() {
 
 function Appoint() {
   return (
-    <section id="appoint" className=" flex flex-col w-screen justify-center my-4">
+    <section id="hero" className=" flex flex-col w-screen justify-center my-4">
       <div className=" flex flex-col items-center">
         <div className="flex items-center my-5 gap-4">
           <span className=" font-semibold select-none text-primary">
