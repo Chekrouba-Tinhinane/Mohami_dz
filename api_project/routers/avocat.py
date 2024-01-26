@@ -1,4 +1,4 @@
-from fastapi import Body, Depends,APIRouter,Cookie
+from fastapi import Body, Depends,APIRouter,Cookie,Query
 from sqlalchemy.orm import Session
 
 
@@ -55,4 +55,19 @@ async def delete_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db),jwt:s
 async def update_Avocat(avocat:schemas.AvocatCreate,avocat_id:int=Body(...),jwt:str=Cookie(default=None),db:Session=Depends(get_db)):
     return crud.update_avocat(db,avocat,avocat_id,jwt)
 
+@routerAvocat.get("/filtered-search/")
+async def perform_filtered_search(
+    keywords: str = Query(None),
+    language: str = Query(None),
+    speciality: str = Query(None),
+    location: str = Query(None),
+    db: Session = Depends(get_db)
+):
+    # Perform the standard search
+    standard_results = crud.standard_search(db, keywords)
+
+    # Filter the standard search results
+    filtered_results = crud.filter_search_results(standard_results, language, speciality, location)
+
+    return filtered_results
 
