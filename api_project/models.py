@@ -21,7 +21,8 @@ class Avocat(Base):
     __tablename__ = "avocat"
 
     id = Column(Integer, primary_key=True, index=True)
-    full_name = Column(String, unique=True, index=True)
+    last_name = Column(String, unique=True, index=True)
+    first_name = Column(String, unique=True, index=True)
     email = Column(String, unique=True, index=True)
     telephone = Column(String, unique=True, index=True, nullable=True)
     siteweb = Column(String, unique=True, index=True, nullable=True)
