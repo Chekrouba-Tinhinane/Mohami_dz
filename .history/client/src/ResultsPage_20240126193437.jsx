@@ -136,7 +136,7 @@ const ResultsPage = ({ lawyers }) => {
   return (
     <div>
       <div className="mx-[4rem] my-[3rem] bg-lightBrown px-5 py-3">
-        <div className="mb-4 mt-3 flex w-full justify-between">
+        <div className="mb-4 mt-4 flex w-full justify-between">
           <SearchBar onSearch={handleSearch} />{" "}
           <FilteringComponent onFilter={handleFilter} />
         </div>

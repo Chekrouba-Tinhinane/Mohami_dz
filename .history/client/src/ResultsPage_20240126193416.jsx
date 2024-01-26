@@ -136,10 +136,11 @@ const ResultsPage = ({ lawyers }) => {
   return (
     <div>
       <div className="mx-[4rem] my-[3rem] bg-lightBrown px-5 py-3">
-        <div className="mb-4 mt-3 flex w-full justify-between">
+        <div className="mb-4">
           <SearchBar onSearch={handleSearch} />{" "}
           <FilteringComponent onFilter={handleFilter} />
         </div>
+        <div ="mb-4"></div>
         <LawyerList
           lawyers={searchResults} // Render search results instead of original lawyers
           currentPage={currentPage}

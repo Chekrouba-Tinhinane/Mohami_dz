@@ -22,7 +22,7 @@ const FilteringComponent = ({ onFilter }) => {
           onChange={handleChange}
           placeholder="Filtrer"
           variant="standard"
-          className="outline-none px-2 text-white"
+          className="outline-none px-2"
         >
           <MenuItem disabled value="Filtrer par" className=" text-white font-medium">Filtrer par</MenuItem>
           <MenuItem value="Localisation">Localisation</MenuItem>

@@ -116,7 +116,7 @@ const ResultsPage = ({ lawyers }) => {
   })
   .catch((error) => {
     console.error("Error fetching search results:", error);
-  }); */
+  }); 
   };
 
   const handleFilter = (filters) => {
@@ -136,8 +136,10 @@ const ResultsPage = ({ lawyers }) => {
   return (
     <div>
       <div className="mx-[4rem] my-[3rem] bg-lightBrown px-5 py-3">
-        <div className="mb-4 mt-3 flex w-full justify-between">
-          <SearchBar onSearch={handleSearch} />{" "}
+        <div className="mb-4">
+          <SearchBar onSearch={handleSearch} />
+        </div>
+        <div className="mb-4">
           <FilteringComponent onFilter={handleFilter} />
         </div>
         <LawyerList

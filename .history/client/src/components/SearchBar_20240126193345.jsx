@@ -20,7 +20,7 @@ const SearchBar = ({ onSearch }) => {
           type="text"
           value={searchQuery}
           onChange={handleChange}
-          placeholder="Rechercher..."
+          placeholder="Search..."
           className="flex outline-none py-1"
         />
         <img src={search} className=" cursor-pointer bg-light" alt="" />

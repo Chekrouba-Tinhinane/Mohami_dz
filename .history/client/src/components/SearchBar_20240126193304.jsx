@@ -15,15 +15,15 @@ const SearchBar = ({ onSearch }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex w-max bg-white items-center border border-primary rounded px-2">
+      <div className="flex w-max items-center border border-primary rounded px-2">
         <input
           type="text"
           value={searchQuery}
           onChange={handleChange}
-          placeholder="Rechercher..."
+          placeholder="Search..."
           className="flex outline-none py-1"
         />
-        <img src={search} className=" cursor-pointer bg-light" alt="" />
+        <img src={search} alt="" />
       </div>
     </form>
   );

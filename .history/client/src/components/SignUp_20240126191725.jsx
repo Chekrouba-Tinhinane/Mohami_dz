@@ -65,7 +65,7 @@ const SignupForm = ({ onCancel }) => {
         }}
       >
         {({ isSubmitting, resetForm }) => (
-          <Form className="space-y-8">
+          <Form className="space-y-4">
             <div className="flex space-x-4">
               <div className="w-1/2">
                 <Field
@@ -82,7 +82,7 @@ const SignupForm = ({ onCancel }) => {
                   className="text-red-500 text-sm"
                 />
               </div>
-              <div className="w-1/2">
+              <div className="w-1/2 space">
                 <Field
                   as={TextField}
                   type="text"

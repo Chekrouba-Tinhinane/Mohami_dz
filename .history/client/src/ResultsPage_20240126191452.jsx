@@ -109,14 +109,14 @@ const ResultsPage = ({ lawyers }) => {
   };
 
   const handleSearch = (query) => {
-    /* axios.get(`/search?q=${query}`) // Adjust the URL according to your backend route
+     axios.get(`/search?q=${query}`) // Adjust the URL according to your backend route
   .then((response) => {
     setSearchResults(response.data); // Update search results state with data from the backend
     setCurrentPage(1); // Reset current page to 1 when performing a new search
   })
   .catch((error) => {
     console.error("Error fetching search results:", error);
-  }); */
+  }); 
   };
 
   const handleFilter = (filters) => {
@@ -136,8 +136,10 @@ const ResultsPage = ({ lawyers }) => {
   return (
     <div>
       <div className="mx-[4rem] my-[3rem] bg-lightBrown px-5 py-3">
-        <div className="mb-4 mt-3 flex w-full justify-between">
-          <SearchBar onSearch={handleSearch} />{" "}
+        <div className="mb-4">
+          <SearchBar onSearch={handleSearch} />
+        </div>
+        <div className="mb-4">
           <FilteringComponent onFilter={handleFilter} />
         </div>
         <LawyerList

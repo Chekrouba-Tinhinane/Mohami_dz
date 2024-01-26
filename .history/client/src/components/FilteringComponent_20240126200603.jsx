@@ -20,16 +20,15 @@ const FilteringComponent = ({ onFilter }) => {
           name="filterBy"
           value={filters.filterBy}
           onChange={handleChange}
-          placeholder="Filtrer"
           variant="standard"
-          className="outline-none px-2 text-white"
+          className="outline-none px-2"
         >
-          <MenuItem disabled value="Filtrer par" className=" text-white font-medium">Filtrer par</MenuItem>
+          <MenuItem disabled>Filtrer par</MenuItem>
           <MenuItem value="Localisation">Localisation</MenuItem>
           <MenuItem value="Spécialité">Spécialité</MenuItem>
           <MenuItem value="Langue">Langue</MenuItem>
         </Select>
-        <img src={filter} alt="filter icon" className="w-4 mr-2" />
+        <img src={filter} alt="filter icon" className="w-6 h-6 mr-2" />
       </div>
     </div>
   );
