@@ -177,7 +177,6 @@ export const Calendar = () => {
           <h2>Choose date and time</h2>
           <div className="flex">
             <div>
-              
               {showCalendar && (
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}

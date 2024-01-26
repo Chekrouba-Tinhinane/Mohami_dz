@@ -62,7 +62,7 @@ const Profile = ({}) => {
   ];
 
   return (
-    <div className="flex flex-col items-center mx-4 py-8 px-12 bg-lightBrown min-h-max relative">
+    <div className="flex flex-col items-center mx-4 py-8 px-12 bg-lightBrown min-h-max w-full relative">
       <CalendarModal isOpen={isModalOpen} onRequestClose={closeModal} />
       <Coords onClick={openModal} />
       <NavBar links={navLinks} landing={false} />

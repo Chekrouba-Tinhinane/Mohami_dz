@@ -10,7 +10,6 @@ import Modal from "react-modal";
 import close from "../assets/icons/x.svg";
 
 import calendar from "../assets/icons/appoint/calendar.svg";
-import Review from "./Review";
 
 const lawyerComments = {
   "John Doe": [
@@ -71,7 +70,6 @@ const Profile = ({}) => {
       <Avis profile={{ name: "John Doe" }} />
       <div className="w-full my-8"></div>
       <Location />
-      <Review />
     </div>
   );
 };
@@ -90,11 +88,11 @@ function CalendarModal({ isOpen, onRequestClose }) {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Prendre un rendez-vous"
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[600px] h-[400px]"
+      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[6500px] h-[400px]"
       overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-30 backdrop-blur-xs z-40"
     >
-      <div className={`flex h-full ${showCalendar ? 'w-full' : ''}`}>
-        <div className="flex flex-col w-full">
+      <div className="flex h-full">
+        <div className=" flex flex-col w-full">
           <div className="flex w-full justify-between border-b border-b-primary pb-4">
             <h3>Prendre un rendez-vous</h3>
             <button onClick={onRequestClose}>
@@ -119,11 +117,7 @@ function CalendarModal({ isOpen, onRequestClose }) {
             </button>
           </div>
         </div>
-        {showCalendar && (
-          <div className="w-full">
-            <Calendar />
-          </div>
-        )}
+        
       </div>
     </Modal>
   );

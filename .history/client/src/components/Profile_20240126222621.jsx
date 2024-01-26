@@ -71,7 +71,7 @@ const Profile = ({}) => {
       <Avis profile={{ name: "John Doe" }} />
       <div className="w-full my-8"></div>
       <Location />
-      <Review />
+      <Review /
     </div>
   );
 };

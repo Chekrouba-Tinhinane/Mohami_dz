@@ -10,7 +10,6 @@ import Modal from "react-modal";
 import close from "../assets/icons/x.svg";
 
 import calendar from "../assets/icons/appoint/calendar.svg";
-import Review from "./Review";
 
 const lawyerComments = {
   "John Doe": [
@@ -71,7 +70,6 @@ const Profile = ({}) => {
       <Avis profile={{ name: "John Doe" }} />
       <div className="w-full my-8"></div>
       <Location />
-      <Review />
     </div>
   );
 };

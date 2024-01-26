@@ -67,7 +67,7 @@ const SignIn = () => {
             </button>
             <a
               href=""
-              className="  border border-primary recursive p-2 tracking-wider font-medium justify-center w-full flex gap-4 flex-shrink-0 min-w-max items-center"
+              className="  border border-primary recursive p-2.5 tracking-wider font-medium justify-center w-full flex gap-4 flex-shrink-0 min-w-max items-center"
             >
               <img src={google} className=" w-[5%] " alt="" />{" "}
               <span className=" min-w-max text-sm"> Log in with Google  </span>

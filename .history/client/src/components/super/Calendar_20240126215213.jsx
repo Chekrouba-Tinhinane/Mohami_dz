@@ -172,12 +172,17 @@ export const Calendar = () => {
 
   return (
     <div className="flex flex-col my-8">
-      <div className=" w-[95%] flex gap-6 justify-center">
+      <div className=" w-[95%] flexgap-6 justify-center">
         <div className="flex flex-col">
           <h2>Choose date and time</h2>
           <div className="flex">
             <div>
-              
+              <p>1/ Choose Date:</p>
+              {!showCalendar && (
+                <button onClick={() => setShowCalendar(true)}>
+                  Select a Date
+                </button>
+              )}
               {showCalendar && (
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}

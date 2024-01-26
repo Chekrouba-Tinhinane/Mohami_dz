@@ -60,22 +60,22 @@ const SignIn = () => {
           <div className="flex flex-col items-center gap-4  ">
             {/* login methods */}
             <button
-              className=" bg-primary recursive p-2 tracking-wider font-medium text-white w-full"
+              className=" bg-primary recursive p-2.5 tracking-wider font-medium text-white w-full"
               type="submit"
             >
               Se connecter
             </button>
             <a
               href=""
-              className="  border border-primary recursive p-2 tracking-wider font-medium justify-center w-full flex gap-4 flex-shrink-0 min-w-max items-center"
+              className="  border border-primary recursive p-2.5 tracking-wider font-medium justify-center w-full flex gap-4 flex-shrink-0 min-w-max items-center"
             >
               <img src={google} className=" w-[5%] " alt="" />{" "}
-              <span className=" min-w-max text-sm"> Log in with Google  </span>
+              <span className=" min-w-max">Log in with Google</span>
             </a>
           </div>
         </form>
-        <footer className=" basis-[10%] mt-32 ">
-          <span className="   text-xs opacity-70">Vous n’avez pas un compte ?</span>{" "}
+        <footer className=" basis-[10%] ">
+          <span className="  my-16 text-xs opacity-70">Vous n’avez pas un compte ?</span>{" "}
           <Link
             to={"/Signup"}
             className=" cursor-pointer text-sm font-semibold"
