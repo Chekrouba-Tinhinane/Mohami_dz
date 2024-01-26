@@ -21,7 +21,7 @@ const SearchBar = ({ onSearch }) => {
           value={searchQuery}
           onChange={handleChange}
           placeholder="Rechercher..."
-          className="flex outline-none py-1.5 px-1.5"
+          className="flex outline-none py-1 px-"
         />
         <img src={search} className=" cursor-pointer bg-light" alt="" />
       </div>

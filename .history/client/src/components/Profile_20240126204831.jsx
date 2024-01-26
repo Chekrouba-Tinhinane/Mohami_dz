@@ -77,12 +77,6 @@ const Profile = ({}) => {
 export default Profile;
 
 function CalendarModal({ isOpen, onRequestClose }) {
-  const [showCalendar, setShowCalendar] = useState(false);
-
-  const handleToggleCalendar = () => {
-    setShowCalendar((prevShowCalendar) => !prevShowCalendar);
-  };
-
   return (
     <Modal
       isOpen={isOpen}
@@ -94,25 +88,25 @@ function CalendarModal({ isOpen, onRequestClose }) {
       <div className="flex flex-col h-full">
         <div className="flex w-full justify-between border-b border-b-primary">
           <h3>Prendre un rendez-vous</h3>
+
           <div className="place-self-end mb-4">
             <button onClick={onRequestClose}>
               <img src={close} className="border border-primary p-2" alt="" />
             </button>
           </div>
         </div>
+
         <h3 className="py-5">Choisissez la date et les horaires</h3>
-        <div
-          className="flex border border-primary py-2 px-2 gap-3"
-          onClick={handleToggleCalendar} // Handle click to toggle calendar
-        >
+        <div className="flex border border-primary py-2 px-2 gap-3">
           <img src={calendar} className="w-4" alt="" />
           <div className="flex flex-col">
             <small>DATE</small>
             <p className="font-medium">Sélectionner une date</p>
           </div>
         </div>
-        {showCalendar && <Calendar />} {/* Render the Calendar component when showCalendar is true */}
+
         <div className="flex-grow"></div>
+
         <div className="flex justify-end">
           <button className="bg-primary text-white px-4 py-1" onClick={onRequestClose}>
             Réserver
@@ -122,6 +116,7 @@ function CalendarModal({ isOpen, onRequestClose }) {
     </Modal>
   );
 }
+
 
 function About() {
   return (

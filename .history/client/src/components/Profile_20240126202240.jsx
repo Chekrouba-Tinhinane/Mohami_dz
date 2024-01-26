@@ -4,12 +4,8 @@ import pfp from "../assets/profile/pfp.jpg";
 import { Rating } from "@mui/material";
 import Coords from "./Coords";
 import Calendar from "./super/Calendar";
-
 import Location from "./Location";
 import Modal from "react-modal";
-import close from "../assets/icons/x.svg";
-
-import calendar from "../assets/icons/appoint/calendar.svg";
 
 const lawyerComments = {
   "John Doe": [
@@ -77,48 +73,20 @@ const Profile = ({}) => {
 export default Profile;
 
 function CalendarModal({ isOpen, onRequestClose }) {
-  const [showCalendar, setShowCalendar] = useState(false);
-
-  const handleToggleCalendar = () => {
-    setShowCalendar((prevShowCalendar) => !prevShowCalendar);
-  };
-
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Prendre un rendez-vous"
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[500px] h-[400px]"
+      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50"
       overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-30 backdrop-blur-xs z-40"
     >
-      <div className="flex flex-col h-full">
-        <div className="flex w-full justify-between border-b border-b-primary">
-          <h3>Prendre un rendez-vous</h3>
-          <div className="place-self-end mb-4">
-            <button onClick={onRequestClose}>
-              <img src={close} className="border border-primary p-2" alt="" />
-            </button>
-          </div>
-        </div>
-        <h3 className="py-5">Choisissez la date et les horaires</h3>
-        <div
-          className="flex border border-primary py-2 px-2 gap-3"
-          onClick={handleToggleCalendar} // Handle click to toggle calendar
-        >
-          <img src={calendar} className="w-4" alt="" />
-          <div className="flex flex-col">
-            <small>DATE</small>
-            <p className="font-medium">Sélectionner une date</p>
-          </div>
-        </div>
-        {showCalendar && <Calendar />} {/* Render the Calendar component when showCalendar is true */}
-        <div className="flex-grow"></div>
-        <div className="flex justify-end">
-          <button className="bg-primary text-white px-4 py-1" onClick={onRequestClose}>
-            Réserver
-          </button>
-        </div>
+      <div className="flex justify-end mb-4">
+        <button onClick={onRequestClose} className="">
+          Close
+        </button>
       </div>
+      {/* <Calendar /> */}
     </Modal>
   );
 }
