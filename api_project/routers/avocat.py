@@ -71,3 +71,7 @@ async def perform_filtered_search(
 
     return filtered_results
 
+@routerAvocat.get('/login')
+async def login(username:str,password:str,db:Session=Depends(get_db)):
+    avocat=crud.login_avocat(db,username,password)
+    return avocat

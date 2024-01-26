@@ -279,15 +279,15 @@ def get_top_rated_avocats(db: Session, limit: int = 5):
     )
     return top_rated_avocats
 
-def get_avocat_experiences(db: Session, avocat_id: int):
+""" def get_avocat_experiences(db: Session, avocat_id: int):
     avocat = db.query(models.Avocat).filter(models.Avocat.id == avocat_id).first()
     if avocat:
         return avocat.experiences
     return None
-
+ """
 
 def standard_search(db: Session, keywords: str):
-    query = db.query(models.Avocat, models.Speciality, models.Experiences)
+    query = db.query(models.Avocat, models.Speciality)
 
     if keywords:
         keyword_list = keywords.split(',')
@@ -296,12 +296,13 @@ def standard_search(db: Session, keywords: str):
             conditions.append(
                 func.lower(models.Avocat.first_name).ilike(f"%{keyword}%") |
                 func.lower(models.Avocat.last_name).ilike(f"%{keyword}%") |
-                func.lower(models.Avocat.language).ilike(f"%{keyword}%") |
-                func.lower(models.Speciality.name).ilike(f"%{keyword}%") |
-                func.lower(models.Experiences.contenu).ilike(f"%{keyword}%")
+                func.lower(models.Avocat.langue).ilike(f"%{keyword}%") |
+                func.lower(models.Speciality.name).ilike(f"%{keyword}%") 
             )
-        query = query.filter(or_(*conditions))
-
+        if conditions:
+            query = query.filter(or_(*conditions))
+        else:
+            pass
     result = query.all()
 
     return result
@@ -313,10 +314,40 @@ def filter_search_results(results, language=None, speciality=None, location=None
     for avocat, speciality, experience in results:
        # filtering based on language, speciality,  location
         if (
-            (not language or avocat.language == language) and
+            (not language or avocat.langue == language) and
             (not speciality or speciality.name == speciality) and
             (not location or avocat.ville == location or avocat.region == location or avocat.codepostal == location)
         ):
             filtered_results.append((avocat, speciality, experience))
 
     return filtered_results
+
+def login_client(db:Session,username:str,password:str):
+    client=db.query(models.Client).filter(models.Client.username==username).filter(models.Client.password==password).first()
+    if client==None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="wrong credentials"
+        )
+    response={"success":"authenticated","jwt":signJWT_client(client.id)}
+    return response
+
+def login_avocat(db:Session,email:str,password:str):
+    avocat=db.query(models.Avocat).filter(models.Avocat.email==email).filter(models.Avocat.password==password).first()
+    if avocat==None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="wrong credentials"
+        )
+    response={"success":"authenticated","jwt":signJWT_avocat(avocat.id)}
+    return response
+
+def login_admin(db:Session,username:str,password:str):
+    Admin=db.query(models.Admin).filter(models.Admin.username==username).filter(models.Admin.password==password).first()
+    if Admin==None:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="wrong credentials"
+        )
+    response={"success":"authenticated","jwt":signJWT_admin(Admin.id)}
+    return response

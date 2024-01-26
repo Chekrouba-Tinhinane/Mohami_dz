@@ -95,3 +95,14 @@ class Client(ClientBase):
     rdv_pris:list[Rdv_pris]=[]
     class config:
         orm_mode=True
+
+class AdminBase(BaseModel):
+    username:str
+
+class AdminCreate(AdminBase):
+    password:str
+
+class Admin(AdminBase):
+    id:int
+    class config:
+        orm_mode=True

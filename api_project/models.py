@@ -17,6 +17,14 @@ class Client(Base):
     rdv_pris=relationship("Rdv_pris",back_populates="client")
     ratings = relationship("Rating", back_populates="client")
 
+class Admin(Base):
+    __tablename__ = "admin"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True)
+    password = Column(String)
+
+
 class Avocat(Base):
     __tablename__ = "avocat"
 
@@ -53,7 +61,7 @@ class Competence(Base):
     __tablename__ = "competence"
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String)
-    description=Column(String)
+    description=Column(String,nullable=True)
     id_avocat = Column(Integer, ForeignKey("avocat.id"))
 
     avocat = relationship("Avocat", back_populates="competence")
@@ -101,13 +109,13 @@ class Rating(Base):
     id = Column(Integer, primary_key=True, index=True)
     avocat_id = Column(Integer, ForeignKey("avocat.id"))
     client_id = Column(Integer, ForeignKey("client.id"))
-    rating = Column(FLOAT, CheckConstraint('rating >= 0 AND rating <= 5 AND MOD(rating*10, 5) = 0'))
+    rating = Column(Float, CheckConstraint('rating >= 0 AND rating <= 5'))
     comment = Column(String, nullable=True)
-
     avocat = relationship("Avocat", back_populates="ratings")
     client = relationship("Client", back_populates="ratings")
 
-class Experiences(Base):
+
+""" class Experiences(Base):
     __tablename__ = "experiences"
 
     publication_id = Column(Integer, primary_key=True, index=True)
@@ -115,4 +123,4 @@ class Experiences(Base):
     contenu = Column(Text)
     date_publication = Column(Date)
 
-    avocat = relationship("Avocat", back_populates="experiences")
+    avocat = relationship("Avocat", back_populates="experiences") """
