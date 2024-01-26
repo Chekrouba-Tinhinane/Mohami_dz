@@ -115,7 +115,8 @@ def standard_search(db: Session, keywords: str):
         conditions = []
         for keyword in keyword_list:
             conditions.append(
-                func.lower(models.Avocat.full_name).ilike(f"%{keyword}%") |
+                func.lower(models.Avocat.first_name).ilike(f"%{keyword}%") |
+                func.lower(models.Avocat.last_name).ilike(f"%{keyword}%") |
                 func.lower(models.Avocat.language).ilike(f"%{keyword}%") |
                 func.lower(models.Speciality.name).ilike(f"%{keyword}%") |
                 func.lower(models.Experiences.contenu).ilike(f"%{keyword}%")
