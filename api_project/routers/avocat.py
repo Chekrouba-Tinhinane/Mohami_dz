@@ -1,4 +1,4 @@
-from fastapi import Body, Depends,APIRouter, Query
+from fastapi import Body, Depends,APIRouter,Cookie,Query
 from sqlalchemy.orm import Session
 
 
@@ -31,6 +31,30 @@ async def get_avocat(db:Session=Depends(get_db)):
     avocats=crud.show_avocats(db)
     return avocats
 
+@routerAvocat.get('/avocat_pending')
+async def get_pending_avocat(db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
+    avocats=crud.show_pending_avocats(db,jwt)
+    return avocats
+
+@routerAvocat.get('/avocats')
+async def get_approved_avocat(db:Session=Depends(get_db)):
+    avocats=crud.show_approved_avocats(db)
+    return avocats
+
+@routerAvocat.post('/avocat_verify')
+async def get_pending_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
+    avocats=crud.verify_avocats(db,avocat_id,jwt)
+    return avocats
+
+@routerAvocat.post('/avocat_delete')
+async def delete_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
+    avocats=crud.delete_avocats(db,avocat_id,jwt)
+    return avocats
+
+@routerAvocat.post('/avocat_update')
+async def update_Avocat(avocat:schemas.AvocatCreate,avocat_id:int=Body(...),jwt:str=Cookie(default=None),db:Session=Depends(get_db)):
+    return crud.update_avocat(db,avocat,avocat_id,jwt)
+
 @routerAvocat.get("/filtered-search/")
 async def perform_filtered_search(
     keywords: str = Query(None),
@@ -47,3 +71,7 @@ async def perform_filtered_search(
 
     return filtered_results
 
+@routerAvocat.get('/login')
+async def login(username:str,password:str,db:Session=Depends(get_db)):
+    avocat=crud.login_avocat(db,username,password)
+    return avocat

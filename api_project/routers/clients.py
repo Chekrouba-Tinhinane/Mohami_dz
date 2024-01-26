@@ -1,4 +1,4 @@
-from fastapi import Body, Depends,APIRouter
+from fastapi import Body, Depends,APIRouter,Cookie,HTTPException, status
 from sqlalchemy.orm import Session
 
 
@@ -29,3 +29,8 @@ async def register_client(client:schemas.ClientCreate,db:Session=Depends(get_db)
 async def get_clients(db:Session=Depends(get_db)):
     clients=crud.show_client(db)
     return clients
+
+@routerClient.get('/login')
+async def login(username:str,password:str,db:Session=Depends(get_db)):
+    client=crud.login_client(db,username,password)
+    return client

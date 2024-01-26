@@ -51,6 +51,9 @@ class AvocatBase(BaseModel):
     region:str=None
     codepostal:str=None
     photo:str=None
+    latitude:float=None
+    longitude:float=None
+    langue:str
 
 class AvocatCreate(AvocatBase):
     password:str
@@ -58,6 +61,7 @@ class AvocatCreate(AvocatBase):
 class Avocat(AvocatBase):
     id:int
     id_speciality:int
+    verified:str=False
     competences: list[competence]=[]
     interval_libre: list[Interval_libre]=[]
     rdv_pris: list[Rdv_pris]=[]
@@ -89,5 +93,16 @@ class ClientCreate(ClientBase):
 class Client(ClientBase):
     id:int
     rdv_pris:list[Rdv_pris]=[]
+    class config:
+        orm_mode=True
+
+class AdminBase(BaseModel):
+    username:str
+
+class AdminCreate(AdminBase):
+    password:str
+
+class Admin(AdminBase):
+    id:int
     class config:
         orm_mode=True
