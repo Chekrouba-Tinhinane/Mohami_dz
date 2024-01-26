@@ -84,7 +84,7 @@ def delete_avocats(db:Session,id_avocat:int,token:str):
     else: 
         db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
         if db_old_avocat is None:
-            return {"erreur":"avocat non existante"}
+            return {"error":"avocat not found"}
         
         db.delete(db_old_avocat)
         db.commit()
