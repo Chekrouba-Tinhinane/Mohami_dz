@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import NavBar from "./super/NavBar";
 import pfp from "../assets/profile/pfp.jpg";
+
 import { Rating } from "@mui/material";
+import LawyerCard from "./LawyerCard";
 import Coords from "./Coords";
 import Calendar from "./super/Calendar";
 import Location from "./Location";
-import Modal from "react-modal";
 
 const lawyerComments = {
   "John Doe": [
@@ -36,35 +37,27 @@ const lawyerComments = {
       text: "Highly satisfied with Emily's services. She exceeded my expectations.",
     },
   ],
+  // Add comments for other lawyers as needed
 };
 
 const Profile = ({}) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
   const navLinks = [
     { label: "A propos", id: "about", offset: -50 },
     { label: "Catégories", id: "categories", offset: 0 },
     { label: "Avis", id: "reviews", offset: 50 },
     { label: "Localisation", id: "location", offset: -100 },
   ];
-
   return (
-    <div className="flex flex-col items-center mx-4 py-8 px-12 bg-lightBrown min-h-max relative">
-      <CalendarModal isOpen={isModalOpen} onRequestClose={closeModal} />
-      <Coords onClick={openModal} />
+    <div className=" flex flex-col items-center  mx-4 py-8 px-12 bg-lightBrown min-h-max">
+      <Coords />
       <NavBar links={navLinks} landing={false} />
       <About />
       <Categories />
       <Avis profile={{ name: "John Doe" }} />
-      <div className="w-full my-8"></div>
+      <div className=" w-full my-8">
+{/*         <LawyerCard  />
+ */}      </div>
+      <Calendar />
       <Location />
     </div>
   );
@@ -72,24 +65,7 @@ const Profile = ({}) => {
 
 export default Profile;
 
-function CalendarModal({ isOpen, onRequestClose }) {
-  return (
-    <Modal
-      isOpen={isOpen}
-      onRequestClose={onRequestClose}
-      contentLabel="Prendre un rendez-vous"
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50"
-      overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-30 backdrop-blur-xs z-40"
-    >
-      <div className="flex justify-end mb-4">
-        <button onClick={onRequestClose} className="">
-          Close
-        </button>
-      </div>
-      <Calendar />
-    </Modal>
-  );
-}
+
 
 function About() {
   return (
@@ -97,7 +73,7 @@ function About() {
       id="about"
       className=" w-full gap-[2rem] flex flex-col border-t-2 border-t-lightTypo opacity-70  pt-2"
     >
-      <div className="w-[90%] flex flex-col gap-[2rem] tracking-wide ">
+      <div className="w-[90%] flex ">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea

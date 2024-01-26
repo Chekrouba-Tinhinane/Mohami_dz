@@ -16,7 +16,7 @@ const Search = () => {
           </div>
           <div className=" ">
             {" "}
-            <Profile  />
+            <Profile lawyer={} />
           </div>
         </div>
 

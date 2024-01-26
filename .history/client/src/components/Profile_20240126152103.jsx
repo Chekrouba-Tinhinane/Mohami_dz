@@ -82,7 +82,7 @@ function CalendarModal({ isOpen, onRequestClose }) {
       overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-30 backdrop-blur-xs z-40"
     >
       <div className="flex justify-end mb-4">
-        <button onClick={onRequestClose} className="">
+        <button onClick={onRequestClose} className="text-white">
           Close
         </button>
       </div>

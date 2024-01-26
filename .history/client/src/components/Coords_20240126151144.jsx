@@ -24,7 +24,7 @@ const Coords = ({onClick}) => {
           </div>
         </div>
       </div>
-      <LawyerInfo onClick={onClick} />
+      <LawyerInfo onClick={o} />
     </div>
   );
 };
