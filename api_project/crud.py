@@ -294,15 +294,16 @@ def standard_search(db: Session, keywords: str):
         conditions = []
         for keyword in keyword_list:
             conditions.append(
-                func.lower(models.Avocat.first_name).ilike(f"%{keyword}%") |
-                func.lower(models.Avocat.last_name).ilike(f"%{keyword}%") |
-                func.lower(models.Avocat.langue).ilike(f"%{keyword}%") |
-                func.lower(models.Speciality.name).ilike(f"%{keyword}%") 
+                 or_(
+                    func.lower(models.Avocat.first_name).ilike(f"%{keyword}%"),
+                    func.lower(models.Avocat.last_name).ilike(f"%{keyword}%"),
+                    func.lower(models.Avocat.langue).ilike(f"%{keyword}%"),
+                    func.lower(models.Speciality.name).ilike(f"%{keyword}%")
+                )
             )
         if conditions:
             query = query.filter(or_(*conditions))
-        else:
-            pass
+       
     result = query.all()
 
     return result
@@ -311,14 +312,14 @@ def standard_search(db: Session, keywords: str):
 def filter_search_results(results, language=None, speciality=None, location=None):
     filtered_results = []
 
-    for avocat, speciality, experience in results:
+    for avocat, speciality in results:
        # filtering based on language, speciality,  location
         if (
-            (not language or avocat.langue == language) and
-            (not speciality or speciality.name == speciality) and
-            (not location or avocat.ville == location or avocat.region == location or avocat.codepostal == location)
+            (language is None  or avocat.langue == language) and
+            (speciality is None or speciality.name == speciality) and
+            (location is None or avocat.ville == location or avocat.region == location or avocat.codepostal == location)
         ):
-            filtered_results.append((avocat, speciality, experience))
+            filtered_results.append((avocat, speciality))
 
     return filtered_results
 
