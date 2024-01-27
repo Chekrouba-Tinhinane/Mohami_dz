@@ -1,5 +1,6 @@
 from datetime import date, time
 from pydantic import BaseModel
+from typing import Optional
 
 class competenceBase(BaseModel):
     title:str
@@ -45,14 +46,14 @@ class AvocatBase(BaseModel):
     first_name:str
     last_name:str
     email:str
-    telephone:str=None
-    siteweb:str=None
-    ville:str=None
-    region:str=None
-    codepostal:str=None
-    photo:str=None
-    latitude:float=None
-    longitude:float=None
+    telephone:str=Optional[str]
+    siteweb:str=Optional[str]
+    ville:str=Optional[str]
+    region:str=Optional[str]
+    codepostal:str=Optional[str]
+    photo:str=Optional[str]
+    latitude:float=Optional[float]
+    longitude:float=Optional[float]
     langue:str
 
 class AvocatCreate(AvocatBase):
@@ -86,6 +87,7 @@ class speciality(SpecialityBase):
 class ClientBase(BaseModel):
     username:str
     email:str
+    telephone:str
 
 class ClientCreate(ClientBase):
     password:str

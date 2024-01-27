@@ -30,7 +30,12 @@ async def get_clients(db:Session=Depends(get_db)):
     clients=crud.show_client(db)
     return clients
 
-@routerClient.get('/login')
-async def login(username:str,password:str,db:Session=Depends(get_db)):
+@routerClient.post('/login')
+async def login(username:str=Body(...),password:str=Body(...),db:Session=Depends(get_db)):
     client=crud.login_client(db,username,password)
     return client
+
+@routerClient.get('/client')
+async def get_clients(id:int,db:Session=Depends(get_db)):
+    clients=crud.show_client_by_id(db,id)
+    return clients

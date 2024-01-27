@@ -20,7 +20,7 @@ def get_db():
     finally:
         db.close()
 
-@routerAdmin.get('/login')
-async def login(username:str,password:str,db:Session=Depends(get_db)):
+@routerAdmin.post('/login')
+async def login(username:str=Body(...),password:str=Body(...),db:Session=Depends(get_db)):
     admin=crud.login_admin(db,username,password)
     return admin

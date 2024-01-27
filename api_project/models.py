@@ -13,7 +13,7 @@ class Client(Base):
     username = Column(String, unique=True, index=True)
     password = Column(String)
     email = Column(String)
-
+    telephone=Column(String)
     rdv_pris=relationship("Rdv_pris",back_populates="client")
     ratings = relationship("Rating", back_populates="client")
 
@@ -98,7 +98,6 @@ class Rdv_pris(Base):
     id_avocat=Column(Integer,ForeignKey("avocat.id"))
     id_client=Column(Integer,ForeignKey("client.id"))
     id_interval_libre=Column(Integer,ForeignKey("interval_libre.id"))
-
     client=relationship("Client",back_populates="rdv_pris")
     avocat=relationship("Avocat",back_populates="rdv_pris")
     interval_libre=relationship("Interval_libre",back_populates="rdv_pris")
