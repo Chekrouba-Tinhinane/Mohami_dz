@@ -3,6 +3,7 @@ import LawyerCard from "./components/LawyerCard";
 import FilteringComponent from "./components/FilteringComponent";
 import SearchBar from "./components/SearchBar";
 import Footer from "./components/super/Footer";
+import axios from "axios";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pageRange = 5; // Adjust this value to change the number of visible page numbers
@@ -109,28 +110,30 @@ const ResultsPage = ({ lawyers }) => {
   };
 
   const handleSearch = (query) => {
-    /* axios.get(`/search?q=${query}`) // Adjust the URL according to your backend route
-  .then((response) => {
-    setSearchResults(response.data); // Update search results state with data from the backend
-    setCurrentPage(1); // Reset current page to 1 when performing a new search
-  })
-  .catch((error) => {
-    console.error("Error fetching search results:", error);
-  }); */
+    axios
+      .get("http://192.168.1.127:8000/avocat/filtered-search", {keywords: query}) // Adjust the URL according to your backend route
+      .then((response) => {
+        setSearchResults(response.data); // Update search results state with data from the backend
+        setCurrentPage(1); // Reset current page to 1 when performing a new search
+      })
+      .catch((error) => {
+        console.error("Error fetching search results:", error);
+      });
   };
 
   const handleFilter = (filters) => {
     // Implement filtering functionality here
     // You can filter the lawyers based on the selected filters
-    /* axios
-      .post("/filter", filters) // Adjust the URL according to your backend route
+    axios
+      .get("http://192.168.1.127:8000/avocat/filtered-search", filters) // Adjust the URL according to your backend route
       .then((response) => {
+        console.log(response);
         setSearchResults(response.data); // Update search results state with filtered data from the backend
         setCurrentPage(1); // Reset current page to 1 when applying new filters
       })
       .catch((error) => {
         console.error("Error fetching filtered results:", error);
-      }); */
+      });
   };
 
   return (
