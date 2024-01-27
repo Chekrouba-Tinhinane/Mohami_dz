@@ -4,7 +4,7 @@ from sqlalchemy import func
 from sqlalchemy.orm import Session
 import models, schemas
 from auth.JWThandler import signJWT,decodeJWT,signJWT_client,signJWT_admin,signJWT_avocat
-from fastapi import HTTPException,status
+from fastapi import HTTPException,status,Body
 def show_client(db:Session):
     clients=db.query(models.Client).all()
     return clients
@@ -22,13 +22,27 @@ def show_avocats(db:Session):
     return avocats
 
 def register_avocat(db:Session,avocat:schemas.AvocatCreate,id_speciality:models.Speciality.id):
-        db_avocat= models.Avocat(**avocat.model_dump(),id_speciality=id_speciality)
-        db.add(db_avocat)
-        db.commit()
-        db.refresh(db_avocat)
-        response=signJWT_avocat(db_avocat.id)
-        return response
-def update_avocat(db:Session,new_avocat:schemas.AvocatCreate,id_avocat:int,token:str):
+        try:
+            print(avocat)
+            db_avocat= models.Avocat(**avocat.model_dump(),id_speciality=id_speciality)
+            db.add(db_avocat)
+            db.commit()
+            db.refresh(db_avocat)
+            response=signJWT_avocat(db_avocat.id)
+            return response
+        except ValueError as e:
+        # Handle validation errors
+            print(e)
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail=f"Validation error: {e}",
+                
+            )
+            
+
+
+def update_avocat(db:Session,new_avocat:schemas.AvocatCreate,id_avocat:int,token:str,):
+    print(token)
     avocat_data=decodeJWT(token)
     if avocat_data["role"]!="avocat" or avocat_data["userID"]!=id_avocat:
         raise HTTPException(
@@ -268,6 +282,7 @@ def rate_avocat(db: Session, client_id: int, avocat_id: int, rating: float, comm
         db.add(rating_entry)
         db.commit()
         db.refresh(rating_entry)
+        return {"success":f"rating {rating_entry.id} published"}
 
 def get_top_rated_avocats(db: Session, limit: int = 5):
     top_rated_avocats = (
@@ -277,7 +292,15 @@ def get_top_rated_avocats(db: Session, limit: int = 5):
         .limit(limit)
         .all()
     )
+    print(top_rated_avocats)
     return top_rated_avocats
+
+def get_rating_and_comments_by_avocats(db:Session,id_avocat:int):
+    return db.query(models.Rating).filter(models.Rating.avocat_id==id_avocat).all()
+
+def show_client_by_id(db:Session,id:int):
+    return db.query(models.Client).filter(models.Client.id==id).first()
+
 
 """ def get_avocat_experiences(db: Session, avocat_id: int):
     avocat = db.query(models.Avocat).filter(models.Avocat.id == avocat_id).first()
@@ -294,15 +317,16 @@ def standard_search(db: Session, keywords: str):
         conditions = []
         for keyword in keyword_list:
             conditions.append(
-                func.lower(models.Avocat.first_name).ilike(f"%{keyword}%") |
-                func.lower(models.Avocat.last_name).ilike(f"%{keyword}%") |
-                func.lower(models.Avocat.langue).ilike(f"%{keyword}%") |
-                func.lower(models.Speciality.name).ilike(f"%{keyword}%") 
+                 or_(
+                    func.lower(models.Avocat.first_name).ilike(f"%{keyword}%"),
+                    func.lower(models.Avocat.last_name).ilike(f"%{keyword}%"),
+                    func.lower(models.Avocat.langue).ilike(f"%{keyword}%"),
+                    func.lower(models.Speciality.name).ilike(f"%{keyword}%")
+                )
             )
         if conditions:
             query = query.filter(or_(*conditions))
-        else:
-            pass
+       
     result = query.all()
 
     return result
@@ -311,16 +335,17 @@ def standard_search(db: Session, keywords: str):
 def filter_search_results(results, language=None, speciality=None, location=None):
     filtered_results = []
 
-    for avocat, speciality, experience in results:
+    for avocat, speciality in results:
        # filtering based on language, speciality,  location
         if (
-            (not language or avocat.langue == language) and
-            (not speciality or speciality.name == speciality) and
-            (not location or avocat.ville == location or avocat.region == location or avocat.codepostal == location)
+            (language is None  or avocat.langue == language) and
+            (speciality is None or speciality.name == speciality) and
+            (location is None or avocat.ville == location or avocat.region == location or avocat.codepostal == location)
         ):
-            filtered_results.append((avocat, speciality, experience))
+            filtered_results.append((avocat, speciality))
 
     return filtered_results
+
 
 def login_client(db:Session,username:str,password:str):
     client=db.query(models.Client).filter(models.Client.username==username).filter(models.Client.password==password).first()
@@ -329,7 +354,7 @@ def login_client(db:Session,username:str,password:str):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="wrong credentials"
         )
-    response={"success":"authenticated","jwt":signJWT_client(client.id)}
+    response=signJWT_client(client.id)
     return response
 
 def login_avocat(db:Session,email:str,password:str):
@@ -339,7 +364,7 @@ def login_avocat(db:Session,email:str,password:str):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="wrong credentials"
         )
-    response={"success":"authenticated","jwt":signJWT_avocat(avocat.id)}
+    response=signJWT_avocat(avocat.id)
     return response
 
 def login_admin(db:Session,username:str,password:str):
@@ -349,5 +374,5 @@ def login_admin(db:Session,username:str,password:str):
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="wrong credentials"
         )
-    response={"success":"authenticated","jwt":signJWT_admin(Admin.id)}
+    response=signJWT_admin(Admin.id)
     return response
