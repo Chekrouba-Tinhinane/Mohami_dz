@@ -76,7 +76,7 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
   </motion.div>
 );
 
-export const Calendar = ({  }) => {
+export const Calendar = () => {
   const [date, setDate] = useState({
     justDate: undefined,
     dateTime: undefined,

@@ -76,7 +76,7 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
   </motion.div>
 );
 
-export const Calendar = ({  }) => {
+export const Calendar = () => {
   const [date, setDate] = useState({
     justDate: undefined,
     dateTime: undefined,
@@ -162,6 +162,7 @@ export const Calendar = ({  }) => {
     <div className="flex flex-col my-8">
       <div className=" w-[95%] flex gap-6 justify-center">
         <div className="flex flex-col">
+          <h2>Choose date and time</h2>
           <div className="flex">
             {showTimeSelection ? (
               <div className="ml-4">

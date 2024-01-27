@@ -4,6 +4,7 @@ import ReactCalendar from "react-calendar";
 import { FixedSizeList } from "react-window";
 import { add, format, isAfter } from "date-fns";
 import { getDaysArray, INTERVAL } from "../../config";
+/* import Availability from "./Availability";*/
 import "../../Calendar.css";
 
 const TimeRow = ({ index, style, data, activeTime, onClick }) => {
@@ -76,13 +77,14 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
   </motion.div>
 );
 
-export const Calendar = ({  }) => {
+export const Calendar = () => {
   const [date, setDate] = useState({
     justDate: undefined,
     dateTime: undefined,
   });
 
   const [activeTime, setActiveTime] = useState(null);
+  const [showCalendar, setShowCalendar] = useState(true);
   const [showTimeSelection, setShowTimeSelection] = useState(false);
   const [daysArray, setDaysArray] = useState(getDaysArray());
 
@@ -140,8 +142,18 @@ export const Calendar = ({  }) => {
     setActiveTime(selectedTime);
   };
 
+  const handleTimeSelectionBackClick = () => {
+    setActiveTime(null);
+    setShowTimeSelection(false);
+  };
+
   const handleNextButtonClick = () => {
     setShowTimeSelection(true);
+  };
+
+  const handleCalendarClose = () => {
+    setDate((prevDate) => ({ ...prevDate, justDate: undefined }));
+    setShowTimeSelection(false);
   };
 
   const handleBooking = () => {
@@ -162,20 +174,11 @@ export const Calendar = ({  }) => {
     <div className="flex flex-col my-8">
       <div className=" w-[95%] flex gap-6 justify-center">
         <div className="flex flex-col">
+          <h2>Choose date and time</h2>
           <div className="flex">
-            {showTimeSelection ? (
-              <div className="ml-4">
-                <p>2/ Choose Time:</p>
-                <TimeSelection
-                  allTimes={allTimes}
-                  activeTime={activeTime}
-                  onClick={handleTimeRowClick}
-                  onCancel={() => setShowTimeSelection(false)}
-                  onNext={handleBooking}
-                />
-              </div>
-            ) : (
-              <div>
+            <div>
+              
+              {showCalendar && (
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{
@@ -207,8 +210,25 @@ export const Calendar = ({  }) => {
                       Next
                     </motion.button>
                   )}
-                  
+                  <button
+                    onClick={handleCalendarClose}
+                    className="mt-3 bg-red-500 text-white p-2 rounded"
+                  >
+                    Close
+                  </button>
                 </motion.div>
+              )}
+            </div>
+            {showTimeSelection && (
+              <div className="ml-4">
+                <p>2/ Choose Time:</p>
+                <TimeSelection
+                  allTimes={allTimes}
+                  activeTime={activeTime}
+                  onClick={handleTimeRowClick}
+                  onCancel={handleTimeSelectionBackClick}
+                  onNext={handleBooking}
+                />
               </div>
             )}
           </div>
