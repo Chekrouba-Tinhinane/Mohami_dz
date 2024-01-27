@@ -254,6 +254,7 @@ def ajout_creneau(db:Session,creneau:schemas.Interval_libreCreate,token:str):
             detail="unauthorized action"
         )
     else: 
+        print(str(creneau.model_dump()))
         db_creneau= models.Interval_libre(**creneau.model_dump())
         db.add(db_creneau)
         db.commit()
@@ -309,42 +310,6 @@ def show_client_by_id(db:Session,id:int):
     return None
  """
 
-def standard_search(db: Session, keywords: str):
-    query = db.query(models.Avocat, models.Speciality)
-
-    if keywords:
-        keyword_list = keywords.split(',')
-        conditions = []
-        for keyword in keyword_list:
-            conditions.append(
-                 or_(
-                    func.lower(models.Avocat.first_name).ilike(f"%{keyword}%"),
-                    func.lower(models.Avocat.last_name).ilike(f"%{keyword}%"),
-                    func.lower(models.Avocat.langue).ilike(f"%{keyword}%"),
-                    func.lower(models.Speciality.name).ilike(f"%{keyword}%")
-                )
-            )
-        if conditions:
-            query = query.filter(or_(*conditions))
-       
-    result = query.all()
-
-    return result
-
-
-def filter_search_results(results, language=None, speciality=None, location=None):
-    filtered_results = []
-
-    for avocat, speciality in results:
-       # filtering based on language, speciality,  location
-        if (
-            (language is None  or avocat.langue == language) and
-            (speciality is None or speciality.name == speciality) and
-            (location is None or avocat.ville == location or avocat.region == location or avocat.codepostal == location)
-        ):
-            filtered_results.append((avocat, speciality))
-
-    return filtered_results
 
 
 def login_client(db:Session,username:str,password:str):

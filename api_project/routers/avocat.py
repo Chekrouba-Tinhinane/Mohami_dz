@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 import schemas,crud,models
 from database import SessionLocal,engine 
 import crud
+import recherche
 from database import SessionLocal
 import schemas
 
@@ -54,21 +55,27 @@ async def delete_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db),jwt:s
 async def update_Avocat(avocat:schemas.AvocatCreate,avocat_id:int=Body(...),jwt:str=Cookie(),db:Session=Depends(get_db)):
     return crud.update_avocat(db,avocat,avocat_id,jwt)
 
-@routerAvocat.get("/filtered-search/")
+
+@routerAvocat.get("/recherche-basic/")
+async def perform_basic_search(
+    keyword: str = Query(None),
+    db: Session = Depends(get_db)
+):
+    # Perform the standard search
+    standard_results = recherche.standard_search(db, keyword)
+    return standard_results
+
+@routerAvocat.get("/recherche-avec-filtre/")
 async def perform_filtered_search(
-    keywords: str = Query(None),
     language: str = Query(None),
     speciality: str = Query(None),
     location: str = Query(None),
     db: Session = Depends(get_db)
 ):
     # Perform the standard search
-    standard_results = crud.standard_search(db, keywords)
+    standard_results = recherche.filter_search_results(db, language=language,speciality=speciality,ville=location)
+    return standard_results
 
-    # Filter the standard search results
-    filtered_results = crud.filter_search_results(standard_results, language, speciality, location)
-
-    return filtered_results
 
 @routerAvocat.post('/login')
 async def login(email:str=Body(...),password:str=Body(...),db:Session=Depends(get_db)):
