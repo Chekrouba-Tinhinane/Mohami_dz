@@ -326,7 +326,7 @@ def standard_search(db: Session, keywords: str):
                 )
             ])
         if conditions:
-            # Add join condition between Avocat and Speciality
+            
             query = query.join(models.Speciality, models.Avocat.id_speciality == models.Speciality.id)
             query = query.filter(or_(*conditions))
 
