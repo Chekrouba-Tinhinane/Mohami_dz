@@ -5,7 +5,7 @@ import filter from "../assets/icons/filter.svg";
 const FilteringComponent = ({ onFilter }) => {
   const [filters, setFilters] = useState({
     filterBy: "Filtrer par",
-    selectedFilter: ""
+    selectedFilter: "",
   });
 
   const handleChange = (event) => {
@@ -14,6 +14,7 @@ const FilteringComponent = ({ onFilter }) => {
   };
 
   const handleApplyFilter = () => {
+    console.log(filters.selectedFilter)
     onFilter(filters.selectedFilter);
   };
 
@@ -28,12 +29,20 @@ const FilteringComponent = ({ onFilter }) => {
           className="outline-none px-2 text-white"
         >
           <MenuItem value="">Filtrer par</MenuItem>
-          <MenuItem value="Localisation">Localisation</MenuItem>
-          <MenuItem value="Spécialité">Spécialité</MenuItem>
-          <MenuItem value="Langue">Langue</MenuItem>
+          <MenuItem name="selectedFilter" value="Location">
+            Localisation
+          </MenuItem>
+          <MenuItem name="selectedFilter" value="Speciality">
+            Spécialité
+          </MenuItem>
+          <MenuItem name="selectedFilter" value="Language">
+            Langue
+          </MenuItem>
         </Select>
         <img src={filter} alt="filter icon" className="w-4 mr-2" />
-        <Button variant="contained" onClick={handleApplyFilter}>Appliquer</Button>
+        <Button variant="contained" onClick={handleApplyFilter}>
+          Appliquer
+        </Button>
       </div>
     </div>
   );
