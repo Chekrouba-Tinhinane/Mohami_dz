@@ -110,9 +110,11 @@ const ResultsPage = ({ lawyers }) => {
   };
 
   const handleSearch = (query) => {
+    console.log(query);
     axios
-      .get("http://192.168.1.127:8000/avocat/filtered-search", {keywords: query}) // Adjust the URL according to your backend route
+      .get(`http://192.168.137.210:8000/avocat/recherche-basic?keyword=${query}`) // Adjust the URL according to your backend route
       .then((response) => {
+        console.log(response.data);
         setSearchResults(response.data); // Update search results state with data from the backend
         setCurrentPage(1); // Reset current page to 1 when performing a new search
       })
@@ -122,12 +124,12 @@ const ResultsPage = ({ lawyers }) => {
   };
 
   const handleFilter = (filters) => {
+    console.log(filters)
     // Implement filtering functionality here
     // You can filter the lawyers based on the selected filters
     axios
-      .get("http://192.168.1.127:8000/avocat/filtered-search", filters) // Adjust the URL according to your backend route
+      .get("http://192.168.1.127:8000/avocat/recherche-avec-filtre", filters) // Adjust the URL according to your backend route
       .then((response) => {
-        console.log(response);
         setSearchResults(response.data); // Update search results state with filtered data from the backend
         setCurrentPage(1); // Reset current page to 1 when applying new filters
       })
