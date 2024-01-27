@@ -32,8 +32,8 @@ async def get_avocat(db:Session=Depends(get_db)):
     return avocats
 
 @routerAvocat.get('/avocat_pending')
-async def get_pending_avocat(db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
-    avocats=crud.show_pending_avocats(db,jwt)
+async def get_pending_avocat(db:Session=Depends(get_db)):
+    avocats=crud.show_pending_avocats(db)
     return avocats
 
 @routerAvocat.get('/avocats')
@@ -42,18 +42,18 @@ async def get_approved_avocat(db:Session=Depends(get_db)):
     return avocats
 
 @routerAvocat.post('/avocat_verify')
-async def get_pending_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
-    avocats=crud.verify_avocats(db,avocat_id,jwt)
+async def get_pending_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db)):
+    avocats=crud.verify_avocats(db,avocat_id)
     return avocats
 
 @routerAvocat.post('/avocat_delete')
-async def delete_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
-    avocats=crud.delete_avocats(db,avocat_id,jwt)
+async def delete_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db)):
+    avocats=crud.delete_avocats(db,avocat_id)
     return avocats
 
 @routerAvocat.post('/avocat_update')
-async def update_Avocat(avocat:schemas.AvocatCreate,avocat_id:int=Body(...),jwt:str=Cookie(),db:Session=Depends(get_db)):
-    return crud.update_avocat(db,avocat,avocat_id,jwt)
+async def update_Avocat(avocat:schemas.AvocatCreate,avocat_id:int=Body(...),db:Session=Depends(get_db)):
+    return crud.update_avocat(db,avocat,avocat_id)
 
 
 @routerAvocat.get("/recherche-basic/")

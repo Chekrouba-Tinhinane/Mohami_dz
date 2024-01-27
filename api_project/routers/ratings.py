@@ -22,8 +22,8 @@ def get_db():
 
 
 @routerRating.post('/register_rating')
-async def register_client(client_id: int, avocat_id: int, rating: float, comment: str = None,jwt:str=Cookie(),db:Session=Depends(get_db)):
-    return crud.rate_avocat(db,client_id,avocat_id, rating, comment,jwt)
+async def register_client(client_id: int, avocat_id: int, rating: float, comment: str = None,db:Session=Depends(get_db)):
+    return crud.rate_avocat(db,client_id,avocat_id, rating, comment)
 
 @routerRating.get('/top_rated')
 async def get_clients(db:Session=Depends(get_db),limit: int = 5):
