@@ -1,5 +1,6 @@
 from datetime import date
 from sqlalchemy import func
+from operator import or_
 from sqlalchemy.orm import Session
 from sqlalchemy.sql.expression import or_, and_
 import models, schemas
