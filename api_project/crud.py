@@ -1,7 +1,7 @@
 from datetime import date
-from operator import or_
 from sqlalchemy import func
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import or_, and_
 import models, schemas
 from auth.JWThandler import signJWT,decodeJWT,signJWT_client,signJWT_admin,signJWT_avocat
 from fastapi import HTTPException,status,Body
@@ -313,23 +313,27 @@ def standard_search(db: Session, keywords: str):
     query = db.query(models.Avocat, models.Speciality)
 
     if keywords:
-        keyword_list = keywords.split(',')
+        keyword_list = keywords.split(' ')
         conditions = []
         for keyword in keyword_list:
-            conditions.append(
-                 or_(
+            conditions.extend([
+                or_(
                     func.lower(models.Avocat.first_name).ilike(f"%{keyword}%"),
                     func.lower(models.Avocat.last_name).ilike(f"%{keyword}%"),
                     func.lower(models.Avocat.langue).ilike(f"%{keyword}%"),
                     func.lower(models.Speciality.name).ilike(f"%{keyword}%")
                 )
-            )
+            ])
         if conditions:
+            # Add join condition between Avocat and Speciality
+            query = query.join(models.Speciality, models.Avocat.id_speciality == models.Speciality.id)
             query = query.filter(or_(*conditions))
-       
+
     result = query.all()
 
     return result
+
+
 
 
 def filter_search_results(results, language=None, speciality=None, location=None):
