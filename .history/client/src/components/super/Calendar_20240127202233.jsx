@@ -31,7 +31,7 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
     animate={{
       opacity: 1,
       x: 0,
-      transition: { type: "tween", duration: 0.4 },
+      transition: { type: "tween", duration: 0.2 },
     }}
     className="bg-white flex flex-col justify-around px-3 py-2 rounded-md"
     style={{ height: "360px" }} // Fixed height for time selection container

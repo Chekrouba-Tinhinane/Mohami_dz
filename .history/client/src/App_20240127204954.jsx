@@ -127,7 +127,7 @@ const App = () => {
         <Route path={"/"} element={<LandingPage />} />
 
         <Route path={"/Signin"} element={<SignIn />} />
-        <Route path={"/ClientSignin"} element={<ClientSignIn />} />
+        <Route path={"/ClientSignin"} element={<ClientSignInSignIn />} />
 
         <Route
           path={"/Search"}

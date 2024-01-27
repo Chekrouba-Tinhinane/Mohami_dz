@@ -31,7 +31,7 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
     animate={{
       opacity: 1,
       x: 0,
-      transition: { type: "tween", duration: 0.4 },
+      transition: { type: "tween", duration: 0.2 },
     }}
     className="bg-white flex flex-col justify-around px-3 py-2 rounded-md"
     style={{ height: "360px" }} // Fixed height for time selection container
@@ -198,7 +198,10 @@ export const Calendar = ({ avocat }) => {
         "http://192.168.137.210:8000/rdv/prendre_rdv",
         bookingData,
         {
-          
+          headers: {
+            // Include the authorization token in the request headers
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInJvbGUiOiJjbGllbnQifQ.83gClcAqtKAETOwBYOtLfj0qhi8ZoCcD9ycq3q-IbK4`,
+          },
         }
       );
       // Log the response data and a success message
@@ -237,10 +240,10 @@ export const Calendar = ({ avocat }) => {
                   animate={{
                     opacity: 1,
                     x: 0,
-                    transition: { type: "tween", duration: 0.4 },
+                    transition: { type: "tween", duration: 0.2 },
                   }}
                   className="bg-white flex flex-col justify-around pl-3 py-2 pr-3 rounded-md"
-                  style={{ }} // Fixed height for calendar container
+                  style={{ height: "360px" }} // Fixed height for calendar container
                 >
                   <ReactCalendar
                     minDate={new Date()}

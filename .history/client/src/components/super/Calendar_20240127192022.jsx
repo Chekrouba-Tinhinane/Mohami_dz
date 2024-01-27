@@ -7,6 +7,8 @@ import { getDaysArray, INTERVAL } from "../../config";
 import "../../Calendar.css";
 import axios from "axios";
 
+// Import statements remain the same
+
 const TimeRow = ({ index, style, data, activeTime, onClick }) => {
   const isActive = activeTime
     ? activeTime.getTime() === data[index].getTime()
@@ -31,10 +33,9 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
     animate={{
       opacity: 1,
       x: 0,
-      transition: { type: "tween", duration: 0.4 },
+      transition: { type: "tween", duration: 0.2 },
     }}
     className="bg-white flex flex-col justify-around px-3 py-2 rounded-md"
-    style={{ height: "360px" }} // Fixed height for time selection container
   >
     <div className="mb-3 border-b pb-2 flex justify-between items-center px-1">
       <h4 className="">Selected time slot:</h4>
@@ -46,7 +47,7 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
       </span>
     </div>
     <FixedSizeList
-      height={260} // Fixed height for the list of time slots
+      height={360}
       width={200}
       itemSize={50}
       itemCount={allTimes.length}
@@ -165,6 +166,10 @@ export const Calendar = ({ avocat }) => {
     setActiveTime(selectedTime);
   };
 
+  const handleNextButtonClick = () => {
+    setShowTimeSelection(true);
+  };
+
   const [allTimes, setAllTimes] = useState([]);
 
   useEffect(() => {
@@ -175,7 +180,7 @@ export const Calendar = ({ avocat }) => {
     add(new Date(), { days: index })
   );
 
-  const maxDate = add(new Date(), { days: 7 });
+  const maxDate = add(new Date(), { days:  });
   const tileDisabled = ({ date }) => isAfter(date, maxDate);
   const tileClassName = ({ date }) =>
     next7Days.some(
@@ -198,7 +203,10 @@ export const Calendar = ({ avocat }) => {
         "http://192.168.137.210:8000/rdv/prendre_rdv",
         bookingData,
         {
-          
+          headers: {
+            // Include the authorization token in the request headers
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInJvbGUiOiJjbGllbnQifQ.83gClcAqtKAETOwBYOtLfj0qhi8ZoCcD9ycq3q-IbK4`,
+          },
         }
       );
       // Log the response data and a success message
@@ -209,7 +217,6 @@ export const Calendar = ({ avocat }) => {
       console.error("Error booking appointment:", error);
     }
   };
-
   return (
     <div className="flex flex-col my-8">
       <div className=" w-[95%] flex gap-6 justify-center">
@@ -237,10 +244,9 @@ export const Calendar = ({ avocat }) => {
                   animate={{
                     opacity: 1,
                     x: 0,
-                    transition: { type: "tween", duration: 0.4 },
+                    transition: { type: "tween", duration: 0.2 },
                   }}
                   className="bg-white flex flex-col justify-around pl-3 py-2 pr-3 rounded-md"
-                  style={{ }} // Fixed height for calendar container
                 >
                   <ReactCalendar
                     minDate={new Date()}
@@ -251,6 +257,20 @@ export const Calendar = ({ avocat }) => {
                     tileDisabled={tileDisabled}
                     tileClassName={tileClassName}
                   />
+                  {date.justDate && (
+                    <motion.button
+                      onClick={handleNextButtonClick}
+                      className="mt-3 bg-blue-500 text-white p-2 rounded"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                        transition: { type: "tween", duration: 0.2 },
+                      }}
+                    >
+                      Next
+                    </motion.button>
+                  )}
                 </motion.div>
               </div>
             )}

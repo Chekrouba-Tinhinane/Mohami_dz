@@ -1,82 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import ReactCalendar from "react-calendar";
-import { FixedSizeList } from "react-window";
-import { add, format, isAfter, differenceInMinutes } from "date-fns";
-import { getDaysArray, INTERVAL } from "../../config";
-import "../../Calendar.css";
-import axios from "axios";
-
-const TimeRow = ({ index, style, data, activeTime, onClick }) => {
-  const isActive = activeTime
-    ? activeTime.getTime() === data[index].getTime()
-    : false;
-
-  return (
-    <div
-      style={{ ...style }}
-      className={`py-2 px-3 cursor-pointer font-semibold hover:bg-gray-200 rounded-md my-3 ${
-        isActive ? " bg-blue-200 hover:bg-blue-200" : ""
-      }`}
-      onClick={() => onClick(data[index])}
-    >
-      {format(data[index], "kk:mm")}
-    </div>
-  );
-};
-
-const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
-  <motion.div
-    initial={{ opacity: 0, x: -20 }}
-    animate={{
-      opacity: 1,
-      x: 0,
-      transition: { type: "tween", duration: 0.4 },
-    }}
-    className="bg-white flex flex-col justify-around px-3 py-2 rounded-md"
-    style={{ height: "360px" }} // Fixed height for time selection container
-  >
-    <div className="mb-3 border-b pb-2 flex justify-between items-center px-1">
-      <h4 className="">Selected time slot:</h4>
-      <span
-        onClick={onCancel}
-        className="border p-1.5 cursor-pointer hover:bg-gray-300"
-      >
-        Back
-      </span>
-    </div>
-    <FixedSizeList
-      height={260} // Fixed height for the list of time slots
-      width={200}
-      itemSize={50}
-      itemCount={allTimes.length}
-      itemData={{
-        times: allTimes,
-        activeTime,
-        onClick,
-      }}
-      style={{ overflowY: "scroll", scrollbarColor: "#D4AD6B" }}
-    >
-      {({ index, style }) => (
-        <TimeRow
-          index={index}
-          style={style}
-          data={allTimes}
-          activeTime={activeTime}
-          onClick={onClick}
-        />
-      )}
-    </FixedSizeList>
-    <div className="flex justify-between mt-3">
-      <button onClick={onCancel} className="bg-red-500 text-white p-2 rounded">
-        Cancel
-      </button>
-      <button onClick={onNext} className="bg-blue-500 text-white p-2 rounded">
-        Book Appointment
-      </button>
-    </div>
-  </motion.div>
-);
+// Import statements remain the same
 
 export const Calendar = ({ avocat }) => {
   const [availabilityIntervals, setAvailabilityIntervals] = useState([]);
@@ -165,6 +87,15 @@ export const Calendar = ({ avocat }) => {
     setActiveTime(selectedTime);
   };
 
+  const handleNextButtonClick = () => {
+    setShowTimeSelection(true);
+  };
+
+  const handleBooking = () => {
+    // Logic for booking the appointment
+    console.log("Appointment booked!");
+  };
+
   const [allTimes, setAllTimes] = useState([]);
 
   useEffect(() => {
@@ -175,40 +106,10 @@ export const Calendar = ({ avocat }) => {
     add(new Date(), { days: index })
   );
 
-  const maxDate = add(new Date(), { days: 7 });
+  const maxDate = add(new Date(), { days: 30 });
   const tileDisabled = ({ date }) => isAfter(date, maxDate);
   const tileClassName = ({ date }) =>
-    next7Days.some(
-      (day) => format(day, "yyyy-MM-dd") === format(date, "yyyy-MM-dd")
-    )
-      ? "next-7-days"
-      : null;
-
-  const handleBooking = async () => {
-    // Define the booking data
-    const bookingData = {
-      id_client: 1, // Replace with the actual client ID
-      id_avocat: 1, // Replace with the actual lawyer ID
-      id_free_time_slot: 1, // Replace with the actual free time slot ID
-    };
-
-    try {
-      // Make a POST request to book the appointment
-      const response = await axios.post(
-        "http://192.168.137.210:8000/rdv/prendre_rdv",
-        bookingData,
-        {
-          
-        }
-      );
-      // Log the response data and a success message
-      console.log(response.data);
-      console.log("Appointment booked!");
-    } catch (error) {
-      // Log any errors
-      console.error("Error booking appointment:", error);
-    }
-  };
+    next7Days.some((day) => format(day, "yyyy-MM-dd") === format(date, "yyyy-MM-dd")) ? "next-7-days" : null;
 
   return (
     <div className="flex flex-col my-8">
@@ -237,10 +138,9 @@ export const Calendar = ({ avocat }) => {
                   animate={{
                     opacity: 1,
                     x: 0,
-                    transition: { type: "tween", duration: 0.4 },
+                    transition: { type: "tween", duration: 0.2 },
                   }}
                   className="bg-white flex flex-col justify-around pl-3 py-2 pr-3 rounded-md"
-                  style={{ }} // Fixed height for calendar container
                 >
                   <ReactCalendar
                     minDate={new Date()}
@@ -251,6 +151,20 @@ export const Calendar = ({ avocat }) => {
                     tileDisabled={tileDisabled}
                     tileClassName={tileClassName}
                   />
+                  {date.justDate && (
+                    <motion.button
+                      onClick={handleNextButtonClick}
+                      className="mt-3 bg-blue-500 text-white p-2 rounded"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                        transition: { type: "tween", duration: 0.2 },
+                      }}
+                    >
+                      Next
+                    </motion.button>
+                  )}
                 </motion.div>
               </div>
             )}
@@ -262,3 +176,32 @@ export const Calendar = ({ avocat }) => {
 };
 
 export default Calendar;
+
+const handleBooking = async () => {
+    // Define the booking data
+    const bookingData = {
+      id_client: 1, // Replace with the actual client ID
+      id_avocat: 1, // Replace with the actual lawyer ID
+      id_free_time_slot: 1, // Replace with the actual free time slot ID
+    };
+  
+    try {
+      // Make a POST request to book the appointment
+      const response = await axios.post(
+        "http://192.168.137.210:8000/rdv/prendre_rdv",
+        bookingData,
+        {
+          headers: {
+            // Include the authorization token in the request headers
+            Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInJvbGUiOiJjbGllbnQifQ.83gClcAqtKAETOwBYOtLfj0qhi8ZoCcD9ycq3q-IbK4`,
+          },
+        }
+      );
+      // Log the response data and a success message
+      console.log(response.data);
+      console.log("Appointment booked!");
+    } catch (error) {
+      // Log any errors
+      console.error("Error booking appointment:", error);
+    }
+  };

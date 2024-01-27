@@ -31,10 +31,9 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
     animate={{
       opacity: 1,
       x: 0,
-      transition: { type: "tween", duration: 0.4 },
+      transition: { type: "tween", duration: 0.2 },
     }}
     className="bg-white flex flex-col justify-around px-3 py-2 rounded-md"
-    style={{ height: "360px" }} // Fixed height for time selection container
   >
     <div className="mb-3 border-b pb-2 flex justify-between items-center px-1">
       <h4 className="">Selected time slot:</h4>
@@ -46,7 +45,7 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
       </span>
     </div>
     <FixedSizeList
-      height={260} // Fixed height for the list of time slots
+      height={360}
       width={200}
       itemSize={50}
       itemCount={allTimes.length}
@@ -135,23 +134,17 @@ export const Calendar = ({ avocat }) => {
       (day) => day.date.getTime() === justDate.getTime()
     );
 
-    const availableIntervals = availabilityIntervals.filter(
+    const { HeureDebut, HeureFin, NbrMaxRdv } = availabilityIntervals.find(
       (interval) =>
         format(interval.DateInterval, "yyyy-MM-dd") ===
         format(justDate, "yyyy-MM-dd")
     );
 
-    if (availableIntervals.length === 0) {
-      return []; // No available slots for this date
-    }
-
-    const { HeureDebut, HeureFin, NbrMaxRdv } = availableIntervals[0];
-
     const start = add(justDate, { hours: Number(HeureDebut.split(":")[0]) });
     const end = add(justDate, { hours: Number(HeureFin.split(":")[0]) });
 
     const appointmentSlots = calculateAppointmentSlots(start, end, NbrMaxRdv);
-
+    console.log(appointmentSlots);
     return appointmentSlots.map((slot) => slot.start);
   };
 
@@ -165,50 +158,39 @@ export const Calendar = ({ avocat }) => {
     setActiveTime(selectedTime);
   };
 
+  const handleNextButtonClick = () => {
+    setShowTimeSelection(true);
+  };
+
+  const handleBooking = async () => {
+    // Logic for booking the appointment
+    const bookingData = {
+      id_client: 1, // Replace with the actual client ID
+      id_avocat: 1, // Replace with the actual lawyer ID
+      id_free_time_slot: 1, // Replace with the actual free time slot ID
+      jwt: ""
+    }
+    try {
+      const response = await axios.post(
+        "http://192.168.137.210:8000/rdv/prendre_rdv", bookingData
+      );
+      console.log(response.data);    
+      console.log("Appointment booked!");
+
+    } catch (error) {
+      console.error("Error fetching:", error);
+    }
+
+  };
+
   const [allTimes, setAllTimes] = useState([]);
 
   useEffect(() => {
     setAllTimes(getTimes());
   }, [date.justDate]);
 
-  const next7Days = Array.from({ length: 7 }, (_, index) =>
-    add(new Date(), { days: index })
-  );
-
-  const maxDate = add(new Date(), { days: 7 });
+  const maxDate = add(new Date(), { days: 30 });
   const tileDisabled = ({ date }) => isAfter(date, maxDate);
-  const tileClassName = ({ date }) =>
-    next7Days.some(
-      (day) => format(day, "yyyy-MM-dd") === format(date, "yyyy-MM-dd")
-    )
-      ? "next-7-days"
-      : null;
-
-  const handleBooking = async () => {
-    // Define the booking data
-    const bookingData = {
-      id_client: 1, // Replace with the actual client ID
-      id_avocat: 1, // Replace with the actual lawyer ID
-      id_free_time_slot: 1, // Replace with the actual free time slot ID
-    };
-
-    try {
-      // Make a POST request to book the appointment
-      const response = await axios.post(
-        "http://192.168.137.210:8000/rdv/prendre_rdv",
-        bookingData,
-        {
-          
-        }
-      );
-      // Log the response data and a success message
-      console.log(response.data);
-      console.log("Appointment booked!");
-    } catch (error) {
-      // Log any errors
-      console.error("Error booking appointment:", error);
-    }
-  };
 
   return (
     <div className="flex flex-col my-8">
@@ -218,17 +200,13 @@ export const Calendar = ({ avocat }) => {
             {showTimeSelection ? (
               <div className="ml-4">
                 <p>2/ Choose Time:</p>
-                {allTimes.length > 0 ? (
-                  <TimeSelection
-                    allTimes={allTimes}
-                    activeTime={activeTime}
-                    onClick={handleTimeRowClick}
-                    onCancel={() => setShowTimeSelection(false)}
-                    onNext={handleBooking}
-                  />
-                ) : (
-                  <div>No available slots for this date</div>
-                )}
+                <TimeSelection
+                  allTimes={allTimes}
+                  activeTime={activeTime}
+                  onClick={handleTimeRowClick}
+                  onCancel={() => setShowTimeSelection(false)}
+                  onNext={handleBooking}
+                />
               </div>
             ) : (
               <div>
@@ -237,10 +215,9 @@ export const Calendar = ({ avocat }) => {
                   animate={{
                     opacity: 1,
                     x: 0,
-                    transition: { type: "tween", duration: 0.4 },
+                    transition: { type: "tween", duration: 0.2 },
                   }}
                   className="bg-white flex flex-col justify-around pl-3 py-2 pr-3 rounded-md"
-                  style={{ }} // Fixed height for calendar container
                 >
                   <ReactCalendar
                     minDate={new Date()}
@@ -249,8 +226,21 @@ export const Calendar = ({ avocat }) => {
                     view="month"
                     onClickDay={handleDateClick}
                     tileDisabled={tileDisabled}
-                    tileClassName={tileClassName}
                   />
+                  {date.justDate && (
+                    <motion.button
+                      onClick={handleNextButtonClick}
+                      className="mt-3 bg-blue-500 text-white p-2 rounded"
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{
+                        opacity: 1,
+                        x: 0,
+                        transition: { type: "tween", duration: 0.2 },
+                      }}
+                    >
+                      Next
+                    </motion.button>
+                  )}
                 </motion.div>
               </div>
             )}

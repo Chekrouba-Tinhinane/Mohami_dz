@@ -10,7 +10,6 @@ import Profile from "./components/Profile";
 import ResultsPage from "./ResultsPage";
 import SignUp from "./components/SignUp";
 import maria from "./assets/maria/maria.jpg";
-import ClientSignIn from "./ClientSignIn";
 
 const lawyers = [
   {
@@ -127,7 +126,7 @@ const App = () => {
         <Route path={"/"} element={<LandingPage />} />
 
         <Route path={"/Signin"} element={<SignIn />} />
-        <Route path={"/ClientSignin"} element={<ClientSignIn />} />
+        <Route path={"/Signin"} element={<SignIn />} />
 
         <Route
           path={"/Search"}
