@@ -14,7 +14,7 @@ const FilteringComponent = ({ onFilter }) => {
   };
 
   const handleApplyFilter = () => {
-    console.log(filters.selectedFilter)
+    console.log(filters.selectedFilter);
     onFilter(filters.selectedFilter);
   };
 
