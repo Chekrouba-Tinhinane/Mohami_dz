@@ -196,7 +196,10 @@ export const Calendar = ({ avocat }) => {
       // Make a POST request to book the appointment
       const response = await axios.post(
         "http://192.168.137.210:8000/rdv/prendre_rdv",
-        bookingData
+        bookingData,
+        {
+          
+        }
       );
       // Log the response data and a success message
       console.log(response.data);

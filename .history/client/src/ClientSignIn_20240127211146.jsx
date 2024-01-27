@@ -20,8 +20,8 @@ const ClientSignIn = () => {
       const { jwt, UserData } = response.data;
 
       localStorage.setItem("token", jwt.token);
-      document.cookie = `jwt=${jwt.token}`;
-      console.log(document.cookie, UserData)
+      document.cookie = jwt.token;
+      console.log(document.cookie, user)
 
     
       // Navigate to "/Results" after successful login

@@ -189,7 +189,7 @@ export const Calendar = ({ avocat }) => {
     const bookingData = {
       id_client: 1, // Replace with the actual client ID
       id_avocat: 1, // Replace with the actual lawyer ID
-      id_interval_libre: 1, // Replace with the actual free time slot ID
+      id_interval_libre: , // Replace with the actual free time slot ID
     };
 
     try {

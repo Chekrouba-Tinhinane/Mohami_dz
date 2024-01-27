@@ -17,15 +17,12 @@ const ClientSignIn = () => {
         values
       );
       console.log(response.data);
-      const { jwt, UserData } = response.data;
+      const { token, user } = response.data;
 
-      localStorage.setItem("token", jwt.token);
-      document.cookie = `jwt=${jwt.token}`;
-      console.log(document.cookie, UserData)
+      localStorage.setItem("token", token);
 
-    
       // Navigate to "/Results" after successful login
-      navigate("/Search");
+      navigate("/Results");
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -51,8 +48,10 @@ const ClientSignIn = () => {
         <Formik
           initialValues={{ username: "", password: "" }}
           validationSchema={Yup.object({
-            username: Yup.string().required("Username is required"),
-            password: Yup.string().required("Password is required"),
+            username: Yup.string()
+              .required("Username is required"),
+            password: Yup.string()
+              .required("Password is required")
           })}
           onSubmit={handleSubmit}
         >

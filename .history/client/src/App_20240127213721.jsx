@@ -11,7 +11,6 @@ import ResultsPage from "./ResultsPage";
 import SignUp from "./components/SignUp";
 import maria from "./assets/maria/maria.jpg";
 import ClientSignIn from "./ClientSignIn";
-import AvailabilityForm from "./AvailabilityForm";
 
 const lawyers = [
   {
@@ -136,7 +135,7 @@ const App = () => {
         />
         <Route
           path={"/Available"}
-          element={<HomeLayout pageComponent={<AvailabilityForm />} />}
+          element={<HomeLayout pageComponent={<Search />} />}
         />
         <Route
           path={"/Results"}

@@ -17,11 +17,10 @@ const ClientSignIn = () => {
         values
       );
       console.log(response.data);
-      const { jwt, UserData } = response.data;
+      const { jwt, user } = response.data;
 
-      localStorage.setItem("token", jwt.token);
-      document.cookie = `jwt=${jwt.token}`;
-      console.log(document.cookie, UserData)
+      localStorage.setItem("token", jwt.);
+      document.cookie = jwt.token;
 
     
       // Navigate to "/Results" after successful login

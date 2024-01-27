@@ -19,8 +19,7 @@ const ClientSignIn = () => {
       console.log(response.data);
       const { jwt, UserData } = response.data;
 
-      localStorage.setItem("token", jwt.token);
-      document.cookie = `jwt=${jwt.token}`;
+      document.cookie = `jwt=${token}`;
       console.log(document.cookie, UserData)
 
     
