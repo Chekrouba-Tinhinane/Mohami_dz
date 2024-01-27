@@ -90,11 +90,17 @@ function CalendarModal({ isOpen, onRequestClose }) {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Prendre un rendez-vous"
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[600px] h-[400px]"
-      overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-30 backdrop-blur-xs z-40"
+      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[600px] h-[436px]"
+      overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 backdrop-blur-xs z-40"
     >
-      <div className={`flex h-full ${showCalendar ? 'w-full' : ''}`}>
-        <div className="flex flex-col w-full">
+      <div
+        className={`flex h-full ${showCalendar ? " flex gap-[4.5rem]" : ""}`}
+      >
+        <div
+          className={`  ${
+            showCalendar ? "basis-[50%]" : " w-full"
+          } flex flex-col justify-center  flex-shrink-0 `}
+        >
           <div className="flex w-full justify-between border-b border-b-primary pb-4">
             <h3>Prendre un rendez-vous</h3>
             <button onClick={onRequestClose}>
@@ -114,13 +120,16 @@ function CalendarModal({ isOpen, onRequestClose }) {
           </div>
           <div className="flex-grow"></div>
           <div className="flex justify-end">
-            <button className="bg-primary text-white px-4 py-1" onClick={onRequestClose}>
+            <button
+              className="bg-primary text-white px-4 py-1"
+              onClick={onRequestClose}
+            >
               Réserver
             </button>
           </div>
         </div>
         {showCalendar && (
-          <div className="w-full">
+          <div className="w-full place-self-center">
             <Calendar />
           </div>
         )}
@@ -128,7 +137,6 @@ function CalendarModal({ isOpen, onRequestClose }) {
     </Modal>
   );
 }
-
 
 function About() {
   return (

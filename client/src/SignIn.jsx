@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import google from "./assets/icons/google.svg";
 import scene from "./assets/sign/scene2.jpg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
@@ -7,18 +7,24 @@ import * as Yup from "yup";
 import axios from "axios";
 
 const SignIn = () => {
+  const navigate = useNavigate();
+
+
 
   const handleSubmit = async (values) => {
     try {
       console.log(values);
       const response = await axios.post(
-        "http://192.168.1.127:8000/avocat/login",
+        "http://192.168.137.210:8000/avocat/login",
         values
       );
       console.log(response.data);
       const { token, user } = response.data;
 
       localStorage.setItem("token", token);
+
+      // Navigate to "/results" after successful login
+      navigate("/Results");
     } catch (error) {
       console.error("Login error:", error);
       /* setErrors({
@@ -69,7 +75,6 @@ const SignIn = () => {
               .required("Email is required"),
             password: Yup.string()
               .required("Password is required")
-              .min(8, "Password must be at least 8 characters long"),
           })}
           onSubmit={handleSubmit}
         >
