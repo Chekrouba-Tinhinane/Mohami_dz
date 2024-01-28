@@ -30,7 +30,7 @@ const SignIn = () => {
       }
 
       const response = await axios.post(
-        `http://localhost:8000/${loginEndpoint}`,
+        `http://backend:8000/${loginEndpoint}`,
         values
       );
         console.log(response.data)

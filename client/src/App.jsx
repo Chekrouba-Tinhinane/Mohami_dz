@@ -25,7 +25,7 @@ const App = () => {
     const fetchLawyers = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/avocat/avocats"
+          "http://backend:8000/avocat/avocats"
         );
         console.log(response.data);
         setLawyers(response.data);

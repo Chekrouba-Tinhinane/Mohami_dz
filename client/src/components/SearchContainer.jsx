@@ -15,7 +15,7 @@ const SearchContainer = ({ setLawyers }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/speciality/speciality_list"
+          "http://backend:8000/speciality/speciality_list"
         );
         setSpecialities(response.data);
         setLoading(false);
@@ -44,7 +44,7 @@ const SearchContainer = ({ setLawyers }) => {
     // Implement filtering functionality here
     // You can filter the lawyers based on the selected filters
     axios
-      .get("http://localhost:8000/avocat/recherche-avec-filtre", {
+      .get("http://backend:8000/avocat/recherche-avec-filtre", {
         params: filters,
       }) // Adjust the URL according to your backend route
       .then((response) => {

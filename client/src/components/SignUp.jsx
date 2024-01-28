@@ -14,7 +14,7 @@ const SignUp = () => {
     const fetchSpecialities = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/speciality/speciality_list"
+          "http://backend:8000/speciality/speciality_list"
         );
         setSpecialities(response.data);
       } catch (error) {
@@ -54,7 +54,7 @@ const SignUp = () => {
       console.log(postData);
 
       const response = await axios.post(
-        "http://localhost:8000/avocat/register_avocat",
+        "http://backend:8000/avocat/register_avocat",
         postData
       );
 
@@ -131,7 +131,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
       navigate("/SignIn")
 
       const response = await axios.post(
-        "http://localhost:8000/avocat/register_avocat",
+        "http://backend:8000/avocat/register_avocat",
         postData
       );
 
