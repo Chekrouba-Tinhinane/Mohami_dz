@@ -14,11 +14,11 @@ const SearchContainer = () => {
 
   return (
     <div className="flex flex-col gap-3 pb-4 w-full bg-lightBrown">
-      <h3 className="place-self-start text-opacity-65 font-semibold tracking-wide p-4">
+      <h3 className="place-self-start text-lightTypo text-opacity-65 font-semibold tracking-wide p-4">
         Recherche Avancée
       </h3>
 
-      <div className="flex justify-center gap-3 ">
+      <div className="flex justify-center gap-3 text-lightTypo font-semibold ">
 
         <div className="flex flex-col basis-[30%] gap-3">
           <div>Spécialité</div>

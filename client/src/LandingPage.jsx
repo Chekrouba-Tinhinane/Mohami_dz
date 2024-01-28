@@ -4,18 +4,12 @@ import header from "./assets/landing/header.jpg";
 import hero from "./assets/landing/hero.png";
 import section1 from "./assets/landing/section1.jpg";
 import section2 from "./assets/landing/section2.jpg";
-import footer from "./assets/landing/footer.jpg";
-import maria from "./assets/maria/maria.jpg";
+import maria from "./assets/landing/maria.jpg";
 import scene from "./assets/landing/scene.png";
 
-import msg from "./assets/icons/contact/msg.svg";
 
-import twitter from "./assets/icons/footer/twitter.svg";
-import fb from "./assets/icons/footer/fb.svg";
-import linkedin from "./assets/icons/footer/linkedin.svg";
-
-
-import NavBar from "./components/super/NavBar"
+import Footer from "./components/super/Footer";
+import NavBar from "./components/super/NavBar";
 
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -23,6 +17,12 @@ import "aos/dist/aos.css";
 AOS.init();
 
 const LandingPage = () => {
+  const navLinks = [
+    { label: "Accueil", id: "about", offset: -50 },
+    { label: "Trouver un avocat", id: "hero", offset: 0 },
+    { label: "Prendre un rendez-vous", id: "appoint", offset: 50 },
+    { label: "Contactez nous", id: "footer", offset: -100 }
+  ];
   useEffect(() => {
     AOS.refresh();
   }, []);
@@ -33,21 +33,20 @@ const LandingPage = () => {
         {" "}
         DZ Mouhami{" "}
       </header>
-      <NavBar />
+      <NavBar links={navLinks} landing={true} />
       <Header />
       <About />
       <Feedback />
-      {/* <Footer /> */}
-      {/* <Achievements /> */}
-      {/* <Hero /> */}
-     {/*  <Appoint /> */}
+
+      <Achievements />
+      <Hero />
+      <Appoint />
+      <Footer />
     </div>
   );
 };
 
 export default LandingPage;
-
-
 
 function Header() {
   return (
@@ -166,7 +165,7 @@ function Feedback() {
 
 function Achievements() {
   return (
-    <div className=" flex flex-col w-full items-center">
+    <div className=" flex flex-col w-[80%] items-center mx-auto my-10 gap-8 ">
       <div className="flex items-center my-5 gap-4">
         <span className=" font-semibold select-none text-primary">
           ____________
@@ -177,23 +176,31 @@ function Achievements() {
         </span>
       </div>
 
-      <div className="flex justify-between">
-        <div className="flex flex-col">
+      <div className="flex w-full justify-between  ">
+        <div className="flex flex-col items-center basis-[33%] gap-4">
           {" "}
-          <h4 className=" recursive">879+</h4>{" "}
-          <span className=" w-[70%]">Consultations</span>
+          <h4 className=" recursive text-primary text-3xl font-bold">
+            879+
+          </h4>{" "}
+          <span className=" w-[70%] text-center recursive font-semibold text-xl">
+            Consultations
+          </span>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center basis-[33%] gap-4">
           {" "}
-          <h4 className=" recursive">12 Mil</h4>{" "}
-          <span className=" w-[70%]">
+          <h4 className=" recursive text-primary text-3xl font-bold">
+            12 Mil
+          </h4>{" "}
+          <span className=" w-[70%] text-center recursive font-semibold text-xl">
             Coûts recouvrés au bénéfice du client
           </span>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center basis-[33%] gap-4">
           {" "}
-          <h4 className=" recursive">92%</h4>{" "}
-          <span className=" w-[70%]">
+          <h4 className=" recursive text-primary text-3xl font-bold">
+            92%
+          </h4>{" "}
+          <span className=" w-[70%] text-center recursive font-semibold text-xl">
             Affaires pénales défendues avec succès
           </span>
         </div>
@@ -204,14 +211,14 @@ function Achievements() {
 
 function Hero() {
   return (
-    <section id="hero" className=" relative flex w-screen justify-center my-4">
+    <section id="hero" className=" relative flex w-screen justify-center my-8 ">
       <img
         src={section2}
-        className="w-full h-[640px] bg-center object-cover"
+        className="w-full h-[680px] bg-center object-cover"
         alt=""
       />
       <div className="absolute top-0 text-white">
-        <div className=" flex flex-col items-center">
+        <div className=" flex flex-col items-center gap-[6rem]">
           <div className="flex items-center my-5 gap-4">
             <span className=" font-semibold select-none">____________</span>
             <h2 className=" recursive  tracking-wider ">
@@ -220,9 +227,16 @@ function Hero() {
             <span className=" font-semibold select-none">____________</span>
           </div>
 
-          <div className=" flex gap-8 w-[80%] bg-white text-black h-[26rem] px-10 ">
-            <img src={maria} alt="" className=" basis-[30%] object-contain" />
-            <div className=" flex flex-col basis-[70%] ">
+          <div className=" flex gap-8 w-[80%] bg-white text-black h-[26rem] px-10 my-4 ">
+            <div className="relative basis-[30%]">
+              {" "}
+              <img
+                src={maria}
+                alt=""
+                className=" absolute -top-12  object-contain"
+              />
+            </div>
+            <div className=" flex flex-col basis-[70%] my-4 gap-6  ">
               {" "}
               <h2 className=" recursive text-primary">Maria Imene</h2>{" "}
               <p className=" w-[70%] flex flex-col gap-5 ">
@@ -243,7 +257,7 @@ function Hero() {
               </p>
               <a
                 href=""
-                className="flex w-max recursive text-white bg-primary  p-4"
+                className="flex w-max recursive text-white bg-primary px-6 py-3 font-semibold hover:bg-opacity-75"
               >
                 View Profile
               </a>
@@ -255,46 +269,14 @@ function Hero() {
   );
 }
 
-function Footer() {
-  return (
-    <footer id="contact" className=" relative flex w-full justify-center my-3 ">
-      <img src={footer} alt="" className="w-full object-cover" />
-      {/* sixth section */}
-      <div className="absolute w-full ">
-        <div className=" flex justify-between px-16 ">
-          <div className=" flex flex-col">
-            <p>Aide</p>
-            <p>Aide</p>
-            <p>Aide</p>
-            <p>Aide</p>
-          </div>
 
-          <div className=" flex ">
-            <img src={twitter} alt="" />
-            <img src={fb} alt="" />
-            <img src={linkedin} alt="" />
-          </div>
-
-          <div className=" border-l border-l-white pl-10 flex flex-col ">
-            <p>
-              CONTACTEZ NOUS{" "}
-              <span>
-                {" "}
-                <img src={msg} alt="" />
-              </span>{" "}
-            </p>
-            <p>Rue Cheikh Ammar, Béjaia, Algeria</p>
-            <p>Tél 1-888-888-888</p>
-          </div>
-        </div>
-      </div>
-    </footer>
-  );
-}
 
 function Appoint() {
   return (
-    <section id="hero" className=" flex flex-col w-screen justify-center my-4">
+    <section
+      id="appoint"
+      className=" flex flex-col w-full justify-center items-center gap-[3rem] my-10"
+    >
       <div className=" flex flex-col items-center">
         <div className="flex items-center my-5 gap-4">
           <span className=" font-semibold select-none text-primary">
@@ -307,8 +289,7 @@ function Appoint() {
         </div>
       </div>
 
-      <div className=" flex w-full ">
-
+      <div className=" flex w-[80%] items-center justify-between ">
         <div className=" basis-[40%] mb-16 ">
           {" "}
           {/*  */}
@@ -320,15 +301,13 @@ function Appoint() {
           </p>
           <a
             href=""
-            className=" py-2 px-5 text-white bg-primary hover:bg-opacity-65"
+            className=" py-3 px-5 text-white bg-primary hover:bg-opacity-65"
           >
-            Trouver un avocat
+            Prendre un rendez-vous{" "}
           </a>
         </div>
 
-
         <img src={scene} className="" alt="" />
-
       </div>
     </section>
   );

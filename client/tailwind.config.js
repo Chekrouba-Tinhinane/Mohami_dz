@@ -5,7 +5,8 @@ module.exports = {
     extend: {
       colors: {
         lightBrown: "#FAF5EE",
-        primary: "#D4AD6B"
+        primary: "#D4AD6B",
+        lightTypo: "#563D2B"
       },
     },
   },

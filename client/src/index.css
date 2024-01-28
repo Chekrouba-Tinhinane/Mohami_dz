@@ -5,30 +5,29 @@
 @tailwind utilities;
 
 @layer base {
-    a {
-      @apply cursor-pointer;
-    }
-    h1 {
-      @apply text-[50px] font-bold;
-    }
-    h2 {
-      @apply text-[2.5rem] font-bold;
-    }
-    p {
-    }
-    h3 {
-    }
-    h4 {
-      @apply text-[1rem] font-semibold;
-    }
-    textarea {
-    }
-    input {
-    }
-    select {
-    }
+  a {
+    @apply cursor-pointer;
   }
-  
+  h1 {
+    @apply text-[50px] font-bold;
+  }
+  h2 {
+    @apply text-[2.5rem] font-bold;
+  }
+  p {
+  }
+  h3 {
+  }
+  h4 {
+    @apply text-[1rem] font-semibold;
+  }
+  textarea {
+  }
+  input {
+  }
+  select {
+  }
+}
 
 * {
   /*font-family: 'Cormorant Garamond', serif; */
@@ -39,19 +38,19 @@
 }
 
 .recursive {
-    font-family: 'Cormorant Garamond', serif;
+  font-family: "Cormorant Garamond", serif;
 }
 
 .nav-item::after {
-    content: "";
-    display: block;
-    width: 0;
-    height: 2px;
-    margin-top: 5px;
-    background-color: rgb(212, 173, 107);
-    transition: width 0.4s;
-  }
-  
-  .nav-item:hover::after {
-    width: 100%;
-  }
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  margin-top: 5px;
+  background-color: rgb(212, 173, 107);
+  transition: width 0.4s;
+}
+
+.nav-item:hover::after {
+  width: 100%;
+}
