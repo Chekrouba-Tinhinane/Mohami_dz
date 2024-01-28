@@ -22,7 +22,7 @@ def get_db():
 
 
 @routerRating.post('/register_rating')
-async def register_client(client_id: int, avocat_id: int, rating: float, comment: str = None,db:Session=Depends(get_db)):
+async def register_client(client_id: int=Body(...), avocat_id: int=Body(...), rating: float=Body(...), comment: str = Body(...),db:Session=Depends(get_db)):
     return crud.rate_avocat(db,client_id,avocat_id, rating, comment)
 
 @routerRating.get('/top_rated')

@@ -18,8 +18,20 @@ def register_client(db:Session,client:schemas.ClientCreate):
     return response
 
 def show_avocats(db:Session):
-    avocats=db.query(models.Avocat).all()
-    return avocats
+    query = (
+        db.query(models.Avocat, models.Speciality)
+        .join(models.Speciality, models.Avocat.id_speciality == models.Speciality.id)
+        .all()
+    )
+    formatted_result = [
+        {
+            "avocat": avocat,
+            "speciality_name": speciality.name,
+        }
+        for avocat, speciality in query
+    ]
+
+    return formatted_result
 
 def register_avocat(db:Session,avocat:schemas.AvocatCreate,id_speciality:models.Speciality.id):
         try:
@@ -82,7 +94,6 @@ def show_approved_avocats(db:Session):
 
 def show_specialities(db:Session):
     specialities=db.query(models.Speciality).all()
-    print(specialities)
     return specialities
 
 def register_specialities(db:Session,speciality:schemas.speciality):
@@ -180,10 +191,38 @@ def afficher_creneau(db:Session,avocat:int):
     return creneaux
 
 def afficher_rdv_pris_par_client(db:Session,client:int):
-    return db.query(models.Rdv_pris).filter(models.Rdv_pris.id_client==client).all()
+    query = (
+        db.query(models.Avocat, models.Rdv_pris)
+        .join(models.Rdv_pris, models.Avocat.id == models.Rdv_pris.id_avocat)
+        .filter(models.Rdv_pris.id_client==client)
+        .all()
+    )
+    formatted_result = [
+        {
+            "rdv": rdv,
+            "avocat": avocat,
+        }
+        for avocat, rdv in query
+    ]
+
+    return formatted_result
 
 def afficher_rdv_pris_par_author(db:Session,author:int):
-    return db.query(models.Rdv_pris).filter(models.Rdv_pris.id_avocat==author).all()
+    query = (
+        db.query(models.Client, models.Rdv_pris)
+        .join(models.Rdv_pris, models.Client.id == models.Rdv_pris.id_client)
+        .filter(models.Rdv_pris.id_avocat==author)
+        .all()
+    )
+    formatted_result = [
+        {
+            "rdv": rdv,
+            "client": client,
+        }
+        for client, rdv in query
+    ]
+
+    return formatted_result
 
 def rate_avocat(db: Session, client_id: int, avocat_id: int, rating: float, comment: str = None):
         rating_entry = models.Rating(client_id=client_id, avocat_id=avocat_id, rating=rating, comment=comment)
@@ -204,7 +243,21 @@ def get_top_rated_avocats(db: Session, limit: int = 5):
     return top_rated_avocats
 
 def get_rating_and_comments_by_avocats(db:Session,id_avocat:int):
-    return db.query(models.Rating).filter(models.Rating.avocat_id==id_avocat).all()
+    query = (
+        db.query(models.Rating, models.Client)
+        .join(models.Client, models.Rating.client_id == models.Client.id)
+        .filter(id_avocat==models.Rating.avocat_id)
+        .all()
+    )
+    formatted_result = [
+        {
+            "client": client,
+            "rating": rating,
+        }
+        for rating, client in query
+    ]
+
+    return formatted_result
 
 def show_client_by_id(db:Session,id:int):
     return db.query(models.Client).filter(models.Client.id==id).first()
