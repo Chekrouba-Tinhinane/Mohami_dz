@@ -227,13 +227,13 @@ function Hero() {
             <span className=" font-semibold select-none">____________</span>
           </div>
 
-          <div className=" flex gap-8 w-[80%] bg-white text-black h-[28rem] px-10 my-4 ">
+          <div className=" flex gap-8 w-[80%] bg-white text-black h-[28rem] px-10 mb-10 ">
             <div className="relative basis-[30%]">
               {" "}
               <img
                 src={maria}
                 alt=""
-                className=" absolute -top-5  object-contain"
+                className=" absolute -top-12  object-contain"
               />
             </div>
             <div className=" flex flex-col basis-[70%] my-4 gap-6  ">

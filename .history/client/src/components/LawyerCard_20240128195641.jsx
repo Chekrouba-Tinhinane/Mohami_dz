@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { useUserData } from "../App";
 import axios from "axios";
 
-const LawyerCard = ({allL, admin, lawyer, onDelete }) => {
+const LawyerCard = ({all, admin, lawyer, onDelete }) => {
   const { lawyers, setLawyers } = useUserData();
 
   const handleApproving = () => {
@@ -66,7 +66,7 @@ const LawyerCard = ({allL, admin, lawyer, onDelete }) => {
                 Voir Profil
               </button>
             </Link>
-            {admin && allL && (
+            {admin && !all (
               <>
                 <button
                   onClick={handleApproving}

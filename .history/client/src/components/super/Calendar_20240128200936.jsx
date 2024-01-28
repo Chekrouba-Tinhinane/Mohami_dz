@@ -52,7 +52,7 @@ const TimeSelection = ({
       transition: { type: "tween", duration: 0.4 },
     }}
     className="bg-white flex flex-col justify-around px-3 py-2 rounded-md modal"
-    style={{ height: "420px" }} // Fixed height for time selection container
+    style={{ height: "400px" }} // Fixed height for time selection container
   >
     <div className="mb-3 border-b pb-2 flex justify-between items-center px-1">
       <h4 className="">Selected time slot:</h4>
@@ -85,13 +85,16 @@ const TimeSelection = ({
         />
       )}
     </FixedSizeList>
-    <div className="flex justify-between mt-2">
+    <div className="flex justify-between mt-3">
+      <button onClick={onCancel} className="bg-red-500 text-white p-2 rounded">
+        Cancel
+      </button>
       <button
         onClick={() => {
           onNext();
           onClose(); // Close the modal on booking
         }}
-        className="bg-primary text-white px-3 rounded-sm"
+        className="bg-primary text-white p-2 rounded"
       >
         Book Appointment
       </button>
@@ -243,7 +246,7 @@ export const Calendar = ({ lawyer, onClose }) => {
       );
       // Log the response data and a success message
       console.log(response.data);
-      console.log(response);
+      console.log(response)
       response.data.erreur
         ? alert("Nombre maximum de rendez-vous atteint pour cette période.")
         : alert("Appointment booked! Thank you!");
@@ -264,6 +267,7 @@ export const Calendar = ({ lawyer, onClose }) => {
           <div className="flex">
             {showTimeSelection ? (
               <div className="ml-4">
+                <p>2/ Choose Time:</p>
                 {allTimes.length > 0 ? (
                   <TimeSelection
                     allTimes={allTimes}

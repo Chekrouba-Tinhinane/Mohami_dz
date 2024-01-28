@@ -106,7 +106,7 @@ const EvalLawyers = ({all, lawyers, onDelete }) => {
             <LawyerList
               onDelete={onDelete}
               admin
-              all={all}
+              all
               lawyers={lawyers}
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
@@ -131,7 +131,7 @@ const LawyerList = ({ admin, all, onDelete, lawyers, currentPage, itemsPerPage }
   return (
     <div className="flex flex-col gap-8 px-6 py-3">
       {currentLawyers.map((lawyer, index) => (
-        <LawyerCard allL={all} onDelete={onDelete} admin key={index} lawyer={lawyer} />
+        <LawyerCard all={all} onDelete={onDelete} admin key={index} lawyer={lawyer} />
       ))}
     </div>
   );

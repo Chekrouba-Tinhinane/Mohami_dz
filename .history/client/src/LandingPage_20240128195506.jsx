@@ -214,7 +214,7 @@ function Hero() {
     <section id="hero" className=" relative flex w-screen justify-center my-8 ">
       <img
         src={section2}
-        className="w-full h-[730px] bg-center object-cover"
+        className="w-full h-[680px] bg-center object-cover"
         alt=""
       />
       <div className="absolute top-0 text-white">
@@ -233,7 +233,7 @@ function Hero() {
               <img
                 src={maria}
                 alt=""
-                className=" absolute -top-5  object-contain"
+                className=" absolute -top-12  object-contain"
               />
             </div>
             <div className=" flex flex-col basis-[70%] my-4 gap-6  ">

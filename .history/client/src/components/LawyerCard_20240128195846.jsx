@@ -66,7 +66,7 @@ const LawyerCard = ({allL, admin, lawyer, onDelete }) => {
                 Voir Profil
               </button>
             </Link>
-            {admin && allL && (
+            {admin && !allL && (
               <>
                 <button
                   onClick={handleApproving}

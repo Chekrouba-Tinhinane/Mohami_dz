@@ -233,7 +233,7 @@ function Hero() {
               <img
                 src={maria}
                 alt=""
-                className=" absolute -top-5  object-contain"
+                className=" absolute -top-10  object-contain"
               />
             </div>
             <div className=" flex flex-col basis-[70%] my-4 gap-6  ">

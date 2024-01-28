@@ -81,7 +81,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-const EvalLawyers = ({all, lawyers, onDelete }) => {
+const EvalLawyers = ({ lawyers, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [searchResults, setSearchResults] = useState([]); // Initialize searchResults as an empty array
@@ -106,7 +106,7 @@ const EvalLawyers = ({all, lawyers, onDelete }) => {
             <LawyerList
               onDelete={onDelete}
               admin
-              all={all}
+              all
               lawyers={lawyers}
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
@@ -131,7 +131,7 @@ const LawyerList = ({ admin, all, onDelete, lawyers, currentPage, itemsPerPage }
   return (
     <div className="flex flex-col gap-8 px-6 py-3">
       {currentLawyers.map((lawyer, index) => (
-        <LawyerCard allL={all} onDelete={onDelete} admin key={index} lawyer={lawyer} />
+        <LawyerCard onDelete={onDelete} admin key={index} lawyer={lawyer} />
       ))}
     </div>
   );

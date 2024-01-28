@@ -52,7 +52,7 @@ const TimeSelection = ({
       transition: { type: "tween", duration: 0.4 },
     }}
     className="bg-white flex flex-col justify-around px-3 py-2 rounded-md modal"
-    style={{ height: "420px" }} // Fixed height for time selection container
+    style={{ height: "400px" }} // Fixed height for time selection container
   >
     <div className="mb-3 border-b pb-2 flex justify-between items-center px-1">
       <h4 className="">Selected time slot:</h4>
@@ -264,6 +264,7 @@ export const Calendar = ({ lawyer, onClose }) => {
           <div className="flex">
             {showTimeSelection ? (
               <div className="ml-4">
+                <p>2/ Choose Time:</p>
                 {allTimes.length > 0 ? (
                   <TimeSelection
                     allTimes={allTimes}

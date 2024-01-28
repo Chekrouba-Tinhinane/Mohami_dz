@@ -56,7 +56,7 @@ const AdminPage = () => {
               Trouver Un Avocat
             </h2>
             {/* Toggle button for switching between pending and approved */}
-            <button onClick={toggleView} className="bg-primary text-white font-semibold px-5 py-1.5 rounded-sm">
+            <button onClick={toggleView}>
               {showPending ? "Voir les avocats approuvés" : "Voir les avocats en attente"}
             </button>
             {/* <SearchContainer setLawyers={setLawyers} /> */}
@@ -66,7 +66,7 @@ const AdminPage = () => {
             {showPending ? (
               <EvalLawyers all={true} onDelete={handleDeleteLawyer} lawyers={pendingLawyers} />
             ) : (
-              <EvalLawyers all={false} onDelete={handleDeleteLawyer} lawyers={lawyers} />
+              <EvalLawyers all onDelete={handleDeleteLawyer} lawyers={lawyers} />
             )}
           </div>
         </div>

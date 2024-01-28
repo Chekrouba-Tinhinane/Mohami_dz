@@ -56,7 +56,7 @@ const AdminPage = () => {
               Trouver Un Avocat
             </h2>
             {/* Toggle button for switching between pending and approved */}
-            <button onClick={toggleView} className="bg-primary text-white font-semibold px-5 py-1.5 rounded-sm">
+            <button onClick={toggleView} className="bg-primary text-white font-semibold px-4 py-1.5">
               {showPending ? "Voir les avocats approuvés" : "Voir les avocats en attente"}
             </button>
             {/* <SearchContainer setLawyers={setLawyers} /> */}

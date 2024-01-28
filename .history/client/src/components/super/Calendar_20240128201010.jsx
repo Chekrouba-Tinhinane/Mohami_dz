@@ -264,6 +264,7 @@ export const Calendar = ({ lawyer, onClose }) => {
           <div className="flex">
             {showTimeSelection ? (
               <div className="ml-4">
+                <p>2/ Choose Time:</p>
                 {allTimes.length > 0 ? (
                   <TimeSelection
                     allTimes={allTimes}
