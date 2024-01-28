@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: api_project/Dockerfile
     ports:
-      - "8000:80"
+      - "8000:8000"
 
   frontend:
     build:

@@ -104,7 +104,7 @@ const ResultsPage = ({ lawyers }) => {
   const handleSearch = (query) => {
     axios
       .get(
-        `http://192.168.137.210:8000/avocat/recherche-basic?keyword=${query}`
+        `http://localhost:8000/avocat/recherche-basic?keyword=${query}`
       )
       .then((response) => {
         console.log(response.data);

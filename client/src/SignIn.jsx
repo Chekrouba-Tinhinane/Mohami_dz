@@ -30,7 +30,7 @@ const SignIn = () => {
       }
 
       const response = await axios.post(
-        `http://192.168.137.210:8000/${loginEndpoint}`,
+        `http://localhost:8000/${loginEndpoint}`,
         values
       );
         console.log(response.data)
