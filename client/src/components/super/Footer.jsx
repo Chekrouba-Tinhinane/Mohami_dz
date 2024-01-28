@@ -32,9 +32,10 @@ function Footer() {
               <li>Contactez nous</li>
             </ul>
 
-            <div className="language-selector font-light">
+            <div className="language-selector ">
               <label htmlFor="language-select">Language:</label>
-              <select
+              <select 
+              className="bg-transparent text-white font-bold"
                 id="language-select"
                 value={language}
                 onChange={handleLanguageChange}

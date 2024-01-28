@@ -1,7 +1,7 @@
 import React from "react";
 import gps from "../assets/icons/gps.svg"
 
-const Location = () => {
+const Location = ({lawyer}) => {
   return (
     <div id="location" className=" w-full">
       <iframe

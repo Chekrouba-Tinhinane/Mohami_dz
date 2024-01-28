@@ -1,47 +1,59 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import google from "./assets/icons/google.svg";
 import scene from "./assets/sign/scene2.jpg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useUserData } from "./App";
 
 const SignIn = () => {
+  const [userType, setUserType] = useState("client");
+  const { setUserData } = useUserData();
+  const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
     try {
-      console.log(values);
+      let loginEndpoint = "";
+      switch (userType) {
+        case "client":
+          loginEndpoint = "client/login";
+          break;
+        case "avocat":
+          loginEndpoint = "avocat/login";
+          break;
+        case "admin":
+          loginEndpoint = "admin/login";
+          break;
+        default:
+          break;
+      }
+
       const response = await axios.post(
-        "http://192.168.1.127:8000/avocat/login",
+        `http://192.168.137.210:8000/${loginEndpoint}`,
         values
       );
-      console.log(response.data);
-      const { token, user } = response.data;
+        console.log(response.data)
+      const { jwt, UserData } = response.data;
+      setUserData(UserData || response.data);
 
-      localStorage.setItem("token", token);
+      switch (userType) {
+        case "client":
+          navigate("/Search");
+          break;
+        case "avocat":
+          navigate("/SelfProfile");
+          break;
+        case "admin":
+          navigate("/AdminPage");
+          // Redirect admin to admin-specific page
+          break;
+        default:
+          break;
+      }
     } catch (error) {
       console.error("Login error:", error);
-      /* setErrors({
-        email: "Invalid credentials",
-        password: "Invalid credentials",
-      }); */
     }
-  };
-
-  const handleEmailChange = (e) => {
-    const { value } = e.target;
-    setValues((prevValues) => ({
-      ...prevValues,
-      email: value,
-    }));
-  };
-
-  const handlePasswordChange = (e) => {
-    const { value } = e.target;
-    setValues((prevValues) => ({
-      ...prevValues,
-      password: value,
-    }));
   };
 
   return (
@@ -62,88 +74,146 @@ const SignIn = () => {
         </header>
 
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ username: "", email: "", password: "" }}
           validationSchema={Yup.object({
-            email: Yup.string()
-              .email("Invalid email address")
-              .required("Email is required"),
-            password: Yup.string()
-              .required("Password is required")
-              .min(8, "Password must be at least 8 characters long"),
+            username:
+              userType === "client"
+                ? Yup.string().required("Username is required")
+                : null,
+            email:
+              userType === "avocat"
+                ? Yup.string().email("Invalid email format").required("Email is required")
+                : null,
+            password: Yup.string().required("Password is required"),
           })}
           onSubmit={handleSubmit}
         >
-          <Form className="basis-[60%] w-[65%]">
-            <div className="flex flex-col">
-              <label htmlFor="email">Email</label>
-              <Field
-                type="email"
-                id="email"
-                name="email"
-                className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
-                placeholder="Ex: email_81194@gmail.com"
-              />
-              <ErrorMessage
-                name="email"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
+          {({ errors, touched }) => (
+            <Form className="basis-[60%] w-[65%]">
+              <div className="flex flex-col mb-8">
+                <label htmlFor="userType">Se connecter en tant que:</label>
+                <select
+                  id="userType"
+                  name="userType"
+                  value={userType}
+                  onChange={(e) => setUserType(e.target.value)}
+                  className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
+                >
+                  <option value="client">Client</option>
+                  <option value="avocat">Avocat</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+              {userType === "client" && (
+                <div className="flex flex-col">
+                  <label htmlFor="username">Nom d'utilisateur</label>
+                  <Field
+                    type="text"
+                    id="username"
+                    name="username"
+                    className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
+                    placeholder="Ex: john_doe"
+                  />
+                  <ErrorMessage
+                    name="username"
+                    component="div"
+                    className="text-red-500 text-xs"
+                  />
+                </div>
+              )}
 
-            <div className="flex flex-col mt-8">
-              <label htmlFor="password">Mot de passe</label>
-              <Field
-                type="password"
-                id="password"
-                name="password"
-                className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
-                placeholder="Enter your password"
-              />
-              <ErrorMessage
-                name="password"
-                component="div"
-                className="text-red-500 text-xs"
-              />
-            </div>
+              {userType === "avocat" && (
+                <div className="flex flex-col">
+                  <label htmlFor="email">Email</label>
+                  <Field
+                    type="email"
+                    id="email"
+                    name="email"
+                    className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
+                    placeholder="Ex: john@example.com"
+                  />
+                  <ErrorMessage
+                    name="email"
+                    component="div"
+                    className="text-red-500 text-xs"
+                  />
+                </div>
+              )}
 
-            <div className="flex justify-between mb-9 mt-4">
-              <div className="flex gap-2 items-center">
+              {userType === "admin" && (
+                <div className="flex flex-col">
+                  <label htmlFor="username">Admin Username</label>
+                  <Field
+                    type="text"
+                    id="username"
+                    name="username"
+                    className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
+                    placeholder="Enter admin username"
+                  />
+                  <ErrorMessage
+                    name="username"
+                    component="div"
+                    className="text-red-500 text-xs"
+                  />
+                </div>
+              )}
+
+              <div className="flex flex-col mt-8">
+                <label htmlFor="password">Mot de passe</label>
                 <Field
-                  type="checkbox"
-                  name="remember"
-                  id="remember"
-                  className="mr-2"
+                  type="password"
+                  id="password"
+                  name="password"
+                  className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
+                  placeholder="Enter your password"
                 />
-                <label htmlFor="remember" className="text-xs">
-                  Se rappeler de moi
-                </label>
+                <ErrorMessage
+                  name="password"
+                  component="div"
+                  className="text-red-500 text-xs"
+                />
               </div>
 
-              <a className="text-xs opacity-70 cursor-pointer">
-                Mot de passe oublié?
-              </a>
-            </div>
+              
 
-            <div className="flex flex-col items-center gap-4">
-              <button
-                className="bg-primary recursive p-2 tracking-wider font-medium text-white w-full"
-                type="submit"
-                onClick={handleSubmit}
-              >
-                Se connecter
-              </button>
-              <a
-                href=""
-                className="border border-primary recursive p-2 tracking-wider font-medium justify-center w-full flex gap-4 flex-shrink-0 min-w-max items-center"
-              >
-                <img src={google} className="w-[5%]" alt="" />
-                <span className="min-w-max text-sm">Log in with Google</span>
-              </a>
-            </div>
-          </Form>
+              <div className="flex justify-between mb-9 mt-4">
+                <div className="flex gap-2 items-center">
+                  <Field
+                    type="checkbox"
+                    name="remember"
+                    id="remember"
+                    className="mr-2"
+                  />
+                  <label htmlFor="remember" className="text-xs">
+                    Se rappeler de moi
+                  </label>
+                </div>
+
+                <a className="text-xs opacity-70 cursor-pointer">
+                  Mot de passe oublié?
+                </a>
+              </div>
+
+              <div className="flex flex-col items-center gap-4">
+                <button
+                  className="bg-primary recursive p-2 tracking-wider font-medium text-white w-full"
+                  type="submit"
+                >
+                  Se connecter
+                </button>
+                <a
+                  href=""
+                  className="border border-primary recursive p-2 tracking-wider font-medium justify-center w-full flex gap-4 flex-shrink-0 min-w-max items-center"
+                >
+                  <img src={google} className="w-[5%]" alt="" />
+                  <span className="min-w-max text-sm">Log in with Google</span>
+                </a>
+              </div>
+            </Form>
+          )}
         </Formik>
 
-        <footer className="basis-[10%] mt-32">
+        <footer className="basis-[10%] mt-20">
           <span className="text-xs opacity-70">
             Vous n’avez pas un compte ?
           </span>{" "}
