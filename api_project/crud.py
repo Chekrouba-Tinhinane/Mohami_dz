@@ -66,8 +66,21 @@ def update_avocat(db:Session,new_avocat:schemas.AvocatCreate,id_avocat:int):
 
 
 def show_pending_avocats(db:Session):
-        avocats=db.query(models.Avocat).filter(models.Avocat.verified==False).all()
-        return avocats
+    query = (
+        db.query(models.Avocat, models.Speciality)
+        .join(models.Speciality, models.Avocat.id_speciality == models.Speciality.id)
+        .filter(models.Avocat.verified==False)
+        .all()
+    )
+    formatted_result = [
+        {
+            "avocat": avocat,
+            "speciality_name": speciality.name,
+        }
+        for avocat, speciality in query
+    ]
+
+    return formatted_result
 
 def verify_avocats(db:Session,id_avocat:int):
         db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
@@ -89,8 +102,21 @@ def delete_avocats(db:Session,id_avocat:int):
         return {"success":f"avocat '{db_old_avocat.id}' has been deleted"}
 
 def show_approved_avocats(db:Session):
-    avocats=db.query(models.Avocat).filter(models.Avocat.verified==True).all()
-    return avocats
+    query = (
+        db.query(models.Avocat, models.Speciality)
+        .join(models.Speciality, models.Avocat.id_speciality == models.Speciality.id)
+        .filter(models.Avocat.verified==True)
+        .all()
+    )
+    formatted_result = [
+        {
+            "avocat": avocat,
+            "speciality_name": speciality.name,
+        }
+        for avocat, speciality in query
+    ]
+
+    return formatted_result
 
 def show_specialities(db:Session):
     specialities=db.query(models.Speciality).all()
@@ -209,17 +235,18 @@ def afficher_rdv_pris_par_client(db:Session,client:int):
 
 def afficher_rdv_pris_par_author(db:Session,author:int):
     query = (
-        db.query(models.Client, models.Rdv_pris)
+        db.query(models.Client, models.Rdv_pris,models.Interval_libre)
         .join(models.Rdv_pris, models.Client.id == models.Rdv_pris.id_client)
+        .join(models.Interval_libre, models.Rdv_pris.id_interval_libre == models.Interval_libre.id)
         .filter(models.Rdv_pris.id_avocat==author)
         .all()
     )
     formatted_result = [
         {
-            "rdv": rdv,
+            "timing": rdv,
             "client": client,
         }
-        for client, rdv in query
+        for client, useless,rdv in query
     ]
 
     return formatted_result
@@ -283,14 +310,27 @@ def login_client(db:Session,username:str,password:str):
     return response
 
 def login_avocat(db:Session,email:str,password:str):
-    avocat=db.query(models.Avocat).filter(models.Avocat.email==email).filter(models.Avocat.password==password).first()
-    if avocat==None:
+    query=(
+         db.query(models.Avocat,models.Speciality)
+        .join(models.Speciality,models.Speciality.id==models.Avocat.id_speciality)
+        .filter(models.Avocat.email==email).filter(models.Avocat.password==password)
+        .all()
+        )
+    if query==None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="wrong credentials"
         )
-    response=signJWT_avocat(avocat.id)
-    return response
+    formatted_result = [
+        {
+            "avocat": avocat,
+            "speciality": speciality
+        }
+        for avocat, speciality in query
+    ]
+
+    return formatted_result[0]
+
 
 def login_admin(db:Session,username:str,password:str):
     Admin=db.query(models.Admin).filter(models.Admin.username==username).filter(models.Admin.password==password).first()

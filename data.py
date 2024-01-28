@@ -19,11 +19,13 @@ specialities.remove('')
 admin_jwt='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInJvbGUiOiJhZG1pbiJ9.8Uh_Dz9GzqMOrZuWIH1a_WFlcLGXB-eCXlKnwIR0Yps'
 
 # Specify the target URL
-url = "http://127.0.0.1:8000/speciality/create_speciality"
 
-cookies = {"jwt": admin_jwt}
+
+
 
 def adding_specialities():
+    url = "http://127.0.0.1:8000/speciality/create_speciality"
+    cookies = {"jwt": admin_jwt}
     for name in specialities:
         payload = {"name": name}
         response = requests.post(url, json=payload, cookies=cookies)
@@ -35,7 +37,7 @@ def adding_specialities():
             print("Response content:", response.text)
 
 def adding_avocat():
-     Tel=1
+     Tel=669234123
      for avocat in data:
           first_name=avocat['full_name'].strip().split(' ')[0]
           last_name=' '.join(avocat['full_name'].strip().split(' ')[1:])
@@ -74,12 +76,21 @@ def adding_avocat():
             "id_speciality": id_speciality
         }
           url = "http://127.0.0.1:8000/avocat/register_avocat"
-          response = requests.post(url, json=payload, cookies=cookies)
+          response = requests.post(url, json=payload)
           if response.status_code == 200:
                 print(response.content)
           else:
                 print(f"Request failed with status code {response.status_code}")
                 print("Response content:", response.text)
 
-adding_specialities()
-adding_avocat()
+
+def approve_all():
+     url = "http://127.0.0.1:8000/avocat/avocat_verify"
+     for i in range(1,200):
+          response = requests.post(url, data=str(i))
+          if response.status_code == 200:
+                print(response.content)
+          else:
+                print(f"Request failed with status code {response.status_code}")
+                print("Response content:", response.text)
+approve_all()

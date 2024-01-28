@@ -26,11 +26,11 @@ def get_db():
 async def prendre_rdv(rdv:schemas.Rdv_prisCreate,db:Session=Depends(get_db)):
     return crud.take_rdv(db,rdv)
 
-@routerRdv.post("/afficher rdv_par_client")
+@routerRdv.post("/afficher_rdv_par_client")
 async def afficher_rdv(client:int=Body(...),db:Session=Depends(get_db)):
     return crud.afficher_rdv_pris_par_client(db,client)
 
-@routerRdv.post("/afficher rdv_par_avocat")
+@routerRdv.post("/afficher_rdv_par_avocat")
 async def afficher_rdv(avocat:int=Body(...),db:Session=Depends(get_db)):
     return crud.afficher_rdv_pris_par_author(db,avocat)
 
