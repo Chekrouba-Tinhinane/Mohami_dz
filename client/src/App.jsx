@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, createContext, useContext, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
@@ -12,139 +12,52 @@ import SignUp from "./components/SignUp";
 import maria from "./assets/maria/maria.jpg";
 import ClientSignIn from "./ClientSignIn";
 import AvailabilityForm from "./AvailabilityForm";
+import axios from "axios"
 
-const lawyers = [
-  {
-    id: 1,
-    name: "Lawyer 1",
-    email: "email_1@example.com",
-    phoneNumber: "000-000-01",
-    imageUrl: maria,
-  },
-  {
-    id: 2,
-    name: "Lawyer 2",
-    email: "email_2@example.com",
-    phoneNumber: "000-000-02",
-    imageUrl: maria,
-  },
-  {
-    id: 3,
-    name: "Lawyer 3",
-    email: "email_3@example.com",
-    phoneNumber: "000-000-03",
-    imageUrl: maria,
-  },
-  {
-    id: 4,
-    name: "Lawyer 4",
-    email: "email_4@example.com",
-    phoneNumber: "000-000-04",
-    imageUrl: maria,
-  },
-  {
-    id: 5,
-    name: "Lawyer 5",
-    email: "email_5@example.com",
-    phoneNumber: "000-000-05",
-    imageUrl: maria,
-  },
-  {
-    id: 6,
-    name: "Lawyer 6",
-    email: "email_6@example.com",
-    phoneNumber: "000-000-06",
-    imageUrl: maria,
-  },
-  {
-    id: 7,
-    name: "Lawyer 7",
-    email: "email_7@example.com",
-    phoneNumber: "000-000-07",
-    imageUrl: maria,
-  },
-  {
-    id: 8,
-    name: "Lawyer 8",
-    email: "email_8@example.com",
-    phoneNumber: "000-000-08",
-    imageUrl: maria,
-  },
-  {
-    id: 9,
-    name: "Lawyer 9",
-    email: "email_9@example.com",
-    phoneNumber: "000-000-09",
-    imageUrl: maria,
-  },
-  {
-    id: 10,
-    name: "Lawyer 10",
-    email: "email_10@example.com",
-    phoneNumber: "000-000-10",
-    imageUrl: maria,
-  },
-  {
-    id: 11,
-    name: "Lawyer 11",
-    email: "email_11@example.com",
-    phoneNumber: "000-000-11",
-    imageUrl: maria,
-  },
-  {
-    id: 12,
-    name: "Lawyer 12",
-    email: "email_12@example.com",
-    phoneNumber: "000-000-12",
-    imageUrl: maria,
-  },
-  {
-    id: 13,
-    name: "Lawyer 13",
-    email: "email_13@example.com",
-    phoneNumber: "000-000-13",
-    imageUrl: maria,
-  },
-  {
-    id: 14,
-    name: "Lawyer 14",
-    email: "email_14@example.com",
-    phoneNumber: "000-000-14",
-    imageUrl: maria,
-  },
-  {
-    id: 15,
-    name: "Lawyer 15",
-    email: "email_15@example.com",
-    phoneNumber: "000-000-15",
-    imageUrl: maria,
-  },
-];
+const UserDataContext = createContext();
 
 const App = () => {
+  const [lawyers, setLawyers] = useState([]);
+
+  useEffect(() => {
+    const fetchLawyers = async () => {
+      try {
+        const response = await axios.get(
+          "http://192.168.137.210:8000/avocat/avocat_list"
+        );
+        console.log(response.data)
+        setLawyers(response.data);
+      } catch (error) {
+        console.error("Error fetching lawyers:", error);
+      }
+    };
+
+    fetchLawyers(); // Call fetchLawyers when the component mounts
+  }, []); // Empty dependency array ensures fetchLawyers is called only onc
+
+  const [userData, setUserData] = useState(null);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path={"/"} element={<LandingPage />} />
+    <UserDataContext.Provider value={{ userData, setUserData }}>
+      <BrowserRouter>
+        <Routes>
+          <Route path={"/"} element={<LandingPage />} />
+          <Route
+          path={"/profile/:id"}
+          element={<HomeLayout pageComponent={<Profile lawyers={lawyers} />} />}
+        />
+          <Route path={"/Signin"} element={<SignIn />} />
+          <Route path={"/ClientSignin"} element={<ClientSignIn />} />
 
-        <Route path={"/Signin"} element={<SignIn />} />
-        <Route path={"/ClientSignin"} element={<ClientSignIn />} />
-
-        <Route
-          path={"/Search"}
-          element={<HomeLayout pageComponent={<Search />} />}
-        />
-        <Route
-          path={"/Available"}
-          element={<HomeLayout pageComponent={<AvailabilityForm />} />}
-        />
-        <Route
-          path={"/Results"}
-          element={
-            <HomeLayout pageComponent={<ResultsPage lawyers={lawyers} />} />
-          }
-        />
-        {/* <Route path={"/Signin"} element={<SignIn />} />
+          <Route
+            path={"/Search"}
+            element={<HomeLayout pageComponent={<Search lawyers={lawyers} setLawyers={setLawyers} />} />}
+          />
+          <Route
+            path={"/Available"}
+            element={<HomeLayout pageComponent={<AvailabilityForm />} />}
+          />
+          {/* <Route path={"/Signin"} element={<SignIn />} />
         <Route
           path={"/Schedule"}
           element={<HomeLayout pageComponent={<Schedule />} />}
@@ -155,18 +68,21 @@ const App = () => {
           path={"/profile/:id"}
           element={<HomeLayout pageComponent={<Profile />} />}
         /> */}
-        <Route
-          path={"/profile"}
-          element={<HomeLayout pageComponent={<Profile />} />}
-        />
-        <Route
-          path={"/SignUp"}
-          element={<HomeLayout pageComponent={<SignUp />} />}
-        />
-      </Routes>
-    </BrowserRouter>
+          <Route
+            path={"/profile"}
+            element={<HomeLayout pageComponent={<Profile />} />}
+          />
+          <Route
+            path={"/SignUp"}
+            element={<HomeLayout pageComponent={<SignUp />} />}
+          />
+        </Routes>
+      </BrowserRouter>
+    </UserDataContext.Provider>
   );
 };
+
+export const useUserData = () => useContext(UserDataContext);
 
 export default App;
 

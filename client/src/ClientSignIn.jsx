@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, createContext, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import google from "./assets/icons/google.svg";
 import scene from "./assets/sign/scene2.jpg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { useUserData } from "./App";
+
+
 
 const ClientSignIn = () => {
-  const navigate = useNavigate();
 
+const {userData, setUserData} = useUserData()
+const navigate = useNavigate();
+
+  
   const handleSubmit = async (values) => {
     try {
       console.log(values);
@@ -16,12 +22,13 @@ const ClientSignIn = () => {
         "http://192.168.137.210:8000/client/login",
         values
       );
-      console.log(response.data);
       const { jwt, UserData } = response.data;
 
       localStorage.setItem("token", jwt.token);
       document.cookie = `jwt=${jwt.token}`;
       console.log(document.cookie, UserData)
+      setUserData(UserData);
+
 
     
       // Navigate to "/Results" after successful login
@@ -32,7 +39,7 @@ const ClientSignIn = () => {
   };
 
   return (
-    <div className="flex h-screen items-center">
+     <div className="flex h-screen items-center">
       <div className="basis-[60%]">
         <img src={scene} className="bg- h-screen w-full object-cover" alt="" />
       </div>
@@ -135,7 +142,9 @@ const ClientSignIn = () => {
         </footer>
       </div>
     </div>
+    
   );
 };
+
 
 export default ClientSignIn;

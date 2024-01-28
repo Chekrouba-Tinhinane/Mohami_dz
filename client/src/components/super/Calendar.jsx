@@ -6,6 +6,7 @@ import { add, format, isAfter, differenceInMinutes } from "date-fns";
 import { getDaysArray, INTERVAL } from "../../config";
 import "../../Calendar.css";
 import axios from "axios";
+import { useUserData } from "../../App";
 
 const TimeRow = ({ index, style, data, activeTime, onClick }) => {
   const isActive = activeTime
@@ -78,7 +79,11 @@ const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext }) => (
   </motion.div>
 );
 
-export const Calendar = ({ avocat }) => {
+export const Calendar = ({ }) => {
+  const { userData } =  useUserData();
+
+
+
   const [availabilityIntervals, setAvailabilityIntervals] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -185,11 +190,12 @@ export const Calendar = ({ avocat }) => {
       : null;
 
   const handleBooking = async () => {
+    console.log(userData)
     // Define the booking data
     const bookingData = {
-      id_client: 1, // Replace with the actual client ID
+      id_client: userData?.userID, // Replace with the actual client ID
       id_avocat: 1, // Replace with the actual lawyer ID
-      id_interval_libre: 1, // Replace with the actual free time slot ID
+      id_interval_libre: 3, // Replace with the actual free time slot ID
     };
 
     try {
@@ -237,7 +243,7 @@ export const Calendar = ({ avocat }) => {
                     transition: { type: "tween", duration: 0.4 },
                   }}
                   className="bg-white flex flex-col justify-around pl-3 py-2 pr-3 rounded-md"
-                  style={{ }} // Fixed height for calendar container
+                  style={{}} // Fixed height for calendar container
                 >
                   <ReactCalendar
                     minDate={new Date()}
