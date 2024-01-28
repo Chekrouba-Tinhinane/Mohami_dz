@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Selector from "./Selector";
 import axios from "axios";
 
-const SearchContainer = () => {
+const SearchContainer = ({ setLawyers }) => {
   // State for selected options
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -44,9 +44,13 @@ const SearchContainer = () => {
     // Implement filtering functionality here
     // You can filter the lawyers based on the selected filters
     axios
-      .get("http://192.168.137.210:8000/avocat/recherche-avec-filtre", { params: filters }) // Adjust the URL according to your backend route
+      .get("http://192.168.137.210:8000/avocat/recherche-avec-filtre", {
+        params: filters,
+      }) // Adjust the URL according to your backend route
       .then((response) => {
-        console.log(response.data); // Update search results state with filtered data from the backend
+        console.log(response.data);
+        setLawyers(response.data);
+        // Update search results state with filtered data from the backend
         // Reset current page to 1 when applying new filters
       })
       .catch((error) => {
@@ -76,7 +80,6 @@ const SearchContainer = () => {
           <div>Localisation</div>
           <Selector
             location={true}
-            selectCategory="Localisation"
             selectedOption={selectedLocation}
             setSelectedOption={setSelectedLocation}
           />
