@@ -1,16 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { TextField, Button } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useUserData } from "../App";
 
 const SignUp = () => {
+  const [specialities, setSpecialities] = useState([]);
+  const { userData } = useUserData()
+
+  useEffect(() => {
+    const fetchSpecialities = async () => {
+      try {
+        const response = await axios.get(
+          "http://backend:8000/speciality/speciality_list"
+        );
+        setSpecialities(response.data);
+      } catch (error) {
+        console.error("Error fetching specialities:", error);
+      }
+    };
+
+    fetchSpecialities();
+  }, []);
+
   const handleCancel = (resetForm) => {
     resetForm();
   };
 
   const handleSubmit = async (values) => {
     try {
+
       const postData = {
         avocat: {
           first_name: values.first_name,
@@ -26,18 +47,17 @@ const SignUp = () => {
           // Assuming default values for latitude, longitude, and langue
           latitude: 0,
           longitude: 0,
-          langue: "french",
+          langue: values.langue,
         },
         id_speciality: values.id_speciality,
       };
       console.log(postData);
 
       const response = await axios.post(
-        "http://192.168.1.127:8000/avocat/register_avocat",
+        "http://backend:8000/avocat/register_avocat",
         postData
       );
 
-      alert("Avocat created successfully!");
       console.log(response.data);
     } catch (error) {
       console.error("Error creating avocat:", error);
@@ -47,13 +67,18 @@ const SignUp = () => {
   return (
     <div className="flex flex-col w-full bg-lightBrown py-5">
       <div className="bg-white flex flex-col mx-[4rem] px-[3rem] py-[1.5rem]">
-        <SignupForm onCancel={handleCancel} onSubmit={handleSubmit} />
+        <SignupForm
+          specialities={specialities}
+          onCancel={handleCancel}
+          onSubmit={handleSubmit}
+        />
       </div>
     </div>
   );
 };
 
-const SignupForm = ({ onCancel, onSubmit }) => {
+const SignupForm = ({ onCancel, onSubmit, specialities }) => {
+  const navigate = useNavigate()
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [values, setValues] = useState({
     first_name: "",
@@ -68,6 +93,7 @@ const SignupForm = ({ onCancel, onSubmit }) => {
     siteweb: "",
     photo: null,
     id_speciality: "",
+    langue:""
   });
 
   const handleChange = (e) => {
@@ -80,6 +106,7 @@ const SignupForm = ({ onCancel, onSubmit }) => {
 
   const handleSubmit = async () => {
     try {
+
       const postData = {
         avocat: {
           first_name: values.first_name,
@@ -96,24 +123,24 @@ const SignupForm = ({ onCancel, onSubmit }) => {
           // Assuming default values for latitude, longitude, and langue
           latitude: 0,
           longitude: 0,
-          langue: "french",
         },
         id_speciality: values.id_speciality,
       };
       console.log(postData);
 
+      navigate("/SignIn")
+
       const response = await axios.post(
-        "http://192.168.1.127:8000/avocat/register_avocat",
+        "http://backend:8000/avocat/register_avocat",
         postData
       );
 
-      alert("Avocat created successfully!");
       console.log(response.data);
     } catch (error) {
       console.error("Error creating avocat:", error);
     }
   };
-  const handleReset = () => {
+  /*  const handleReset = () => {
     setValues({
       first_name: "",
       last_name: "",
@@ -128,7 +155,7 @@ const SignupForm = ({ onCancel, onSubmit }) => {
       photo: null,
       id_speciality: "",
     });
-  };
+  }; */
 
   return (
     <div className="mx-auto w-[75%]">
@@ -138,24 +165,25 @@ const SignupForm = ({ onCancel, onSubmit }) => {
 
       <Formik
         validationSchema={Yup.object({
-          first_name: Yup.string().required("Required"),
-          last_name: Yup.string().required("Required"),
+          langue: Yup.string().required(""),
+          first_name: Yup.string().required(""),
+          last_name: Yup.string().required(""),
           email: Yup.string()
             .email("Invalid email address")
-            .required("Required"),
+            .required(""),
           password: Yup.string()
             .min(8, "Must be at least 8 characters")
-            .required("Required"),
+            .required(""),
           confirmPassword: Yup.string()
             .oneOf([Yup.ref("password"), null], "Passwords must match")
-            .required("Required"),
-          telephone: Yup.string().required("Required"),
-          ville: Yup.string().required("Required"),
-          region: Yup.string().required("Required"),
-          codepostal: Yup.string().required("Required"),
+            .required(""),
+          telephone: Yup.string().required(""),
+          ville: Yup.string().required(""),
+          region: Yup.string().required(""),
+          codepostal: Yup.string().required(""),
           siteweb: Yup.string().notRequired(),
           /*           photo: Yup.mixed().required("Required"),
-           */ id_speciality: Yup.string().required("Required"),
+           */ id_speciality: Yup.string().required(""),
         })}
         onSubmit={(values, { resetForm }) => {
           console.log(values);
@@ -166,8 +194,8 @@ const SignupForm = ({ onCancel, onSubmit }) => {
         }}
       >
         {({ resetForm, setFieldValue }) => (
-          <Form className="space-y-8">
-            <div className="flex space-x-4">
+          <Form className="space-y-[2rem]">
+            <div className="flex space-x-[6rem]">
               <div className="w-1/2">
                 <Field
                   as={TextField}
@@ -253,7 +281,7 @@ const SignupForm = ({ onCancel, onSubmit }) => {
               />
             </div>
 
-            <div className="flex space-x-4">
+            <div className="flex space-x-[6rem]">
               <div className="w-1/3">
                 <Field
                   as={TextField}
@@ -357,14 +385,47 @@ const SignupForm = ({ onCancel, onSubmit }) => {
 
             <div>
               <Field
+                onChange={handleChange}
                 as={TextField}
                 type="text"
                 name="id_speciality"
-                label="Spécialité"
+                label="Choisir une spécialité"
+                select
+                SelectProps={{
+                  native: true,
+                }}
                 className="mt-1 w-full"
                 variant="standard"
-                onChange={handleChange}
+              >
+                <option value=""></option>
+                {specialities.map((speciality) => (
+                  <option key={speciality.id} value={speciality.id}>
+                    {speciality.name}
+                  </option>
+                ))}
+              </Field>
+              <ErrorMessage
+                name="id_speciality"
+                component="div"
+                className="text-red-500 text-sm"
               />
+            </div>
+            <div>
+              <Field
+                onChange={handleChange}
+                as={TextField}
+                type="text"
+                name="langue"
+                label="Langue"
+                select
+                className=" px-2 py-1 mt-1 w-full"
+                variant="standard"
+              >
+                <option className=" cursor-pointer px-2" value="french">Français</option>
+                <option className=" cursor-pointer px-2" value="arabic">Arabe</option>
+
+                
+              </Field>
               <ErrorMessage
                 name="id_speciality"
                 component="div"

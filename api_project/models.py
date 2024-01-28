@@ -38,7 +38,7 @@ class Avocat(Base):
     region = Column(String, index=True, nullable=True)
     codepostal = Column(String, index=True, nullable=True,)
     password = Column(String)
-    langue=Column(Enum("french", "arabic","both"),index=True)
+    langue=Column(String,index=True,nullable=True)
     latitude = Column(Float,nullable=True,index=True)
     longitude = Column(Float,nullable=True,index=True)
     photo = Column(String, nullable=True)
@@ -80,7 +80,7 @@ class Interval_libre(Base):
     avocat=relationship("Avocat",back_populates="interval_libre")
     rdv_pris=relationship("Rdv_pris",back_populates="interval_libre")
 
-    @hybrid_property
+"""     @hybrid_property
     def NbrMaxRdv(self):
         # Calculate the number of 30-minute intervals
         if self.HeureDebut and self.HeureFin:
@@ -89,7 +89,7 @@ class Interval_libre(Base):
             duration_minutes = func.timestampdiff(func.MINUTE, start_datetime, end_datetime)
             return duration_minutes // 30
         else:
-            return 0
+            return 0 """
 
 class Rdv_pris(Base):
     __tablename__="rdv_pris"

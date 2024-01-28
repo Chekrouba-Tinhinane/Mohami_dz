@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from "react";
-import LawyerCard from "./components/LawyerCard";
-import axios from "axios";
-import SearchBar from "./components/SearchBar"
-
-
+import LawyerCard from "./LawyerCard";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pageRange = 5; // Adjust this value to change the number of visible page numbers
@@ -85,8 +81,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-
-const ResultsPage = ({ lawyers }) => {
+const EvalLawyers = ({all, lawyers, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [searchResults, setSearchResults] = useState([]); // Initialize searchResults as an empty array
@@ -101,33 +96,18 @@ const ResultsPage = ({ lawyers }) => {
     setCurrentPage(page);
   };
 
-  const handleSearch = (query) => {
-    axios
-      .get(
-        `http://backend:8000/avocat/recherche-basic?keyword=${query}`
-      )
-      .then((response) => {
-        console.log(response.data);
-        setSearchResults(response.data);
-        setCurrentPage(1);
-      })
-      .catch((error) => {
-        console.error("Error fetching search results:", error);
-      });
-  };
-
   return (
     <div>
       <div className="bg-lightBrown px-5 py-6">
-        <div className="mb-4 mt-3 flex w-full justify-between">
-          <SearchBar onSearch={handleSearch} />
-        </div>
         {totalSearchResults === 0 ? (
           <div className="flex justify-center">0 résultats compatibles</div>
         ) : (
           <>
             <LawyerList
-              lawyers={searchResults}
+              onDelete={onDelete}
+              admin
+              all={all}
+              lawyers={lawyers}
               currentPage={currentPage}
               itemsPerPage={itemsPerPage}
             />
@@ -143,8 +123,7 @@ const ResultsPage = ({ lawyers }) => {
   );
 };
 
-
-const LawyerList = ({ lawyers, currentPage, itemsPerPage }) => {
+const LawyerList = ({ admin, all, onDelete, lawyers, currentPage, itemsPerPage }) => {
   const indexOfLastLawyer = currentPage * itemsPerPage;
   const indexOfFirstLawyer = indexOfLastLawyer - itemsPerPage;
   const currentLawyers = lawyers.slice(indexOfFirstLawyer, indexOfLastLawyer);
@@ -152,10 +131,10 @@ const LawyerList = ({ lawyers, currentPage, itemsPerPage }) => {
   return (
     <div className="flex flex-col gap-8 px-6 py-3">
       {currentLawyers.map((lawyer, index) => (
-        <LawyerCard key={index} lawyer={lawyer} />
+        <LawyerCard allL={all} onDelete={onDelete} admin key={index} lawyer={lawyer} />
       ))}
     </div>
   );
 };
 
-export default ResultsPage;
+export default EvalLawyers;
