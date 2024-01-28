@@ -29,10 +29,11 @@ const Selector = ({
       </InputLabel>
       {location ? (
         <TextareaAutosize
+          placeholder="Localisation"
           value={selectedOption}
           onChange={handleChange}
-          minRows={1.7} // Adjust the number of rows as needed
-          className="border border-gray-300 rounded-md p-2 w-full resize-none"
+          minRows={1.3} // Adjust the number of rows as needed
+          className="border pt-4 border-gray-300 rounded-md p-2 w-full resize-none"
         />
       ) : (
         <Select
