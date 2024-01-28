@@ -247,8 +247,8 @@ export const Calendar = ({ lawyer, onClose }) => {
       // Log the response data and a success message
       console.log(response.data);
       console.log(response)
-      response.data.erreur
-        ? alert("Nombre maximum de rendez-vous atteint pour cette période.")
+      response.daraerreur
+        ? alert("Max")
         : alert("Appointment booked! Thank you!");
 
       setShowTimeSelection(false); // Close the modal

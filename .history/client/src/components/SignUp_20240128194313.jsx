@@ -4,11 +4,10 @@ import * as Yup from "yup";
 import { TextField, Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { useUserData } from "../App";
 
 const SignUp = () => {
   const [specialities, setSpecialities] = useState([]);
-  const { userData } = useUserData()
+  const { userData }
 
   useEffect(() => {
     const fetchSpecialities = async () => {
@@ -128,13 +127,14 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
       };
       console.log(postData);
 
-      navigate("/SignIn")
+      navigate("/SelfProfile")
 
       const response = await axios.post(
         "http://192.168.137.210:8000/avocat/register_avocat",
         postData
       );
 
+      alert("Avocat created successfully!");
       console.log(response.data);
     } catch (error) {
       console.error("Error creating avocat:", error);

@@ -8,15 +8,10 @@ import "../../Calendar.css";
 import axios from "axios";
 import { useUserData } from "../../App";
 
-const TimeRow = ({
-  index,
-  style,
-  data,
-  activeTime,
-  onClick,
-  availabilityIntervals,
-}) => {
-  const isActive = activeTime ? true : false;
+const TimeRow = ({ index, style, data, activeTime, onClick, availabilityIntervals }) => {
+  const isActive = activeTime
+    ? true
+    : false;
 
   return (
     <div
@@ -31,14 +26,7 @@ const TimeRow = ({
   );
 };
 
-const TimeSelection = ({
-  allTimes,
-  activeTime,
-  onClick,
-  onCancel,
-  onNext,
-  onClose,
-}) => (
+const TimeSelection = ({ allTimes, activeTime, onClick, onCancel, onNext, onClose }) => (
   <motion.div
     initial={{ opacity: 0, y: -20 }}
     animate={{
@@ -89,13 +77,10 @@ const TimeSelection = ({
       <button onClick={onCancel} className="bg-red-500 text-white p-2 rounded">
         Cancel
       </button>
-      <button
-        onClick={() => {
-          onNext();
-          onClose(); // Close the modal on booking
-        }}
-        className="bg-blue-500 text-white p-2 rounded"
-      >
+      <button onClick={() => {
+        onNext();
+        onClose(); // Close the modal on booking
+      }} className="bg-blue-500 text-white p-2 rounded">
         Book Appointment
       </button>
     </div>
@@ -191,17 +176,14 @@ export const Calendar = ({ lawyer, onClose }) => {
   const handleTimeRowClick = (selectedTime) => {
     // Find the availability interval corresponding to the selected time
     const selectedInterval = availabilityIntervals.find((interval) => {
-      const intervalStartTime = new Date(
-        `${interval.DateInterval}T${interval.HeureDebut}`
-      );
-      const intervalEndTime = new Date(
-        `${interval.DateInterval}T${interval.HeureFin}`
-      );
+      const intervalStartTime = new Date(`${interval.DateInterval}T${interval.HeureDebut}`);
+      const intervalEndTime = new Date(`${interval.DateInterval}T${interval.HeureFin}`);
       return (
-        selectedTime >= intervalStartTime && selectedTime < intervalEndTime
+        selectedTime >= intervalStartTime &&
+        selectedTime < intervalEndTime
       );
     });
-
+  
     // If the corresponding interval is found, set it as the activeTime
     if (selectedInterval) {
       setActiveTime(selectedInterval);
@@ -236,7 +218,7 @@ export const Calendar = ({ lawyer, onClose }) => {
       id_avocat: lawyer?.avocat?.id, // Replace with the actual lawyer ID
       id_interval_libre: activeTime.id, // Replace with the actual free time slot ID
     };
-    console.log(bookingData);
+    console.log(bookingData)
 
     try {
       // Make a POST request to book the appointment
@@ -246,17 +228,13 @@ export const Calendar = ({ lawyer, onClose }) => {
       );
       // Log the response data and a success message
       console.log(response.data);
-      console.log(response)
-      response.data.erreur
-        ? alert("Nombre maximum de rendez-vous atteint pour cette période.")
-        : alert("Appointment booked! Thank you!");
-
+      alert("Appointment booked! Thank you!");
       setShowTimeSelection(false); // Close the modal
-      onClose(false);
+      onClose(false)
       console.log("");
     } catch (error) {
       // Log any errors
-      alert("Error booking appointment:", error);
+      console.error("Error booking appointment:", error);
     }
   };
 

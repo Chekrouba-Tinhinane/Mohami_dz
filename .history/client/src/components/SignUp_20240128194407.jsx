@@ -135,6 +135,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
         postData
       );
 
+      alert("Avocat created successfully!");
       console.log(response.data);
     } catch (error) {
       console.error("Error creating avocat:", error);
