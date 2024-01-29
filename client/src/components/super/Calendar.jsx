@@ -109,6 +109,7 @@ export const Calendar = ({ lawyer, onClose }) => {
     const fetchAvailabilityIntervals = async () => {
       try {
         const response = await axios.post(
+
           "http://backend:8000/creneau/afficher",
           lawyer?.avocat?.id
         );
@@ -238,6 +239,7 @@ export const Calendar = ({ lawyer, onClose }) => {
     try {
       // Make a POST request to book the appointment
       const response = await axios.post(
+
         "http://backend:8000/rdv/prendre_rdv",
         bookingData
       );

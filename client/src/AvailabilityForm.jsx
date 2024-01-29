@@ -45,6 +45,7 @@ const AvailabilityForm = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
+
           "http://backend:8000/creneau/add_creneau",
           values
         );

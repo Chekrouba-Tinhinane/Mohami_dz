@@ -12,6 +12,7 @@ const LawyerCard = ({allL, admin, lawyer, onDelete }) => {
   const handleApproving = () => {
     axios
       .post(
+
         `http://backend:8000/avocat/avocat_verify`,
         lawyer?.avocat?.id
       )
@@ -26,6 +27,7 @@ const LawyerCard = ({allL, admin, lawyer, onDelete }) => {
   const handleDelete = async () => {
     try {
       await axios.post(
+
         `http://backend:8000/avocat/avocat_delete`,
         lawyer?.avocat?.id
       );
