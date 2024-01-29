@@ -1,6 +1,6 @@
 import jwt 
-from decouple import config
 from fastapi import HTTPException,status
+import models, schemas
 
 from fastapi.responses import JSONResponse
 JWT_SECRET="PASSWORD"
@@ -16,19 +16,17 @@ def signJWT(userID:int,role:str):
 
 def signJWT_client(clientID:int):
     signed=signJWT(clientID,"client")
-    response = JSONResponse(content={"success":"client logged in","UserData":signed["payload"]})
+    response = JSONResponse(content={"success":"client logged in","UserData":signed["payload"],'jwt':signed})
     response.set_cookie(key="jwt", value=signed["token"])
     return response
 
-def signJWT_avocat(avocatID:int):
-    signed=signJWT(avocatID,"avocat")
-    response = JSONResponse(content={"success":"avocat logged in","UserData":signed["payload"]})
-    response.set_cookie(key="jwt", value=signed["token"])
-    return response
+def signJWT_avocat(avocat:int):
+    signed=signJWT(avocat,"avocat")
+    return signed
 
 def signJWT_admin(adminID:int):
     signed=signJWT(adminID,"admin")
-    response = JSONResponse(content={"success":"admin logged in","UserData":signed["payload"]})
+    response = JSONResponse(content={"success":"admin logged in","UserData":signed["payload"],'jwt':signed})
     response.set_cookie(key="jwt", value=signed["token"])
     return response
 

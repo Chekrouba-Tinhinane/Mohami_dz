@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 import schemas,crud,models
 from database import SessionLocal,engine 
 import crud
+import recherche
 from database import SessionLocal
 import schemas
 
@@ -31,8 +32,8 @@ async def get_avocat(db:Session=Depends(get_db)):
     return avocats
 
 @routerAvocat.get('/avocat_pending')
-async def get_pending_avocat(db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
-    avocats=crud.show_pending_avocats(db,jwt)
+async def get_pending_avocat(db:Session=Depends(get_db)):
+    avocats=crud.show_pending_avocats(db)
     return avocats
 
 @routerAvocat.get('/avocats')
@@ -41,34 +42,40 @@ async def get_approved_avocat(db:Session=Depends(get_db)):
     return avocats
 
 @routerAvocat.post('/avocat_verify')
-async def get_pending_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
-    avocats=crud.verify_avocats(db,avocat_id,jwt)
+async def get_pending_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db)):
+    avocats=crud.verify_avocats(db,avocat_id)
     return avocats
 
 @routerAvocat.post('/avocat_delete')
-async def delete_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
-    avocats=crud.delete_avocats(db,avocat_id,jwt)
+async def delete_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db)):
+    avocats=crud.delete_avocats(db,avocat_id)
     return avocats
 
 @routerAvocat.post('/avocat_update')
-async def update_Avocat(avocat:schemas.AvocatCreate,avocat_id:int=Body(...),jwt:str=Cookie(),db:Session=Depends(get_db)):
-    return crud.update_avocat(db,avocat,avocat_id,jwt)
+async def update_Avocat(avocat:schemas.AvocatCreate,avocat_id:int=Body(...),db:Session=Depends(get_db)):
+    return crud.update_avocat(db,avocat,avocat_id)
 
-@routerAvocat.get("/filtered-search/")
+
+@routerAvocat.get("/recherche-basic/")
+async def perform_basic_search(
+    keyword: str = Query(None),
+    db: Session = Depends(get_db)
+):
+    # Perform the standard search
+    standard_results = recherche.standard_search(db, keyword)
+    return standard_results
+
+@routerAvocat.get("/recherche-avec-filtre/")
 async def perform_filtered_search(
-    keywords: str = Query(None),
     language: str = Query(None),
     speciality: str = Query(None),
     location: str = Query(None),
     db: Session = Depends(get_db)
 ):
     # Perform the standard search
-    standard_results = crud.standard_search(db, keywords)
+    standard_results = recherche.filter_search_results(db, language=language,speciality=speciality,ville=location)
+    return standard_results
 
-    # Filter the standard search results
-    filtered_results = crud.filter_search_results(standard_results, language, speciality, location)
-
-    return filtered_results
 
 @routerAvocat.post('/login')
 async def login(email:str=Body(...),password:str=Body(...),db:Session=Depends(get_db)):

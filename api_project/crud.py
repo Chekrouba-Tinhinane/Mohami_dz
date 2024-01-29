@@ -1,7 +1,8 @@
 from datetime import date
-from operator import or_
 from sqlalchemy import func
+from operator import or_
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import or_, and_
 import models, schemas
 from auth.JWThandler import signJWT,decodeJWT,signJWT_client,signJWT_admin,signJWT_avocat
 from fastapi import HTTPException,status,Body
@@ -18,8 +19,20 @@ def register_client(db:Session,client:schemas.ClientCreate):
     return response
 
 def show_avocats(db:Session):
-    avocats=db.query(models.Avocat).all()
-    return avocats
+    query = (
+        db.query(models.Avocat, models.Speciality)
+        .join(models.Speciality, models.Avocat.id_speciality == models.Speciality.id)
+        .all()
+    )
+    formatted_result = [
+        {
+            "avocat": avocat,
+            "speciality_name": speciality.name,
+        }
+        for avocat, speciality in query
+    ]
+
+    return formatted_result
 
 def register_avocat(db:Session,avocat:schemas.AvocatCreate,id_speciality:models.Speciality.id):
         try:
@@ -41,15 +54,7 @@ def register_avocat(db:Session,avocat:schemas.AvocatCreate,id_speciality:models.
             
 
 
-def update_avocat(db:Session,new_avocat:schemas.AvocatCreate,id_avocat:int,token:str,):
-    print(token)
-    avocat_data=decodeJWT(token)
-    if avocat_data["role"]!="avocat" or avocat_data["userID"]!=id_avocat:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else:      
+def update_avocat(db:Session,new_avocat:schemas.AvocatCreate,id_avocat:int):   
         db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
         if db_old_avocat is None:
             return {"erreur":"avocat non existant"}
@@ -61,25 +66,24 @@ def update_avocat(db:Session,new_avocat:schemas.AvocatCreate,id_avocat:int,token
         return {"success":f"avocat '{db_old_avocat.id}' has been updated"}
 
 
-def show_pending_avocats(db:Session,token:str):
-    admin_data=decodeJWT(token)
-    if admin_data["role"]!="admin":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
-        avocats=db.query(models.Avocat).filter(models.Avocat.verified==False).all()
-        return avocats
+def show_pending_avocats(db:Session):
+    query = (
+        db.query(models.Avocat, models.Speciality)
+        .join(models.Speciality, models.Avocat.id_speciality == models.Speciality.id)
+        .filter(models.Avocat.verified==False)
+        .all()
+    )
+    formatted_result = [
+        {
+            "avocat": avocat,
+            "speciality_name": speciality.name,
+        }
+        for avocat, speciality in query
+    ]
 
-def verify_avocats(db:Session,id_avocat:int,token:str):
-    admin_data=decodeJWT(token)
-    if admin_data["role"]!="admin":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+    return formatted_result
+
+def verify_avocats(db:Session,id_avocat:int):
         db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
         if db_old_avocat is None:
             return {"erreur":"avocat non existante"}
@@ -89,15 +93,7 @@ def verify_avocats(db:Session,id_avocat:int,token:str):
         db.commit()
         db.refresh(db_old_avocat)
         return {"success":f"avocat '{db_old_avocat.id}' has been approved"}
-
-def delete_avocats(db:Session,id_avocat:int,token:str):
-    admin_data=decodeJWT(token)
-    if admin_data["role"]!="admin":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+def delete_avocats(db:Session,id_avocat:int):
         db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
         if db_old_avocat is None:
             return {"error":"avocat not found"}
@@ -107,36 +103,34 @@ def delete_avocats(db:Session,id_avocat:int,token:str):
         return {"success":f"avocat '{db_old_avocat.id}' has been deleted"}
 
 def show_approved_avocats(db:Session):
-    avocats=db.query(models.Avocat).filter(models.Avocat.verified==True).all()
-    return avocats
+    query = (
+        db.query(models.Avocat, models.Speciality)
+        .join(models.Speciality, models.Avocat.id_speciality == models.Speciality.id)
+        .filter(models.Avocat.verified==True)
+        .all()
+    )
+    formatted_result = [
+        {
+            "avocat": avocat,
+            "speciality_name": speciality.name,
+        }
+        for avocat, speciality in query
+    ]
+
+    return formatted_result
 
 def show_specialities(db:Session):
     specialities=db.query(models.Speciality).all()
-    print(specialities)
     return specialities
 
-def register_specialities(db:Session,speciality:schemas.speciality,token:str):
-    admin_data=decodeJWT(token)
-    if admin_data["role"]!="admin":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+def register_specialities(db:Session,speciality:schemas.speciality):
         db_speciality= models.Speciality(**speciality.model_dump())
         db.add(db_speciality)
         db.commit()
         db.refresh(db_speciality)
         return {"success":f"speciality '{db_speciality.id}' has been created"}
 
-def update_speciality(db:Session,speciality:schemas.speciality,id_speciality:models.Speciality.id,token:str):
-    admin_data=decodeJWT(token)
-    if admin_data["role"]!="admin":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+def update_speciality(db:Session,speciality:schemas.speciality,id_speciality:models.Speciality.id):
         db_old_speciality = db.query(models.Speciality).filter(models.Speciality.id == id_speciality).one_or_none()
         if db_old_speciality is None:
             return {"erreur":"speciality non existante"}
@@ -147,14 +141,7 @@ def update_speciality(db:Session,speciality:schemas.speciality,id_speciality:mod
         db.refresh(db_old_speciality)
         return {"success":f"speciality '{db_old_speciality.id}' has been updated"}
 
-def delete_speciality(db:Session,id_speciality:int,token:str):
-    admin_data=decodeJWT(token)
-    if admin_data["role"]!="admin":
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+def delete_speciality(db:Session,id_speciality:int): 
         db_speciality = db.query(models.Speciality).filter(models.Speciality.id == id_speciality).first()
         if db_speciality is None:
             return {"erreur":"speciality non existante"}
@@ -168,28 +155,14 @@ def show_competence(db:Session):
     competences=db.query(models.Competence).all()
     return competences
 
-def register_competence(db:Session,competence:schemas.competenceCreate,id_avocat:int,token:str):
-    avocat_data=decodeJWT(token)
-    if avocat_data["role"]!="avocat"or avocat_data['userID']!=id_avocat:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+def register_competence(db:Session,competence:schemas.competenceCreate,id_avocat:int):
         db_competence= models.Competence(**competence.model_dump(),id_avocat=id_avocat)
         db.add(db_competence)
         db.commit()
         db.refresh(db_competence)
         return {"success":f"competence '{db_competence.id}' has been created"}
 
-def update_competence(db:Session,new_competence:schemas.competenceCreate,id_avocat:int,id_competence:int,token:str):
-    avocat_data=decodeJWT(token)
-    if avocat_data["role"]!="avocat" or avocat_data['userID']!=id_avocat:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+def update_competence(db:Session,new_competence:schemas.competenceCreate,id_avocat:int,id_competence:int):
         db_old_competence = db.query(models.Competence).filter(models.Competence.id == id_competence).filter(models.Competence.id_avocat==id_avocat).one_or_none()
         if db_old_competence is None:
             return {"erreur":"compentece non existante"}
@@ -200,14 +173,7 @@ def update_competence(db:Session,new_competence:schemas.competenceCreate,id_avoc
         db.refresh(db_old_competence)
         return {"success":f"competence '{db_old_competence.id}' has been updated"}
 
-def delete_competence(db:Session,id_competence:int,id_avocat:int,token:str):
-    avocat_data=decodeJWT(token)
-    if avocat_data["role"]!="avocat"or avocat_data['userID']!=id_avocat:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+def delete_competence(db:Session,id_competence:int,id_avocat:int):
         db_competence = db.query(models.Competence).filter(models.Competence.id == id_competence).filter(models.Competence.id_avocat==id_avocat).first()
         if db_competence is None:
             return {"erreur":"competence non existante"}
@@ -224,14 +190,7 @@ def get_avocat_competence(db:Session,id_avocat:int):
     avocat = db.query(models.Avocat).filter(models.Avocat.id==id_avocat).first()
     return avocat.competence
 
-def take_rdv(db:Session,rdv_pris:schemas.Rdv_pris,token:str):
-    client_data=decodeJWT(token)
-    if client_data["role"]!="client"or client_data['userID']!=rdv_pris.id_client:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+def take_rdv(db:Session,rdv_pris:schemas.Rdv_pris):
         rdv=db.query(models.Interval_libre).filter(models.Interval_libre.id==rdv_pris.id_interval_libre).filter(models.Interval_libre.id_avocat==rdv_pris.id_avocat).first()
         if rdv==None:
             return {"error":"schedule not found"}
@@ -246,14 +205,8 @@ def take_rdv(db:Session,rdv_pris:schemas.Rdv_pris,token:str):
         return {"erreur":"nombre max de rdv pour ce creneau atteint"}
 
 
-def ajout_creneau(db:Session,creneau:schemas.Interval_libreCreate,token:str):
-    avocat_data=decodeJWT(token)
-    if avocat_data["role"]!="avocat"or avocat_data['userID']!=creneau.id_avocat:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+def ajout_creneau(db:Session,creneau:schemas.Interval_libreCreate):
+        print(str(creneau.model_dump()))
         db_creneau= models.Interval_libre(**creneau.model_dump())
         db.add(db_creneau)
         db.commit()
@@ -265,19 +218,41 @@ def afficher_creneau(db:Session,avocat:int):
     return creneaux
 
 def afficher_rdv_pris_par_client(db:Session,client:int):
-    return db.query(models.Rdv_pris).filter(models.Rdv_pris.id_client==client).all()
+    query = (
+        db.query(models.Avocat, models.Rdv_pris)
+        .join(models.Rdv_pris, models.Avocat.id == models.Rdv_pris.id_avocat)
+        .filter(models.Rdv_pris.id_client==client)
+        .all()
+    )
+    formatted_result = [
+        {
+            "rdv": rdv,
+            "avocat": avocat,
+        }
+        for avocat, rdv in query
+    ]
+
+    return formatted_result
 
 def afficher_rdv_pris_par_author(db:Session,author:int):
-    return db.query(models.Rdv_pris).filter(models.Rdv_pris.id_avocat==author).all()
+    query = (
+        db.query(models.Client, models.Rdv_pris,models.Interval_libre)
+        .join(models.Rdv_pris, models.Client.id == models.Rdv_pris.id_client)
+        .join(models.Interval_libre, models.Rdv_pris.id_interval_libre == models.Interval_libre.id)
+        .filter(models.Rdv_pris.id_avocat==author)
+        .all()
+    )
+    formatted_result = [
+        {
+            "timing": rdv,
+            "client": client,
+        }
+        for client, useless,rdv in query
+    ]
 
-def rate_avocat(db: Session, client_id: int, avocat_id: int, rating: float, comment: str = None,token:str=None):
-    client_data=decodeJWT(token)
-    if client_data["role"]!="client"or client_data['userID']!=client_id:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized action"
-        )
-    else: 
+    return formatted_result
+
+def rate_avocat(db: Session, client_id: int, avocat_id: int, rating: float, comment: str = None):
         rating_entry = models.Rating(client_id=client_id, avocat_id=avocat_id, rating=rating, comment=comment)
         db.add(rating_entry)
         db.commit()
@@ -296,7 +271,21 @@ def get_top_rated_avocats(db: Session, limit: int = 5):
     return top_rated_avocats
 
 def get_rating_and_comments_by_avocats(db:Session,id_avocat:int):
-    return db.query(models.Rating).filter(models.Rating.avocat_id==id_avocat).all()
+    query = (
+        db.query(models.Rating, models.Client)
+        .join(models.Client, models.Rating.client_id == models.Client.id)
+        .filter(id_avocat==models.Rating.avocat_id)
+        .all()
+    )
+    formatted_result = [
+        {
+            "client": client,
+            "rating": rating,
+        }
+        for rating, client in query
+    ]
+
+    return formatted_result
 
 def show_client_by_id(db:Session,id:int):
     return db.query(models.Client).filter(models.Client.id==id).first()
@@ -309,42 +298,6 @@ def show_client_by_id(db:Session,id:int):
     return None
  """
 
-def standard_search(db: Session, keywords: str):
-    query = db.query(models.Avocat, models.Speciality)
-
-    if keywords:
-        keyword_list = keywords.split(',')
-        conditions = []
-        for keyword in keyword_list:
-            conditions.append(
-                 or_(
-                    func.lower(models.Avocat.first_name).ilike(f"%{keyword}%"),
-                    func.lower(models.Avocat.last_name).ilike(f"%{keyword}%"),
-                    func.lower(models.Avocat.langue).ilike(f"%{keyword}%"),
-                    func.lower(models.Speciality.name).ilike(f"%{keyword}%")
-                )
-            )
-        if conditions:
-            query = query.filter(or_(*conditions))
-       
-    result = query.all()
-
-    return result
-
-
-def filter_search_results(results, language=None, speciality=None, location=None):
-    filtered_results = []
-
-    for avocat, speciality in results:
-       # filtering based on language, speciality,  location
-        if (
-            (language is None  or avocat.langue == language) and
-            (speciality is None or speciality.name == speciality) and
-            (location is None or avocat.ville == location or avocat.region == location or avocat.codepostal == location)
-        ):
-            filtered_results.append((avocat, speciality))
-
-    return filtered_results
 
 
 def login_client(db:Session,username:str,password:str):
@@ -358,14 +311,27 @@ def login_client(db:Session,username:str,password:str):
     return response
 
 def login_avocat(db:Session,email:str,password:str):
-    avocat=db.query(models.Avocat).filter(models.Avocat.email==email).filter(models.Avocat.password==password).first()
-    if avocat==None:
+    query=(
+         db.query(models.Avocat,models.Speciality)
+        .join(models.Speciality,models.Speciality.id==models.Avocat.id_speciality)
+        .filter(models.Avocat.email==email).filter(models.Avocat.password==password)
+        .all()
+        )
+    if query==None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="wrong credentials"
         )
-    response=signJWT_avocat(avocat.id)
-    return response
+    formatted_result = [
+        {
+            "avocat": avocat,
+            "speciality": speciality
+        }
+        for avocat, speciality in query
+    ]
+
+    return formatted_result[0]
+
 
 def login_admin(db:Session,username:str,password:str):
     Admin=db.query(models.Admin).filter(models.Admin.username==username).filter(models.Admin.password==password).first()

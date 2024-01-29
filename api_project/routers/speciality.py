@@ -23,8 +23,8 @@ def get_db():
 
   
 @routerSpeciality.post('/create_speciality')
-async def create_speciality(speciality:schemas.SpecialityCreate,db:Session=Depends(get_db),jwt:str=Cookie(default=None)):
-    return crud.register_specialities(db,speciality,jwt)
+async def create_speciality(speciality:schemas.SpecialityCreate,db:Session=Depends(get_db)):
+    return crud.register_specialities(db,speciality)
 
 
 

@@ -17,12 +17,14 @@ const OwnProfile = ({ lawyer }) => {
     const fetchProfileData = async () => {
       try {
         const ratingsResponse = await axios.get(
-          `http://192.168.137.210:8000/ratings/avocat_rating?id=${lawyer?.avocat?.id}`
+
+          `http://backend:8000/ratings/avocat_rating?id=${lawyer?.avocat?.id}`
         );
         setRatings(ratingsResponse.data);
 
         const pendingRequestsResponse = await axios.post(
-          `http://192.168.137.210:8000/rdv/afficher_rdv_par_avocat`,
+
+          `http://backend:8000/rdv/afficher_rdv_par_avocat`,
           lawyer?.avocat?.id
         );
         setPendingRequests(pendingRequestsResponse.data);

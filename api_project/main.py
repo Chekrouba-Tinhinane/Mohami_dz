@@ -18,7 +18,7 @@ models.Base.metadata.create_all(bind=engine)
 #app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
 app=FastAPI()
 
-origins = ["http://127.0.0.1:5174"]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,7 +27,6 @@ app.add_middleware(
     allow_methods=["*"],  # Allow all methods
     allow_headers=["*"],  # Allow all headers
 )
-
 app.include_router(routerAvocat)
 app.include_router(routerClient)
 app.include_router(routerSpeciality)
