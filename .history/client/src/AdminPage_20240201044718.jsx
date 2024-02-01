@@ -14,9 +14,7 @@ const AdminPage = () => {
   useEffect(() => {
     const fetchPendingLawyers = async () => {
       try {
-        const response = await axios.get(
-          "http://192.168.137.210:8000/avocat/avocat_pending"
-        );
+        const response = await axios.get("http://192.168.137.210:8000/avocat/avocat_pending");
         console.log(response.data);
         setPendingLawyers(response.data);
       } catch (error) {
@@ -26,7 +24,8 @@ const AdminPage = () => {
 
     /*  const fetchApprovedLawyers = async () => {
       try {
-        const response = await axios.get("http://192.168.137.210:8000/avocat/avocat_approved");
+
+        const response = await axios.get("http://backend:8000/avocat/avocat_approved");
         console.log(response.data);
         setApprovedLawyers(response.data);
       } catch (error) {
