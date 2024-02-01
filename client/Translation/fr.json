@@ -91,5 +91,14 @@
   "usernamePlaceholder": "Nom d'utilisateur",
   "emailPlaceholder": "Email",
   "adminUsernamePlaceholder": "Nom d'utilisateur Admin",
-  "passwordPlaceholder": "Mot de passe"
+  "passwordPlaceholder": "Mot de passe",
+
+  "nav-profile": {
+    "about": "À propos",
+    "categories": "Catégories",
+    "reviews": "Avis",
+    "location": "Localisation"
+  },
+  "specialty": "Spécialité"
+
 }

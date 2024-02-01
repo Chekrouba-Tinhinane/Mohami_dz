@@ -1,14 +1,16 @@
 import React from "react";
 import LawyerInfo from "./LawyerInfo";
+import { useTranslation } from "react-i18next";
 
 const Coords = ({ lawyer, onClick, self }) => {
+  const { t } = useTranslation(); 
   return (
     <div className="flex w-full  items-center">
       <div className=" basis-[70%] flex flex-col gap-4 ">
         <div className="flex flex-col gap-2">
           {" "}
           <h2>
-            {lawyer?.avocat?.first_name || lawyer?.first_name}{" "}
+            {lawyer?.avocat?.first_name || lawyer?.first_name}
             {lawyer?.avocat?.last_name || lawyer?.last_name}
           </h2>
           <h4>
@@ -21,11 +23,10 @@ const Coords = ({ lawyer, onClick, self }) => {
           <div className=" bg-gray-300 h-64 w-56"></div>
           <div className="flex flex-col gap-3">
             <p className="space-x-4">
-              <span className=" font-semibold">Spécialité:</span>
-              <span className=" font-light">{lawyer?.speciality?.name || lawyer?.speciality_name} </span>
-              <a href="" className=" text-primary underline">
-                Voir plus
-              </a>
+              <span className=" font-semibold">{t("specialty")}</span>
+              <span className=" font-light">
+                {lawyer?.speciality?.name || lawyer?.speciality_name}{" "}
+              </span>
             </p>
           </div>
         </div>

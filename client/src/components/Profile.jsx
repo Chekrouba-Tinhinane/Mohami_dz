@@ -8,13 +8,15 @@ import Location from "./Location";
 import Modal from "react-modal";
 import close from "../assets/icons/x.svg";
 import calendar from "../assets/icons/appoint/calendar.svg";
-import Review from "./Review";
 import { useParams } from "react-router-dom";
 import Footer from "./super/Footer";
 import axios from "axios";
 import { useUserData } from "../App";
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const Profile = ({ lawyers }) => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [lawyer, setLawyer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,12 +38,11 @@ const Profile = ({ lawyers }) => {
   };
 
   const navLinks = [
-    { label: "A propos", id: "about", offset: -50 },
-    { label: "Catégories", id: "categories", offset: 0 },
-    { label: "Avis", id: "reviews", offset: 50 },
-    { label: "Localisation", id: "location", offset: -100 },
+    { label: t("nav-profile.about"), id: "about", offset: -50 },
+    { label: t("nav-profile.categories"), id: "categories", offset: 0 },
+    { label: t("nav-profile.reviews"), id: "reviews", offset: 50 },
+    { label: t("nav-profile.location"), id: "location", offset: -100 },
   ];
-
   return (
     <>
       <div className="flex flex-col items-center mx-[4rem] my-4 py-8 px-12 bg-lightBrown min-h-max relative">
@@ -59,12 +60,10 @@ const Profile = ({ lawyers }) => {
             <Avis lawyer={lawyer} />
             <div className="w-full my-8"></div>
             <Location lawyer={lawyer.avocat} />
-            {/*             <Review />
-             */}
           </>
         )}
       </div>
-      <Footer />{" "}
+      <Footer />
     </>
   );
 };
@@ -83,14 +82,19 @@ function CalendarModal({ lawyer, isOpen, onRequestClose }) {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Prendre un rendez-vous"
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[600px] h-[436px]  "
+      className={`transition-all duration-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[700px] h-[436px]`}
       overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 backdrop-blur-xs z-40"
     >
-      <div className={`flex h-full ${showCalendar ? " flex gap-[2rem]" : ""}`}>
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        className={`flex h-full ${showCalendar ? "gap-[1rem]" : ""}`}
+      >
         <div
           className={`  ${
-            showCalendar ? "basis-[60%]" : " w-full"
-          } flex flex-col justify-center  flex-shrink-0 `}
+            showCalendar ? "w-[60%] border-r pr-5 border-r-primary" : "w-full"
+          } flex flex-col justify-center flex-shrink-0 transition-all transform duration-300  `}
         >
           <div className="flex w-full justify-between border-b border-b-primary pb-4">
             <h3>Prendre un rendez-vous</h3>
@@ -111,20 +115,25 @@ function CalendarModal({ lawyer, isOpen, onRequestClose }) {
           </div>
           <div className="flex-grow"></div>
           <div className="flex justify-end">
-            <button
+            {/* <button
               className="bg-primary text-white px-4 py-1"
               onClick={onRequestClose}
             >
               Réserver
-            </button>
+            </button> */}
           </div>
         </div>
         {showCalendar && (
-          <div className="w-full place-self-center">
-            <Calendar lawyer={lawyer} onClose={onRequestClose} />
+          <div className=" w-full place-self-center">
+            <Calendar
+              onOpen={setShowCalendar}
+              isOpen={showCalendar}
+              lawyer={lawyer}
+              onClose={onRequestClose}
+            />
           </div>
         )}
-      </div>
+      </motion.div>
     </Modal>
   );
 }
@@ -278,11 +287,11 @@ const GiveFeedBack = ({
         isOpen={isOpen}
         onRequestClose={onClose}
         contentLabel="Give Feedback"
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[400px]"
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[450px]"
         overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 backdrop-blur-xs z-40 flex justify-center items-center"
       >
         <div>
-          <h2 className="text-lg font-semibold mb-4">Give Feedback</h2>
+          <h2 className="text-lg font-semibold mb-4">Donner un avis</h2>
           <textarea
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
@@ -290,7 +299,7 @@ const GiveFeedBack = ({
             className="w-full p-2 border border-gray-300 rounded-md mb-2"
           />
           <div className="flex items-center gap-2 mb-2">
-            <span>Your Rating:</span>
+            <span>Votre évaluation:</span>
             <Rating
               name="feedback-rating"
               value={rating}
@@ -302,7 +311,7 @@ const GiveFeedBack = ({
               onClick={handleSubmit}
               className=" bg-primary text-white px-4 py-2 rounded-md hover:opacity-80 mr-2"
             >
-              Submit
+              Confirmer
             </button>
             <button
               onClick={onClose}
@@ -313,7 +322,9 @@ const GiveFeedBack = ({
           </div>
         </div>
       </Modal>
-      <p onClick={() => onOpen()}>Give Feedback</p>
+      <p className=" cursor-pointer hover:opacity-75" onClick={() => onOpen()}>
+        Donner un avis
+      </p>
     </>
   );
 };

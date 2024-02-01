@@ -90,5 +90,15 @@
   "usernamePlaceholder": "اسم المستخدم",
   "emailPlaceholder": "البريد الإلكتروني",
   "adminUsernamePlaceholder": "اسم المستخدم الخاص بالمسؤول",
-  "passwordPlaceholder": "كلمة المرور"
+  "passwordPlaceholder": "كلمة المرور",
+
+
+  "nav-profile": {
+    "about": "حول",
+    "categories": "الفئات",
+    "reviews": "التقييمات",
+    "location": "الموقع"
+  },
+  "specialty": "التخصص"
+
 }

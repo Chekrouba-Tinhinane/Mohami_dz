@@ -3,7 +3,7 @@ import NavBar from "./NavBar";
 import { useTranslation } from "react-i18next";
 
 const HomeLayout = ({ pageComponent }) => {
-  const { t, i18n } = useTranslation(); // Use useTranslation hook to access translation function
+  const { t } = useTranslation(); // Use useTranslation hook to access translation function
 
   const navLinks = [
     { label: t("home"), to: "/", offset: -50 },
