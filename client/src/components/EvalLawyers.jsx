@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import LawyerCard from "./LawyerCard";
+import { useTranslation } from "react-i18next";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pageRange = 5; // Adjust this value to change the number of visible page numbers
@@ -81,7 +82,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-const EvalLawyers = ({all, lawyers, onDelete }) => {
+const EvalLawyers = ({all, lawyers, onDelete, onApprove }) => {
+  const { t } = useTranslation()
+
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [searchResults, setSearchResults] = useState([]); // Initialize searchResults as an empty array
@@ -100,11 +103,12 @@ const EvalLawyers = ({all, lawyers, onDelete }) => {
     <div>
       <div className="bg-lightBrown px-5 py-6">
         {totalSearchResults === 0 ? (
-          <div className="flex justify-center">0 résultats compatibles</div>
+        <div className="flex justify-center">{t("No compatible results found")}</div>
         ) : (
           <>
             <LawyerList
               onDelete={onDelete}
+              onApprove={onApprove}
               admin
               all={all}
               lawyers={lawyers}
@@ -123,7 +127,7 @@ const EvalLawyers = ({all, lawyers, onDelete }) => {
   );
 };
 
-const LawyerList = ({ admin, all, onDelete, lawyers, currentPage, itemsPerPage }) => {
+const LawyerList = ({ admin, all, onDelete, onApprove, lawyers, currentPage, itemsPerPage }) => {
   const indexOfLastLawyer = currentPage * itemsPerPage;
   const indexOfFirstLawyer = indexOfLastLawyer - itemsPerPage;
   const currentLawyers = lawyers.slice(indexOfFirstLawyer, indexOfLastLawyer);
@@ -131,7 +135,7 @@ const LawyerList = ({ admin, all, onDelete, lawyers, currentPage, itemsPerPage }
   return (
     <div className="flex flex-col gap-8 px-6 py-3">
       {currentLawyers.map((lawyer, index) => (
-        <LawyerCard allL={all} onDelete={onDelete} admin key={index} lawyer={lawyer} />
+        <LawyerCard allL={all} onDelete={onDelete} admin key={index} lawyer={lawyer} onApprove={onApprove} />
       ))}
     </div>
   );

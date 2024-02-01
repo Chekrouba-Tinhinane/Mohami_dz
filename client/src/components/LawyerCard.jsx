@@ -5,22 +5,22 @@ import phone from "../assets/icons/contact/phone.svg";
 import { Link } from "react-router-dom";
 import { useUserData } from "../App";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
-const LawyerCard = ({allL, admin, lawyer, onDelete }) => {
+const LawyerCard = ({ allL, admin, lawyer, onDelete, onApprove }) => {
   const { lawyers, setLawyers } = useUserData();
-
-  const handleApproving = () => {
-    axios
-      .post(
+  const { t } = useTranslation();
+  const handleApproving = async () => {
+    try {
+      await axios.post(
         `http://192.168.137.210:8000/avocat/avocat_verify`,
         lawyer?.avocat?.id
-      )
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+      );
+      onApprove(lawyer?.avocat?.id);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   const handleDelete = async () => {
@@ -51,19 +51,19 @@ const LawyerCard = ({allL, admin, lawyer, onDelete }) => {
             <div className="flex items-center gap-4 min-w-max ">
               {" "}
               <img src={msg} alt="" />
-              Email : {lawyer?.avocat?.email}{" "}
+              {t("Email")}: {lawyer?.avocat?.email}
             </div>
 
             <div className="flex items-center gap-4 min-w-max ">
               {" "}
               <img src={phone} alt="" />
-              Numéro de téléphone : {lawyer?.avocat?.telephone}{" "}
+              {t("Phone Number")}: {lawyer?.avocat?.telephone}
             </div>
           </div>
           <div className="flex flex-col gap-5">
             <Link to={`/profile/${lawyer?.avocat?.id}`}>
               <button className="hover:bg-opacity-70 w-full h-max px-6 py-1 text-base bg-primary text-white">
-                Voir Profil
+                {t("View Profile")}
               </button>
             </Link>
             {admin && allL && (
@@ -72,14 +72,13 @@ const LawyerCard = ({allL, admin, lawyer, onDelete }) => {
                   onClick={handleApproving}
                   className="hover:bg-lightTypo hover:text-white font-medium w-full h-max px-6 py-1 text-base border border-primary rounded-sm  text-primary"
                 >
-                  {" "}
-                  Approuver Avocat{" "}
+                  {t("Approve Lawyer")}
                 </button>
                 <button
                   onClick={handleDelete}
                   className="hover:bg-red-400 hover:text-white  font-medium w-full h-max px-6 py-1 text-base border border-red-400 rounded-sm  text-red-400"
                 >
-                  Supprimer
+                  {t("Delete")}
                 </button>
               </>
             )}

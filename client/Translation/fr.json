@@ -118,28 +118,35 @@
   "DATE": "DATE",
   "Select a date": "Sélectionner une date",
 
-  
-    "Start time": "Heure de début",
-    "End time": "Heure de fin",
-    "Maximum number of appointments": "Nombre maximum de rendez-vous",
-    "Submit": "Soumettre",
-    "Successfully done!": "Faites avec succès!",
+  "Start time": "Heure de début",
+  "End time": "Heure de fin",
+  "Maximum number of appointments": "Nombre maximum de rendez-vous",
+  "Submit": "Soumettre",
+  "Successfully done!": "Faites avec succès!",
 
-    
-      "Contact and Personal Information": "Coordonnées et Informations Personnelles",
-      "Other personal information...": "Autres informations personnelles...",
-      "Your Reviews": "Vos Avis",
-      "No reviews available at the moment.": "Aucun avis disponible pour le moment.",
-      "Availability": "Disponibilité",
-      "Hide availability form": "Cacher la formulaire de disponibilité",
-      "Set availability": "Définir la disponibilité",
-      "Pending Requests": "Demandes en Attente",
-      "Appointment Date": "Date de rendez-vous",
-      "Time": "Heure",
-      "No pending requests at the moment.": "Aucune demande en attente pour le moment.",
-      "Accept": "Accepter"
-    
-    
-  
-  
+  "Contact and Personal Information": "Coordonnées et Informations Personnelles",
+  "Other personal information...": "Autres informations personnelles...",
+  "Your Reviews": "Vos Avis",
+  "No reviews available at the moment.": "Aucun avis disponible pour le moment.",
+  "Availability": "Disponibilité",
+  "Hide availability form": "Cacher la formulaire de disponibilité",
+  "Set availability": "Définir la disponibilité",
+  "Pending Requests": "Demandes en Attente",
+  "Appointment Date": "Date de rendez-vous",
+  "Time": "Heure",
+  "No pending requests at the moment.": "Aucune demande en attente pour le moment.",
+  "Accept": "Accepter",
+
+  "Email": "Email",
+  "Phone Number": "Numéro de téléphone",
+  "View Profile": "Voir Profil",
+  "Approve Lawyer": "Approuver Avocat",
+  "Delete": "Supprimer",
+
+  "No compatible results found": "Aucun résultat compatible trouvé",
+
+  "Lawyer List": "Liste des Avocats",
+  "View Approved Lawyers": "Voir les avocats approuvés",
+  "View Pending Lawyers": "Voir les avocats en attente"
+
 }

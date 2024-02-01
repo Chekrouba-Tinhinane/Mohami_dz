@@ -133,5 +133,18 @@
   "Appointment Date": "تاريخ الموعد",
   "Time": "الوقت",
   "No pending requests at the moment.": "لا توجد طلبات معلقة حاليًا.",
-  "Accept": "قبول"
+  "Accept": "قبول",
+
+  "Email": "البريد الإلكتروني",
+  "Phone Number": "رقم الهاتف",
+  "View Profile": "عرض الملف الشخصي",
+  "Approve Lawyer": "الموافقة على المحامي",
+  "Delete": "حذف",
+
+  "No compatible results found": "لم يتم العثور على نتائج متوافقة",
+
+  "Lawyer List": "قائمة المحامين",
+  "View Approved Lawyers": "عرض المحامين المعتمدين",
+  "View Pending Lawyers": "عرض المحامين في الانتظار"
+
 }
