@@ -9,10 +9,10 @@ import HomeLayout from "./components/super/HomeLayout";
 import Profile from "./components/Profile";
 import SignUp from "./components/SignUp";
 import axios from "axios";
-import OwnProfile from "./OwnProfile";
+import OwnProfile from "./avocat/OwnProfile";
 import AdminPage from "./admin/AdminPage";
 
-import { I18nextProvider } from "react-i18next";
+import { I18nextProvider } from "react-i18next"; // Import I18nextProvider
 import i18n from "../Translation/i18n";
 import Specialty from "./admin/Specialty";
 
