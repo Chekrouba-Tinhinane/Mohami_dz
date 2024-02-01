@@ -154,6 +154,22 @@
   "Language": "اللغة",
   "Filter": "تصفية",
 
-  "searchPlaceholder": "ابحث..."
+  "searchPlaceholder": "ابحث...",
+
+  "hello": "مرحبا",
+  "role": "مستخدم عادي / محامي",
+  "avocat": "محامي",
+  "specialités": "التخصصات",
+  "Liste des avocats": "قائمة المحامين",
+  "list spec": "قائمة التخصصات",
+  "ajouter spec": "إضافة",
+
+  "nom spec": "اسم التخصص",
+  "description": "الوصف",
+  "add": "إضافة",
+
+  "add spec": "إضافة تخصص"
+
+
 
 }

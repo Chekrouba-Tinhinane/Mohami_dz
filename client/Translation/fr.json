@@ -156,7 +156,20 @@
   "Language": "Langue",
   "Filter": "Filtrer",
 
-  "searchPlaceholder": "Rechercher..."
+  "searchPlaceholder": "Rechercher...",
+
+  "hello": "Bienvenue",
+  "role": "S'inscrire en tant que: ",
+  "avocat": "Avocat",
+  "specialités": "Spécialités",
+  "Liste des avocats": "Liste des avocats",
+
+  "nom spec": "Nom de la spécialité",
+  "description": "Description",
+  "add": "Ajouter",
+  "list spec": "Liste des spécialités",
+  "ajouter spec": "Ajouter une spécialité",
+  "add spec": "Ajouter une spécialité"
 
 
 }
