@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Selector from "./Selector";
 import axios from "axios";
+import { useTranslation } from "react-i18next";
 
 const SearchContainer = ({ setLawyers }) => {
+  const { t } = useTranslation();
   // State for selected options
   const [selectedSpeciality, setSelectedSpeciality] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -29,7 +31,7 @@ const SearchContainer = ({ setLawyers }) => {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>{t("Loading")}...</div>;
   }
 
   const handleFilterClick = () => {
@@ -63,32 +65,35 @@ const SearchContainer = ({ setLawyers }) => {
   return (
     <div className="flex flex-col gap-3 pb-4 w-full bg-lightBrown">
       <h3 className="place-self-start text-lightTypo text-opacity-65 font-semibold tracking-wide p-4">
-        Recherche Avancée
+        {t("Advanced Search")}
       </h3>
 
       <div className="flex justify-center gap-3 text-lightTypo font-semibold ">
         <div className="flex flex-col basis-[30%] gap-3">
-          <div>Spécialité</div>
+          <div>{t("Specialty")}</div>
           <Selector
+            location={false}
             list={specialities}
-            selectCategory="Spécialité"
+            selectCategory={t("Specialty")}
             selectedOption={selectedSpeciality}
             setSelectedOption={setSelectedSpeciality}
           />
         </div>
         <div className="flex flex-col basis-[30%] gap-3">
-          <div>Localisation</div>
+          <div>{t("Location")}</div>
           <Selector
+            selectCategory={t("Location")}
             location={true}
             selectedOption={selectedLocation}
             setSelectedOption={setSelectedLocation}
           />
         </div>
         <div className="flex flex-col basis-[30%] gap-3">
-          <div>Langue</div>
+          <div>{t("Language")}</div>
           <Selector
+            location={false}
             list={lang}
-            selectCategory="Langue"
+            selectCategory={t("Language")}
             selectedOption={selectedLanguage}
             setSelectedOption={setSelectedLanguage}
           />
@@ -100,7 +105,7 @@ const SearchContainer = ({ setLawyers }) => {
         className="bg-primary text-white px-6 py-2 place-self-center"
         onClick={handleFilterClick}
       >
-        Filtrer
+        {t("Filter")}
       </button>
     </div>
   );

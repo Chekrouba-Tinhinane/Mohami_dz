@@ -3,8 +3,10 @@ import SearchContainer from "./components/SearchContainer";
 import Footer from "./components/super/Footer";
 import { useUserData } from "./App";
 import ResultsPage from "./ResultsPage";
+import { useTranslation } from "react-i18next";
 
 const Search = ({ lawyers, setLawyers }) => {
+  const { t } = useTranslation()
   const { userData, setUserData } = useUserData();
 
   return (
@@ -12,8 +14,8 @@ const Search = ({ lawyers, setLawyers }) => {
       <div className=" flex flex-col w-full ">
         <div className=" flex flex-col mx-[4rem] gap-[5rem]">
           <div className="">
-            <h2 onClick={() => console.log(userData)} className="recursive">
-              Trouver Un Avocat
+            <h2 className="recursive">
+               {t("FindLawyer")}
             </h2>
             <SearchContainer setLawyers={setLawyers} />
           </div>

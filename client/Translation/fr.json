@@ -143,10 +143,20 @@
   "Approve Lawyer": "Approuver Avocat",
   "Delete": "Supprimer",
 
-  "No compatible results found": "Aucun résultat compatible trouvé",
+  "No compatible results found": "Aucun(0) résultat compatible trouvé",
 
   "Lawyer List": "Liste des Avocats",
   "View Approved Lawyers": "Voir les avocats approuvés",
-  "View Pending Lawyers": "Voir les avocats en attente"
+  "View Pending Lawyers": "Voir les avocats en attente",
+
+  "Loading": "Chargement...",
+  "Advanced Search": "Recherche Avancée",
+  "Specialty": "Spécialité",
+  "Location": "Localisation",
+  "Language": "Langue",
+  "Filter": "Filtrer",
+
+  "searchPlaceholder": "Rechercher..."
+
 
 }

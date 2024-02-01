@@ -145,6 +145,15 @@
 
   "Lawyer List": "قائمة المحامين",
   "View Approved Lawyers": "عرض المحامين المعتمدين",
-  "View Pending Lawyers": "عرض المحامين في الانتظار"
+  "View Pending Lawyers": "عرض المحامين في الانتظار",
+
+  "Loading": "جار التحميل...",
+  "Advanced Search": "البحث المتقدم",
+  "Specialty": "التخصص",
+  "Location": "الموقع",
+  "Language": "اللغة",
+  "Filter": "تصفية",
+
+  "searchPlaceholder": "ابحث..."
 
 }
