@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import LawyerCard from "./components/LawyerCard";
 import axios from "axios";
 import SearchBar from "./components/SearchBar"
+import { useTranslation } from "react-i18next";
 
 
 
@@ -87,6 +88,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
 
 const ResultsPage = ({ lawyers }) => {
+  const { t } = useTranslation()
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [searchResults, setSearchResults] = useState([]); // Initialize searchResults as an empty array
@@ -124,7 +126,7 @@ const ResultsPage = ({ lawyers }) => {
           <SearchBar onSearch={handleSearch} />
         </div>
         {totalSearchResults === 0 ? (
-          <div className="flex justify-center">0 résultats compatibles</div>
+          <div className="flex justify-center">  {t("No compatible results found")}</div>
         ) : (
           <>
             <LawyerList

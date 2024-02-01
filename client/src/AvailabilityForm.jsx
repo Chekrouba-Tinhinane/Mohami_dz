@@ -3,8 +3,7 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { TextField, Button, Grid, Typography } from "@mui/material";
 import { useUserData } from "./App";
-
-
+import { useTranslation } from "react-i18next";
 
 const validate = (values) => {
   const errors = {};
@@ -26,14 +25,14 @@ const validate = (values) => {
 };
 
 const AvailabilityForm = () => {
-
-  const { userData } = useUserData()
+  const { t } = useTranslation();
+  const { userData } = useUserData();
   const initialValues = {
     DateInterval: "",
     HeureDebut: "",
     HeureFin: "",
     NbrMaxRdv: "",
-    id_avocat: userData?.avocat?.id ,
+    id_avocat: userData?.avocat?.id,
   };
 
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -56,7 +55,7 @@ const AvailabilityForm = () => {
         setTimeout(() => {
           setShowSuccessMessage(false); // Hide success message after 3 seconds
           setShowForm(true); // Show the form again after hiding success message
-        }, 3000);
+        }, 2000);
         formik.resetForm(); // Reset form fields after successful submission
       } catch (error) {
         console.error("Error:", error);
@@ -77,7 +76,7 @@ const AvailabilityForm = () => {
         {showForm && (
           <form className="space-y-6" onSubmit={formik.handleSubmit}>
             <div>
-              <label htmlFor="DateInterval">Sélectionnez une date :</label>
+              <label htmlFor="DateInterval">{t("Select a date")} :</label>
               <TextField
                 fullWidth
                 id="DateInterval"
@@ -96,7 +95,7 @@ const AvailabilityForm = () => {
             </div>
 
             <div>
-              <label htmlFor="HeureDebut">Heure de début :</label>
+              <label htmlFor="HeureDebut">{t("Start time")} :</label>
               <TextField
                 fullWidth
                 id="HeureDebut"
@@ -116,7 +115,7 @@ const AvailabilityForm = () => {
 
             <div>
               {" "}
-              <label htmlFor="HeureFin">Heure de fin :</label>
+              <label htmlFor="HeureFin">{t("End time")} :</label>
               <TextField
                 fullWidth
                 id="HeureFin"
@@ -137,7 +136,7 @@ const AvailabilityForm = () => {
                 fullWidth
                 id="NbrMaxRdv"
                 name="NbrMaxRdv"
-                label="Nombre maximum de rendez-vous"
+                label={t("Maximum number of appointments")}
                 type="number"
                 value={formik.values.NbrMaxRdv}
                 onChange={formik.handleChange}
@@ -148,17 +147,16 @@ const AvailabilityForm = () => {
               />
             </div>
 
-            <button
-              className=" hover:bg-opacity-70 tracking-wider bg-primary px-3.5 py-2 text-white font-semibold rounded-md"
-              type="submit"
-            >
-              Soumettre
-            </button>
+            <Button variant="contained" color="primary" type="submit">
+              {t("Submit")}
+            </Button>
           </form>
         )}
         {showSuccessMessage && (
           <Typography variant="body1" color="success">
-            Faites avec succès!
+            <h3 className="font-semibold tracking-wider text-green-500">
+              {t("Successfully done!")}
+            </h3>
           </Typography>
         )}
       </Grid>

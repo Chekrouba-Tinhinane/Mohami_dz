@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import ReactCalendar from "react-calendar";
 import { FixedSizeList } from "react-window";
 import { add, format, isAfter, differenceInMinutes } from "date-fns";
+import { useTranslation } from "react-i18next"; // Import useTranslation hook
 import { getDaysArray, INTERVAL } from "../../config";
 import "../../Calendar.css";
 import axios from "axios";
@@ -16,6 +17,7 @@ const TimeRow = ({
   onClick,
   availabilityIntervals,
 }) => {
+  const { t } = useTranslation(); // Use useTranslation hook
   const isActive = activeTime ? true : false;
 
   return (
@@ -38,69 +40,73 @@ const TimeSelection = ({
   onCancel,
   onNext,
   onClose,
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: -20 }}
-    animate={{
-      opacity: 1,
-      y: 0,
-      transition: { type: "tween", duration: 0.4 },
-    }}
-    exit={{
-      opacity: 0,
-      y: -20,
-      transition: { type: "tween", duration: 0.4 },
-    }}
-    className="bg-white flex flex-col justify-around px-3 py-2 rounded-md modal"
-    style={{ height: "420px" }} // Fixed height for time selection container
-  >
-    <div className="mb-3 border-b pb-2 flex justify-between items-center px-1">
-      <h4 className="">Selected time slot:</h4>
-      <span
-        onClick={onCancel}
-        className="border p-1.5 cursor-pointer hover:bg-gray-300"
-      >
-        Back
-      </span>
-    </div>
-    <FixedSizeList
-      height={260} // Fixed height for the list of time slots
-      width={200}
-      itemSize={50}
-      itemCount={allTimes.length}
-      itemData={{
-        times: allTimes,
-        activeTime,
-        onClick,
-      }}
-      style={{ overflowY: "scroll", scrollbarColor: "#D4AD6B" }}
-    >
-      {({ index, style }) => (
-        <TimeRow
-          index={index}
-          style={style}
-          data={allTimes}
-          activeTime={activeTime}
-          onClick={onClick}
-        />
-      )}
-    </FixedSizeList>
-    <div className="flex justify-between mt-2">
-      <button
-        onClick={() => {
-          onNext();
-          onClose(); // Close the modal on booking
-        }}
-        className="bg-primary text-white px-3 rounded-sm"
-      >
-        Book Appointment
-      </button>
-    </div>
-  </motion.div>
-);
+}) => {
+  const { t } = useTranslation(); // Use useTranslation hook
 
-export const Calendar = ({ lawyer, onClose }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        transition: { type: "tween", duration: 0.4 },
+      }}
+      exit={{
+        opacity: 0,
+        y: -20,
+        transition: { type: "tween", duration: 0.4 },
+      }}
+      className="bg-white flex flex-col justify-around px-3 py-2 ml-3 rounded-md modal"
+      style={{ height: "430px" }} // Fixed height for time selection container
+    >
+      <div className="mb-3 border-b pb-2 flex justify-between items-center px-1">
+        <span
+          onClick={onCancel}
+          className="border p-1.5 cursor-pointer hover:bg-gray-300"
+        >
+          {t("Back")}
+        </span>
+      </div>
+      <FixedSizeList
+        height={260} // Fixed height for the list of time slots
+        width={200}
+        itemSize={50}
+        itemCount={allTimes.length}
+        itemData={{
+          times: allTimes,
+          activeTime,
+          onClick,
+        }}
+        style={{ overflowY: "scroll", scrollbarColor: "#D4AD6B" }}
+      >
+        {({ index, style }) => (
+          <TimeRow
+            index={index}
+            style={style}
+            data={allTimes}
+            activeTime={activeTime}
+            onClick={onClick}
+          />
+        )}
+      </FixedSizeList>
+      <div className="flex justify-between mt-2">
+        <button
+          onClick={() => {
+            onNext();
+            onClose(); // Close the modal on booking
+          }}
+          className="bg-primary text-white px-3 py-2 rounded-sm"
+        >
+          {t("Book an Appointment")}
+        </button>
+      </div>
+    </motion.div>
+  );
+};
+
+export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
   const { userData } = useUserData();
+  const { t } = useTranslation();
 
   const [availabilityIntervals, setAvailabilityIntervals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -248,11 +254,10 @@ export const Calendar = ({ lawyer, onClose }) => {
       console.log(response);
       response.data.erreur
         ? alert("Nombre maximum de rendez-vous atteint pour cette période.")
-        : alert("Appointment booked! Thank you!");
+        : alert("Rendez-vous pris! Merci!");
 
       setShowTimeSelection(false); // Close the modal
       onClose(false);
-      console.log("");
     } catch (error) {
       // Log any errors
       alert("Error booking appointment:", error);
@@ -261,7 +266,7 @@ export const Calendar = ({ lawyer, onClose }) => {
 
   return (
     <div className="flex flex-col my-8">
-      <div className=" w-[95%] flex gap-6 justify-center">
+      <div className="w-[100%] flex gap-6 justify-center">
         <div className="flex flex-col">
           <div className="flex">
             {showTimeSelection ? (
@@ -276,7 +281,19 @@ export const Calendar = ({ lawyer, onClose }) => {
                     onClose={() => setModalOpen(false)} // Pass onClose function
                   />
                 ) : (
-                  <div>No available slots for this date</div>
+                  <div className=" text-center w-full gap-3 flex flex-col items-center">
+                    <div className="font-semibold text-center">
+                      {t("No available time slots for this date")}
+                    </div>
+                    <p
+                      className="hover:bg-primary hover:text-white text-primary cursor-pointer border border-primary px-4 py-2 rounded-sm"
+                      onClick={() => {
+                        setShowTimeSelection(false);
+                      }}
+                    >
+                      {t("Choose another date")}
+                    </p>
+                  </div>
                 )}
               </div>
             ) : (
@@ -308,6 +325,7 @@ export const Calendar = ({ lawyer, onClose }) => {
       </div>
     </div>
   );
+  
 };
 
 export default Calendar;
