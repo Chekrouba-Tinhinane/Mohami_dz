@@ -1,20 +1,22 @@
 import React, { useState } from "react";
 import NavBar from "./NavBar";
+import { useTranslation } from "react-i18next";
 
 const HomeLayout = ({ pageComponent }) => {
+  const { t, i18n } = useTranslation(); // Use useTranslation hook to access translation function
+
   const navLinks = [
-    { label: "Accueil", id: "about", offset: -50 },
-    { label: "Trouver un avocat", id: "hero", offset: 0 },
-    { label: "Prendre un rendez-vous", id: "appoint", offset: 50 },
-    { label: "Contactez nous", id: "footer", offset: -100 }
+    { label: t("home"), to: "/", offset: -50 },
+    { label: t("findLawyer"), to: "/Search", offset: 0 },
+    { label: t("makeAppointment"), to: "/Search", offset: 50 },
+    { label: t("contactUs"), to: "footer", offset: -100 },
   ];
   return (
     <div className=" flex flex-col min-h-screen items-center">
       <header className=" p-3 recursive border-b border-b-primary w-[90%] text-center font-semibold text-xl">
-        {" "}
-        DZ Mouhami{" "}
+        DZ Mouhami
       </header>
-      <NavBar links={navLinks} landing={true} />
+      <NavBar links={navLinks} landing={true} l={false} />
 
       <div className={` w-full  `}>{pageComponent}</div>
     </div>

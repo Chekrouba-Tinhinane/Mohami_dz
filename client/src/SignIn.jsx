@@ -6,11 +6,13 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { useUserData } from "./App";
+import { useTranslation } from "react-i18next";
 
 const SignIn = () => {
   const [userType, setUserType] = useState("client");
   const { setUserData } = useUserData();
   const navigate = useNavigate();
+  const { t } = useTranslation(); // Access translation function
 
   const handleSubmit = async (values) => {
     try {
@@ -33,7 +35,7 @@ const SignIn = () => {
         `http://192.168.137.210:8000/${loginEndpoint}`,
         values
       );
-        console.log(response.data)
+      console.log(response.data);
       const { jwt, UserData } = response.data;
       setUserData(UserData || response.data);
 
@@ -64,12 +66,12 @@ const SignIn = () => {
 
       <div className="relative w-[30%] flex flex-col h-[85%] pb-10 border border-primary mx-auto items-center">
         <h1 className="recursive text-primary absolute -top-10 bg-white">
-          Se Connecter
+          {t("signIn")}
         </h1>
 
         <header className="text-center my-8">
           <small className="text-gray-500">
-            Veuillez saisir vous informations.
+            {t("signInInfo")}
           </small>
         </header>
 
@@ -78,20 +80,22 @@ const SignIn = () => {
           validationSchema={Yup.object({
             username:
               userType === "client"
-                ? Yup.string().required("Username is required")
+                ? Yup.string().required(t("usernameRequired"))
                 : null,
             email:
               userType === "avocat"
-                ? Yup.string().email("Invalid email format").required("Email is required")
+                ? Yup.string()
+                    .email(t("invalidEmail"))
+                    .required(t("emailRequired"))
                 : null,
-            password: Yup.string().required("Password is required"),
+            password: Yup.string().required(t("passwordRequired")),
           })}
           onSubmit={handleSubmit}
         >
           {({ errors, touched }) => (
             <Form className="basis-[60%] w-[65%]">
               <div className="flex flex-col mb-8">
-                <label htmlFor="userType">Se connecter en tant que:</label>
+                <label htmlFor="userType">{t("loginAs")}</label>
                 <select
                   id="userType"
                   name="userType"
@@ -99,20 +103,20 @@ const SignIn = () => {
                   onChange={(e) => setUserType(e.target.value)}
                   className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
                 >
-                  <option value="client">Client</option>
-                  <option value="avocat">Avocat</option>
-                  <option value="admin">Admin</option>
+                  <option value="client">{t("client")}</option>
+                  <option value="avocat">{t("lawyer")}</option>
+                  <option value="admin">{t("admin")}</option>
                 </select>
               </div>
               {userType === "client" && (
                 <div className="flex flex-col">
-                  <label htmlFor="username">Nom d'utilisateur</label>
+                  <label htmlFor="username">{t("username")}</label>
                   <Field
                     type="text"
                     id="username"
                     name="username"
                     className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
-                    placeholder="Ex: john_doe"
+                    placeholder={t("usernamePlaceholder")}
                   />
                   <ErrorMessage
                     name="username"
@@ -124,7 +128,7 @@ const SignIn = () => {
 
               {userType === "avocat" && (
                 <div className="flex flex-col">
-                  <label htmlFor="email">Email</label>
+                  <label htmlFor="email">{t("email")}</label>
                   <Field
                     type="email"
                     id="email"
@@ -142,13 +146,13 @@ const SignIn = () => {
 
               {userType === "admin" && (
                 <div className="flex flex-col">
-                  <label htmlFor="username">Admin Username</label>
+                  <label htmlFor="username">{t("adminUsername")}</label>
                   <Field
                     type="text"
                     id="username"
                     name="username"
                     className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
-                    placeholder="Enter admin username"
+                    placeholder={t("adminUsernamePlaceholder")}
                   />
                   <ErrorMessage
                     name="username"
@@ -159,13 +163,13 @@ const SignIn = () => {
               )}
 
               <div className="flex flex-col mt-8">
-                <label htmlFor="password">Mot de passe</label>
+                <label htmlFor="password">{t("password")}</label>
                 <Field
                   type="password"
                   id="password"
                   name="password"
                   className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
-                  placeholder="Enter your password"
+                  placeholder={t("passwordPlaceholder")}
                 />
                 <ErrorMessage
                   name="password"
@@ -173,8 +177,6 @@ const SignIn = () => {
                   className="text-red-500 text-xs"
                 />
               </div>
-
-              
 
               <div className="flex justify-between mb-9 mt-4">
                 <div className="flex gap-2 items-center">
@@ -185,12 +187,12 @@ const SignIn = () => {
                     className="mr-2"
                   />
                   <label htmlFor="remember" className="text-xs">
-                    Se rappeler de moi
+                    {t("rememberMe")}
                   </label>
                 </div>
 
                 <a className="text-xs opacity-70 cursor-pointer">
-                  Mot de passe oublié?
+                  {t("forgotPassword")}
                 </a>
               </div>
 
@@ -199,14 +201,14 @@ const SignIn = () => {
                   className="bg-primary recursive p-2 tracking-wider font-medium text-white w-full"
                   type="submit"
                 >
-                  Se connecter
+                  {t("signIn")}
                 </button>
                 <a
                   href=""
                   className="border border-primary recursive p-2 tracking-wider font-medium justify-center w-full flex gap-4 flex-shrink-0 min-w-max items-center"
                 >
                   <img src={google} className="w-[5%]" alt="" />
-                  <span className="min-w-max text-sm">Log in with Google</span>
+                  <span className="min-w-max text-sm">{t("loginWithGoogle")}</span>
                 </a>
               </div>
             </Form>
@@ -215,10 +217,10 @@ const SignIn = () => {
 
         <footer className="basis-[10%] mt-20">
           <span className="text-xs opacity-70">
-            Vous n’avez pas un compte ?
+            {t("noAccount")}
           </span>{" "}
           <Link to={"/Signup"} className="cursor-pointer text-sm font-semibold">
-            S'inscrire
+            {t("signup")}
           </Link>
         </footer>
       </div>

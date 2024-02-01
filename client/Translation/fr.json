@@ -23,7 +23,6 @@
   "makeAppointment": "Prendre un rendez-vous",
   "contactUs": "Contactez nous",
 
-
   "help": "AIDE ?",
   "faq": "FAQ",
   "privacyPolicy": "Politique de confidentialité",
@@ -33,7 +32,6 @@
   "arabic": "Arabe",
   "address": "Rue Cheikh Ammar, Béjaia, Algérie",
   "phone": "Tél 1-888-888-888",
-
 
   "inscription": "S'inscrire",
   "connexion": "Se connecter",
@@ -55,7 +53,6 @@
   "chooseLanguage": "Choisir une langue",
   "cancel": "Annuler",
 
-
   "validation": {
     "langueRequired": "Veuillez choisir une langue",
     "firstNameRequired": "Veuillez saisir votre nom",
@@ -70,5 +67,29 @@
     "regionRequired": "Veuillez saisir votre région",
     "codepostalRequired": "Veuillez saisir votre code postal",
     "photoRequired": "Veuillez télécharger votre photo",
-    "specialityRequired": "Veuillez choisir une spécialité"}
+    "specialityRequired": "Veuillez choisir une spécialité"
+  },
+
+  "signInInfo": "Veuillez saisir vos informations",
+  "loginAs": "Se connecter en tant que",
+  "client": "Client",
+  "lawyer": "Avocat",
+  "admin": "Admin",
+  "username": "Nom d'utilisateur",
+  "usernameRequired": "Le nom d'utilisateur est requis",
+  "invalidEmail": "Format d'email invalide",
+  "emailRequired": "L'email est requis",
+  "adminUsername": "Nom d'utilisateur Admin",
+  "passwordRequired": "Le mot de passe est requis",
+  "rememberMe": "Se rappeler de moi",
+  "forgotPassword": "Mot de passe oublié?",
+  "signIn": "Se connecter",
+  "loginWithGoogle": "Se connecter avec Google",
+  "noAccount": "Vous n'avez pas un compte?",
+  "signup": "S'inscrire",
+
+  "usernamePlaceholder": "Nom d'utilisateur",
+  "emailPlaceholder": "Email",
+  "adminUsernamePlaceholder": "Nom d'utilisateur Admin",
+  "passwordPlaceholder": "Mot de passe"
 }

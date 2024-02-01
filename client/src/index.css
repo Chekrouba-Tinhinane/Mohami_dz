@@ -54,3 +54,7 @@
 .nav-item:hover::after {
   width: 100%;
 }
+
+.rtl {
+  direction: rtl;
+}
