@@ -11,15 +11,21 @@ import SignUp from "./components/SignUp";
 import axios from "axios";
 import OwnProfile from "./OwnProfile";
 import AdminPage from "./admin/AdminPage";
-
-import { I18nextProvider } from "react-i18next";
+import { I18nextProvider, useTranslation } from "react-i18next";
 import i18n from "../Translation/i18n";
 import Specialty from "./admin/Specialty";
 
 const UserDataContext = createContext();
 
 const App = () => {
+  const [language, setLanguage] = useState(i18n.language);
   const [lawyers, setLawyers] = useState([]);
+  const { t } = useTranslation();
+  const languageCode = t("languageCode");
+
+  useEffect(() => {
+    document.documentElement.lang = languageCode;
+  }, [languageCode]);
 
   useEffect(() => {
     const fetchLawyers = async () => {
@@ -39,7 +45,14 @@ const App = () => {
 
   return (
     <UserDataContext.Provider
-      value={{ userData, setUserData, lawyers, setLawyers }}
+      value={{
+        userData,
+        setUserData,
+        lawyers,
+        setLawyers,
+        language,
+        setLanguage,
+      }}
     >
       <BrowserRouter>
         <Routes>
