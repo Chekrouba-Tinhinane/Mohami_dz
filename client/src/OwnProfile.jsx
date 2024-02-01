@@ -6,8 +6,13 @@ import axios from "axios";
 import { useUserData } from "./App";
 import Footer from "./components/super/Footer";
 import AvailabilityForm from "./AvailabilityForm";
+import phone from "./assets/icons/contact/phone.svg";
+import calendar from "./assets/icons/appoint/calendar.svg";
+import clock from "./assets/icons/appoint/clock.svg";
+import { useTranslation } from "react-i18next";
 
 const OwnProfile = ({ lawyer }) => {
+  const { t } = useTranslation()
   const [ratings, setRatings] = useState([]);
   const [pendingRequests, setPendingRequests] = useState([]);
   const [showAvailabilityModal, setShowAvailabilityModal] = useState(false); // State for controlling the modal visibility
@@ -44,63 +49,93 @@ const OwnProfile = ({ lawyer }) => {
       <div className="flex flex-col gap-[4rem] mx-[4rem] my-4 py-8 px-12 bg-lightBrown min-h-max relative">
         <div className="border-b border-gray-300 pb-4">
           <h3 className="text-lg font-semibold mb-4">
-            Coordonnées et Informations Personnelles
+            {t("Contact and Personal Information")}
           </h3>
-          <div className=" space-y-8">
-            <Coords lawyer={lawyer} self={userData?.avocat?.id == lawyer?.avocat?.id} />
+          <div className="space-y-8">
+            <Coords
+              lawyer={lawyer}
+              self={userData?.avocat?.id == lawyer?.avocat?.id}
+            />
             <Location lawyer={lawyer} />
-            <p>Autres informations personnelles...</p>
+            <p>{t("Other personal information...")}</p>
           </div>
         </div>
         <div className="border-b border-gray-300 pb-4">
-          <h3 className="text-lg font-semibold mb-4">Vos Avis</h3>
+          <h3 className="text-lg font-semibold mb-4">{t("Your Reviews")}</h3>
           <div className="space-y-4">
             {ratings.length > 0 ? (
               ratings?.map((rating, index) => <Comment comment={rating} />)
             ) : (
-              <p>Aucun avis disponible pour le moment.</p>
+              <p>{t("No reviews available at the moment.")}</p>
             )}
           </div>
         </div>
         <div className="border-b border-gray-300 pb-4">
-          <h3 className="text-lg font-semibold mb-4">Disponibilité</h3>
+          <h3 className="text-lg font-semibold mb-4">{t("Availability")}</h3>
           <button
             onClick={setAvailability}
             className="bg-primary text-white px-4 py-2 rounded-md hover:opacity-80"
           >
             {showAvailabilityModal
-              ? "Cacher la formulaire de disponibilité"
-              : "Définir la disponibilité"}
+              ? t("Hide availability form")
+              : t("Set availability")}
           </button>
           {showAvailabilityModal && <AvailabilityForm />}
         </div>
         <div className="flex flex-col gap-5">
-          <h3 className="text-lg font-semibold mb-4">Demandes en Attente</h3>
+          <h3 className="text-lg font-semibold mb-4">{t("Pending Requests")}</h3>
+  
           {pendingRequests?.length > 0 ? (
             pendingRequests?.map((request, index) => (
-              <div key={index} className="flex bg-white px-4 py-2 gap-4 justify-between">
-                <div>
-                  <p className="font-bold space-x-4">{request?.client?.username} <span>{request?.client?.email}</span></p>
-
-                  <p>{request?.client?.telephone}</p>
-                  <p>{request?.timing?.DateInterval}</p>
-                  <p>
+              <div
+                key={index}
+                className="flex bg-white px-5 py-4 gap-4 justify-between rounded-md"
+              >
+                <div className="space-y-2 w-full">
+                  <p className="font-semibold text-xl text-lightTypo">
+                    {request?.client?.username}
+                  </p>
+                  <p className="text-sm text-gray-400">
+                    {request?.client?.email}
+                  </p>
+                  <p className="flex items-center gap-2 font-semibold pb-3 border-b-2 border-b-primary">
+                    <span>
+                      {" "}
+                      <img src={phone} alt="" />{" "}
+                    </span>{" "}
+                    {request?.client?.telephone}
+                  </p>
+                  <p className="">
+                    <span className="font-bold gap-2 flex items-center">
+                      {" "}
+                      <img src={calendar} className="w-4" alt="" />{" "}
+                      {t("Appointment Date")}:
+                      <span className="font-normal">
+                        {request?.timing?.DateInterval}
+                      </span>
+                    </span>
+                  </p>
+                  <p className="flex items-center gap-2">
+                    {" "}
+                    <img src={clock} className="w-4" alt="" />{" "}
+                    <span className="font-bold">{t("Time")}: </span>{" "}
                     {request?.timing?.HeureDebut} - {request?.timing?.HeureFin}
                   </p>
                 </div>
                 <button className="bg-primary text-white px-4 py-2 h-max w-max rounded-md hover:opacity-80">
-                  Accepter
+                  {t("Accept")}
                 </button>
               </div>
             ))
           ) : (
-            <p>Aucune demande en attente pour le moment.</p>
+            <p>{t("No pending requests at the moment.")}</p>
           )}
         </div>
       </div>
       <Footer />
     </>
   );
+  
 };
 
 export default OwnProfile;

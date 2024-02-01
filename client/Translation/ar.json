@@ -115,5 +115,23 @@
   "Book an appointment": "احجز موعدًا",
   "Choose the date and time": "اختر التاريخ والوقت",
   "DATE": "التاريخ",
-  "Select a date": "اختر تاريخًا"
+  "Select a date": "اختر تاريخًا",
+  "Start time": "وقت البدء",
+  "End time": "وقت الانتهاء",
+  "Maximum number of appointments": "الحد الأقصى لعدد المواعيد",
+  "Submit": "إرسال",
+  "Successfully done!": "تم بنجاح!",
+
+  "Contact and Personal Information": "المعلومات الشخصية وبيانات الاتصال",
+  "Other personal information...": "معلومات شخصية أخرى...",
+  "Your Reviews": "آراؤك",
+  "No reviews available at the moment.": "لا تتوفر تقييمات حاليًا.",
+  "Availability": "التوفر",
+  "Hide availability form": "إخفاء نموذج التوفر",
+  "Set availability": "تعيين التوفر",
+  "Pending Requests": "الطلبات المعلقة",
+  "Appointment Date": "تاريخ الموعد",
+  "Time": "الوقت",
+  "No pending requests at the moment.": "لا توجد طلبات معلقة حاليًا.",
+  "Accept": "قبول"
 }
