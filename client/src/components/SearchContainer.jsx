@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Selector from "./Selector";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import Loading from "./Loading";
 
 const SearchContainer = ({ setLawyers }) => {
   const { t } = useTranslation();
@@ -32,7 +33,7 @@ const SearchContainer = ({ setLawyers }) => {
   }, []);
 
   if (loading) {
-    return <div>{t("Loading")}...</div>;
+    return <Loading className="py-12 px-2" />
   }
 
   const handleFilterClick = () => {

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import LawyerCard from "../components/LawyerCard";
 import axios from "axios";
-import SearchBar from "../components/SearchBar"
+import SearchBar from "../components/SearchBar";
 import { useTranslation } from "react-i18next";
-
-
+import Loading from "../components/Loading";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   const pageRange = 5; // Adjust this value to change the number of visible page numbers
@@ -86,9 +85,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-
 const ResultsPage = ({ lawyers }) => {
-  const { t } = useTranslation()
+  const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [searchResults, setSearchResults] = useState([]); // Initialize searchResults as an empty array
@@ -105,17 +104,17 @@ const ResultsPage = ({ lawyers }) => {
 
   const handleSearch = (query) => {
     axios
-      .get(
-
-        `http://backend:8000/avocat/recherche-basic?keyword=${query}`
-      )
+      .get(`http://backend:8000/avocat/recherche-basic?keyword=${query}`)
       .then((response) => {
         console.log(response.data);
         setSearchResults(response.data);
+        setLoading(false);
+
         setCurrentPage(1);
       })
       .catch((error) => {
         console.error("Error fetching search results:", error);
+        setLoading(false);
       });
   };
 
@@ -126,7 +125,12 @@ const ResultsPage = ({ lawyers }) => {
           <SearchBar onSearch={handleSearch} />
         </div>
         {totalSearchResults === 0 ? (
-          <div className="flex justify-center">  {t("No compatible results found")}</div>
+          <div className="flex justify-center">
+            {" "}
+            {t("No compatible results found")}
+          </div>
+        ) : loading ? (
+          <Loading className="py-12 px-2" />
         ) : (
           <>
             <LawyerList
@@ -145,7 +149,6 @@ const ResultsPage = ({ lawyers }) => {
     </div>
   );
 };
-
 
 const LawyerList = ({ lawyers, currentPage, itemsPerPage }) => {
   const indexOfLastLawyer = currentPage * itemsPerPage;
