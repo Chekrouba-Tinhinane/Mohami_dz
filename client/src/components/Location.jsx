@@ -1,7 +1,7 @@
 import React from "react";
-import gps from "../assets/icons/gps.svg"
+import gps from "../assets/icons/gps.svg";
 
-const Location = ({lawyer}) => {
+const Location = ({ lawyer }) => {
   return (
     <div id="location" className=" w-full">
       <iframe
@@ -15,7 +15,12 @@ const Location = ({lawyer}) => {
         style={{ border: "0" }}
         allowFullScreen
       ></iframe>
-      <div className="flex gap-3 items-baseline"> <img src={gps} className=" w-3" alt="" /> Location</div>
+      <div className="flex gap-3 items-baseline">
+        {" "}
+        <img src={gps} className=" w-3" alt="" />{" "}
+        {lawyer?.avocat?.ville || lawyer?.ville} -{" "}
+        {lawyer?.avocat?.region || lawyer?.region}{" "}
+      </div>
     </div>
   );
 };

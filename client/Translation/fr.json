@@ -99,6 +99,22 @@
     "reviews": "Avis",
     "location": "Localisation"
   },
-  "specialty": "Spécialité"
+  "specialty": "Spécialité",
 
+  "Give Feedback": "Donner un avis",
+  "Write your feedback...": "Écrivez votre commentaire...",
+  "Votre évaluation": "Votre évaluation",
+  "Confirmer": "Confirmer",
+  "Cancel": "Annuler",
+  "Donner un avis": "Donner un avis",
+
+  "Back": "Retour",
+  "Book an Appointment": "Réserver un rendez-vous",
+  "No available time slots for this date": "Aucun créneau disponible pour cette date",
+  "Choose another date": "Choisir une autre date",
+
+  "Book an appointment": "Prendre un rendez-vous",
+  "Choose the date and time": "Choisissez la date et les horaires",
+  "DATE": "DATE",
+  "Select a date": "Sélectionner une date"
 }

@@ -23,7 +23,7 @@ const Coords = ({ lawyer, onClick, self }) => {
           <div className=" bg-gray-300 h-64 w-56"></div>
           <div className="flex flex-col gap-3">
             <p className="space-x-4">
-              <span className=" font-semibold">{t("specialty")}</span>
+              <span className=" font-semibold">{t("specialty")}:</span>
               <span className=" font-light">
                 {lawyer?.speciality?.name || lawyer?.speciality_name}{" "}
               </span>

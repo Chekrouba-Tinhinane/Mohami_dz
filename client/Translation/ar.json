@@ -92,13 +92,28 @@
   "adminUsernamePlaceholder": "اسم المستخدم الخاص بالمسؤول",
   "passwordPlaceholder": "كلمة المرور",
 
-
   "nav-profile": {
     "about": "حول",
     "categories": "الفئات",
     "reviews": "التقييمات",
     "location": "الموقع"
   },
-  "specialty": "التخصص"
+  "specialty": "التخصص",
 
+  "Give Feedback": "أعط تعليقًا",
+  "Write your feedback...": "اكتب تعليقك...",
+  "Votre évaluation": "تقييمك:",
+  "Confirmer": "تأكيد",
+  "Cancel": "إلغاء",
+  "Donner un avis": "أعط تعليقًا",
+
+  "Back": "العودة",
+  "Book an Appointment": "حجز موعد",
+  "No available time slots for this date": "لا توجد فترات زمنية متاحة لهذا التاريخ",
+  "Choose another date": "اختر تاريخًا آخر",
+
+  "Book an appointment": "احجز موعدًا",
+  "Choose the date and time": "اختر التاريخ والوقت",
+  "DATE": "التاريخ",
+  "Select a date": "اختر تاريخًا"
 }
