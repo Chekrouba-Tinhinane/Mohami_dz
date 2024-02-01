@@ -35,5 +35,40 @@
 
   "inscription": "انشاء حساب",
   "connexion": "تسجيل دخول",
-  "déconnexion": "تسجيل خروج"
+  "déconnexion": "تسجيل خروج",
+
+
+  "signUp": "سجل",
+  "firstName": "الاسم الأول",
+  "lastName": "الاسم الأخير",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "confirmPassword": "تأكيد كلمة المرور",
+  "phoneNumber": "رقم الهاتف",
+  "city": "المدينة",
+  "region": "المنطقة",
+  "postalCode": "الرمز البريدي",
+  "website": "الموقع الإلكتروني (اختياري)",
+  "profilePhoto": "صورة الملف الشخصي",
+  "chooseSpecialty": "اختر التخصص",
+  "chooseLanguage": "اختر اللغة",
+  "cancel": "إلغاء",
+
+  "validation": {
+    "langueRequired": "يرجى اختيار لغة",
+    "firstNameRequired": "الرجاء إدخال اسمك",
+    "lastNameRequired": "الرجاء إدخال اسم العائلة الخاص بك",
+    "emailInvalid": "عنوان البريد الإلكتروني غير صالح",
+    "emailRequired": "يرجى إدخال عنوان بريدك الإلكتروني",
+    "passwordLength": "يجب أن يحتوي على ما لا يقل عن 8 أحرف",
+    "passwordRequired": "يرجى إدخال كلمة مرورك",
+    "passwordMatch": "يجب أن تتطابق كلمات المرور",
+    "telephoneRequired": "الرجاء إدخال رقم هاتفك",
+    "villeRequired": "الرجاء إدخال مدينتك",
+    "regionRequired": "الرجاء إدخال منطقتك",
+    "codepostalRequired": "الرجاء إدخال الرمز البريدي الخاص بك",
+    "photoRequired": "يرجى تحميل صورتك",
+    "specialityRequired": "يرجى اختيار تخصص"
+  }
+
 }
