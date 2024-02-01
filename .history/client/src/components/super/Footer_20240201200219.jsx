@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import msg from "../../assets/icons/contact/msg.svg";
 import footer from "../../assets/landing/footer.jpg";
 import { useTranslation } from 'react-i18next';
@@ -7,11 +7,12 @@ import i18n from "../../../Translation/i18n";
 import twitter from "../../assets/icons/footer/twitter.svg";
 import fb from "../../assets/icons/footer/fb.svg";
 import linkedin from "../../assets/icons/footer/linkedin.svg";
-import { useUserData } from "../../App";
 
 function Footer() {
   const { t, i18n } = useTranslation(); // Use useTranslation hook to access translation function
-  const { language, setLanguage } = useUserData()
+
+  const [language, setLanguage] = useState(i18n.language);
+
   const handleLanguageChange = (event) => {
     i18n.changeLanguage(event.target.value);
     setLanguage(event.target.value);
@@ -20,9 +21,8 @@ function Footer() {
     // For example, you might reload the page or fetch translated content from a server
   };
   useEffect(() => {
-    console.log(language, document.documentElement.lang)
-    document.documentElement.lang = language;
-  }, [language]);
+    document.documentElement.lang = i18n.language;
+  }, [i18n.language]);
   return (
     <footer
       id="footer"

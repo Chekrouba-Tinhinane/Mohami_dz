@@ -12,6 +12,8 @@ import { useUserData } from "../../App";
 function Footer() {
   const { t, i18n } = useTranslation(); // Use useTranslation hook to access translation function
   const { language, setLanguage } = useUserData()
+  const [language, setLanguage] = useState(i18n.language);
+
   const handleLanguageChange = (event) => {
     i18n.changeLanguage(event.target.value);
     setLanguage(event.target.value);
