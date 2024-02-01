@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import SearchContainer from "./components/SearchContainer";
-import Footer from "./components/super/Footer";
-import { useUserData } from "./App";
+import SearchContainer from "../components/SearchContainer";
+import Footer from "../components/super/Footer";
+import { useUserData } from "../App";
 import ResultsPage from "./ResultsPage";
 import { useTranslation } from "react-i18next";
 

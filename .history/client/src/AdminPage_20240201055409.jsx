@@ -4,6 +4,7 @@ import { useUserData } from "./App";
 import EvalLawyers from "./components/EvalLawyers";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { Dialog } from "@mui/material";
 
 const AdminPage = () => {
   const { userData, setUserData, lawyers, setLawyers } = useUserData();
@@ -55,20 +56,18 @@ const AdminPage = () => {
       );
       console.log("Lawyer approved successfully.");
       // Remove the approved lawyer from the pending lawyers list
-      setPendingLawyers(prevLawyers =>
-        prevLawyers.filter(lawyer => lawyer.avocat.id !== lawyerId)
+      setPendingLawyers((prevLawyers) =>
+        prevLawyers.filter((lawyer) => lawyer.avocat.id !== lawyerId)
       );
     } catch (error) {
       console.error("Error approving lawyer:", error);
     }
   };
 
-
-
   const toggleView = () => {
     setShowPending((prev) => !prev);
   };
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
     <div className="flex justify-center w-full ">
@@ -99,18 +98,30 @@ const AdminPage = () => {
                 lawyers={pendingLawyers}
               />
             ) : (
-              <EvalLawyers
-                all={false}
-                lawyers={lawyers}
-              />
+              <EvalLawyers all={false} lawyers={lawyers} />
             )}
           </div>
         </div>
         <Footer />
       </div>
+      <Dialog open={deleteConfirmationOpen} onClose={closeDeleteConfirmation}>
+        <DialogTitle>{t("Confirmation")}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {t("Are you sure you want to delete this lawyer?")}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeDeleteConfirmation} color="primary">
+            {t("Cancel")}
+          </Button>
+          <Button onClick={() => handleDeleteLawyer(lawyerToDeleteId)} color="primary" autoFocus>
+            {t("Confirm")}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
-  
 };
 
 export default AdminPage;
