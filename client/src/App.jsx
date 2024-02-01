@@ -7,14 +7,13 @@ import SignIn from "./SignIn";
 import Search from "./Search";
 import HomeLayout from "./components/super/HomeLayout";
 import Profile from "./components/Profile";
-import ResultsPage from "./ResultsPage";
 import SignUp from "./components/SignUp";
-import maria from "./assets/maria/maria.jpg";
-import ClientSignIn from "./ClientSignIn";
-import AvailabilityForm from "./AvailabilityForm";
 import axios from "axios";
 import OwnProfile from "./OwnProfile";
 import AdminPage from "./AdminPage";
+
+import { I18nextProvider } from "react-i18next"; // Import I18nextProvider
+import i18n from "../Translation/i18n";
 
 const UserDataContext = createContext();
 
@@ -40,7 +39,9 @@ const App = () => {
   const [userData, setUserData] = useState(null);
 
   return (
-    <UserDataContext.Provider value={{ userData, setUserData, lawyers, setLawyers }}>
+    <UserDataContext.Provider
+      value={{ userData, setUserData, lawyers, setLawyers }}
+    >
       <BrowserRouter>
         <Routes>
           <Route path={"/"} element={<LandingPage />} />
@@ -53,13 +54,7 @@ const App = () => {
           <Route
             path={"/SelfProfile"}
             element={
-              <HomeLayout
-                pageComponent={
-                  <OwnProfile
-                    lawyer={userData}
-                  />
-                }
-              />
+              <HomeLayout pageComponent={<OwnProfile lawyer={userData} />} />
             }
           />
           <Route
@@ -67,15 +62,11 @@ const App = () => {
             element={
               <HomeLayout
                 pageComponent={
-                  <AdminPage
-                    lawyers={lawyers}
-                    setLawyers={setLawyers}
-                  />
+                  <AdminPage lawyers={lawyers} setLawyers={setLawyers} />
                 }
               />
             }
           />
-
 
           <Route
             path={"/Search"}
@@ -87,21 +78,9 @@ const App = () => {
               />
             }
           />
-          <Route
-            path={"/Available"}
-            element={<HomeLayout pageComponent={<AvailabilityForm />} />}
-          />
+
           <Route path={"/Signin"} element={<SignIn />} />
-          {/*  <Route
-          path={"/Schedule"}
-          element={<HomeLayout pageComponent={<Schedule />} />}
-        />
-        
-        
-        <Route
-          path={"/profile/:id"}
-          element={<HomeLayout pageComponent={<Profile />} />}
-        /> */}
+
           <Route
             path={"/SignUp"}
             element={<HomeLayout pageComponent={<SignUp />} />}
@@ -117,4 +96,8 @@ export const useUserData = () => useContext(UserDataContext);
 export default App;
 
 const root = createRoot(document.getElementById("root"));
-root.render(<App />);
+root.render(
+  <I18nextProvider i18n={i18n}>
+    <App />
+  </I18nextProvider>
+);

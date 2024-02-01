@@ -53,9 +53,9 @@ function Footer() {
           </div>
 
           <div className="flex place-self-start gap-[3rem]">
-            <img src={twitter} alt="" />
-            <img src={fb} alt="" />
-            <img src={linkedin} alt="" />
+            <img src={twitter} className=" w-7 cursor-pointer" alt="" />
+            <img src={fb} className=" w-4.5 cursor-pointer" alt="" />
+            <img src={linkedin} className=" w-7 cursor-pointer" alt="" />
           </div>
 
           <div className="border-l border-l-white pl-10 flex flex-col gap-5 h-[85%] place-self-start">

@@ -71,7 +71,7 @@ const AdminPage = () => {
   const { t } = useTranslation()
 
   return (
-    <div className="flex justify-center w-full">
+    <div className="flex justify-center w-full ">
       <div className="flex flex-col w-full">
         <div className="flex flex-col mx-[4rem] gap-[5rem]">
           <div className="">

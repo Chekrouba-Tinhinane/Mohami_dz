@@ -279,8 +279,8 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
                     onClose={() => setModalOpen(false)} // Pass onClose function
                   />
                 ) : (
-                  <div className="w-full gap-3 flex flex-col items-center">
-                    <div className="font-semibold">
+                  <div className=" text-center w-full gap-3 flex flex-col items-center">
+                    <div className="font-semibold text-center">
                       {t("No available time slots for this date")}
                     </div>
                     <p

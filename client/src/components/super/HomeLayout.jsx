@@ -18,7 +18,7 @@ const HomeLayout = ({ pageComponent }) => {
       </header>
       <NavBar links={navLinks} landing={true} l={false} />
 
-      <div className={` w-full  `}>{pageComponent}</div>
+      <div className={`w-full`}>{pageComponent}</div>
     </div>
   );
 };

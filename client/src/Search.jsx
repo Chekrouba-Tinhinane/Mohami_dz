@@ -15,7 +15,7 @@ const Search = ({ lawyers, setLawyers }) => {
         <div className=" flex flex-col mx-[4rem] gap-[5rem]">
           <div className="">
             <h2 className="recursive">
-               {t("FindLawyer")}
+               {t("findLawyer")}
             </h2>
             <SearchContainer setLawyers={setLawyers} />
           </div>

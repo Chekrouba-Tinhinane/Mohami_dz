@@ -37,7 +37,7 @@ const NavBar = ({ links, landing, l }) => {
                 {link.label}
               </ScrollLink>
             ) : (
-              <Link to={link.to}>{link.label}</Link>
+              <Link className="nav-item" to={link.to}>{link.label}</Link>
             )}
           </motion.li>
         ))}
@@ -49,7 +49,7 @@ const NavBar = ({ links, landing, l }) => {
               <Link
                 to={"/SignIn"}
                 href=""
-                className="recursive flex items-center font-semibold text-primary border border-primary bg-white text-center text-lg py-1.5 px-3.5 hover:bg-opacity-70"
+                className="hover:bg-primary hover:text-white ease-linear transition recursive flex items-center font-semibold text-primary border border-primary bg-white text-center text-lg py-1.5 px-3.5 hover:bg-opacity-70"
               >
                 {t("connexion")}
               </Link>
@@ -57,7 +57,7 @@ const NavBar = ({ links, landing, l }) => {
                 <Link
                   to={"/SignUp"}
                   href=""
-                  className="recursive flex items-center font-semibold text-primary border border-primary bg-white text-center text-lg py-1.5 px-3.5 hover:bg-opacity-70"
+                  className=" hover:bg-primary hover:text-white ease-linear transition recursive flex items-center font-semibold text-primary border border-primary bg-white text-center text-lg py-1.5 px-3.5 hover:bg-opacity-70"
                 >
                   {t("inscription")}
                 </Link>
@@ -69,7 +69,7 @@ const NavBar = ({ links, landing, l }) => {
             to={"/SignIn"}
             onClick={() => console.log("removeToken")}
             href=""
-            className="recursive flex items-center font-semibold text-primary border border-primary bg-white text-center text-lg py-1.5 px-3.5 hover:bg-opacity-70"
+            className=" hover:bg-primary hover:text-white ease-linear transition recursive flex items-center font-semibold text-primary border border-primary bg-white text-center text-lg py-1.5 px-3.5 hover:bg-opacity-70"
           >
             {t("déconnexion")}
           </Link>
