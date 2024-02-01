@@ -19,7 +19,8 @@ const SignUp = () => {
     const fetchSpecialities = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.137.210:8000/speciality/speciality_list"
+
+          "http://backend:8000/speciality/speciality_list"
         );
         setSpecialities(response.data);
       } catch (error) {
@@ -94,7 +95,8 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
       console.log(postData);
 
       const response = await axios.post(
-        "http://192.168.137.210:8000/avocat/register_avocat",
+
+        "http://backend:8000/avocat/register_avocat",
         postData
       );
 

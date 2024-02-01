@@ -26,7 +26,8 @@ const LawyerCard = ({ allL, admin, lawyer, onDelete, onApprove }) => {
   const handleDelete = async () => {
     try {
       await axios.post(
-        `http://192.168.137.210:8000/avocat/avocat_delete`,
+
+        `http://backend:8000/avocat/avocat_delete`,
         lawyer?.avocat?.id
       );
       onDelete(lawyer?.avocat?.id); // Remove the lawyer from the list on deletion

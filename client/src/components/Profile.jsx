@@ -192,14 +192,16 @@ function Avis({ lawyer }) {
   const submitFeedback = async (feedbackData) => {
     try {
       const response = await axios.post(
-        "http://192.168.137.210:8000/ratings/register_rating",
+
+        "http://backend:8000/ratings/register_rating",
         feedbackData
       );
       console.log("Feedback submitted successfully:", response.data);
 
       // Fetch updated comments after submitting feedback
       const updatedResponse = await axios.get(
-        `http://192.168.137.210:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
+
+        `http://backend:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
       );
       setComments(updatedResponse.data);
 
@@ -213,7 +215,8 @@ function Avis({ lawyer }) {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          `http://192.168.137.210:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
+
+          `http://backend:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
         );
         setComments(response.data);
       } catch (error) {

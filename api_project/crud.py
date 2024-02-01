@@ -1,7 +1,8 @@
 from datetime import date
-from operator import or_
 from sqlalchemy import func
+from operator import or_
 from sqlalchemy.orm import Session
+from sqlalchemy.sql.expression import or_, and_
 import models, schemas
 from auth.JWThandler import signJWT,decodeJWT,signJWT_client,signJWT_admin,signJWT_avocat
 from fastapi import HTTPException,status,Body
