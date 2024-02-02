@@ -23,12 +23,12 @@ function Footer() {
   return (
     <footer
       id="footer"
-      className="h-[320px] relative flex w-full justify-center mt-[10rem] text-white"
+      className="h-[320px] phone:max-lg:h-[550px]  relative flex w-full justify-center mt-[10rem] text-white"
     >
       <img src={footer} alt="" className="w-full object-cover" />
       {/* sixth section */}
-      <div className="absolute w-full flex justify-center pt-[4rem]">
-        <div className="flex items-center justify-between  px-16 w-full">
+      <div className="absolute w-full pb-8 flex justify-center pt-[4rem]">
+        <div className="flex items-center justify-between phone:max-lg:flex-col phone:max-lg:justify-center gap-6 px-16 w-full">
           <div className="flex flex-col gap-6">
             <h3 className=" text-2xl recursive">{t("help")}</h3>
             <ul className="flex flex-col font-light gap-2">
@@ -56,13 +56,13 @@ function Footer() {
             </div>
           </div>
 
-          <div className="flex place-self-start gap-[3rem]">
+          <div className="flex place-self-start phone:max-lg:place-self-center gap-[3rem]">
             <img src={twitter} className=" w-7 cursor-pointer" alt="" />
             <img src={fb} className=" w-4.5 cursor-pointer" alt="" />
             <img src={linkedin} className=" w-7 cursor-pointer" alt="" />
           </div>
 
-          <div className="border-l border-l-white pl-10 flex flex-col gap-5 h-[85%] place-self-start">
+          <div className="border-l border-l-white pl-10 flex flex-col gap-5 h-[85%] place-self-start phone:max-lg:place-self-center">
             <p className="flex items-center gap-2">
               {t("contactUs")}
               <span>
