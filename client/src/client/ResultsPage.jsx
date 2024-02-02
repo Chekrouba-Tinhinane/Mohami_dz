@@ -120,7 +120,7 @@ const ResultsPage = ({ lawyers }) => {
 
   return (
     <div>
-      <div className="bg-lightBrown px-5 py-6">
+      <div className="bg-lightBrown px-5 phone:max-tablet:pl-2 py-6">
         <div className="mb-4 mt-3 flex w-full justify-between">
           <SearchBar onSearch={handleSearch} />
         </div>
