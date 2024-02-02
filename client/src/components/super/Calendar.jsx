@@ -8,6 +8,8 @@ import { getDaysArray, INTERVAL } from "../../config";
 import "../../Calendar.css";
 import axios from "axios";
 import { useUserData } from "../../App";
+import { toast, Toaster } from "react-hot-toast";
+
 
 const TimeRow = ({ index, style, data, activeTime, onClick }) => {
   const { t } = useTranslation(); // Use useTranslation hook
@@ -244,19 +246,20 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
       console.log(response.data);
       console.log(response);
       response.data.erreur
-        ? alert("Nombre maximum de rendez-vous atteint pour cette période.")
-        : alert("Rendez-vous pris! Merci!");
+        ? toast.error("Nombre maximum de rendez-vous atteint pour cette période.")
+        : toast.success("Rendez-vous pris! Merci!");
 
       setShowTimeSelection(false); // Close the modal
       onClose(false);
     } catch (error) {
       // Log any errors
-      alert("Error booking appointment:", error);
+      toast.error("Error booking appointment:", error);
     }
   };
 
   return (
     <div className="flex flex-col my-8">
+      <Toaster richColors position="top-right" />
       <div className="w-[100%] flex gap-6 justify-center">
         <div className="flex flex-col">
           <div className="flex">
