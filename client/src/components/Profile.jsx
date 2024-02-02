@@ -83,19 +83,19 @@ function CalendarModal({ lawyer, isOpen, onRequestClose }) {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel={t("Book an appointment")}
-      className={`transition-all duration-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[700px] h-[436px]`}
+      className={`transition-all duration-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 phone:max-tablet:h-[300px] phone:max-tablet:w-[260px] tablet:max-lg:w-[450px] tablet:max-lg:h-[320px] w-[640px] h-[436px]`}
       overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 backdrop-blur-xs z-40"
     >
       <motion.div
         initial={{ scale: 0 }}
         animate={{ scale: isOpen ? 1 : 0 }}
         transition={{ duration: 0.3 }}
-        className={`flex h-full ${showCalendar ? "gap-[1rem]" : ""}`}
+        className="flex h-full items-center"
       >
         <div
-          className={`  ${
-            showCalendar ? "w-[60%] border-r pr-5 border-r-primary" : "w-full"
-          } flex flex-col justify-center flex-shrink-0 transition-all transform duration-300  `}
+          className={` ${
+            showCalendar ? "basis-[40%]" : "basis-[100%]"
+          }  flex flex-col justify-center place-self-start flex-shrink-0 transition-all duration-300`}
         >
           <div className="flex w-full justify-between border-b border-b-primary pb-4">
             <h3>{t("Book an appointment")}</h3>
@@ -118,7 +118,11 @@ function CalendarModal({ lawyer, isOpen, onRequestClose }) {
           <div className="flex justify-end"></div>
         </div>
         {showCalendar && (
-          <div className="w-full place-self-center">
+          <div
+            className={` ${
+              showCalendar ? "basis-[60%]" : "basis-[40%]"
+            }  transition-all duration-300`}
+          >
             <Calendar
               onOpen={setShowCalendar}
               isOpen={showCalendar}
