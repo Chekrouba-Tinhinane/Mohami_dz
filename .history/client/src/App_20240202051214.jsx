@@ -100,7 +100,7 @@ const App = () => {
 
           <Route
             path={"/SignUp"}
-            element={<HomeLayout signup={true} pageComponent={<SignUp />} />}
+            element={<HomeLayout sig pageComponent={<SignUp />} />}
           />
         </Routes>{" "}
       </BrowserRouter>

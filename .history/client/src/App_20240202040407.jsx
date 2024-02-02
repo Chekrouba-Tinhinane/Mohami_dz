@@ -42,7 +42,7 @@ const App = () => {
   }, []); // Empty dependency array ensures fetchLawyers is called only onc
 
   const [userData, setUserData] = useState(null);
-
+  
   return (
     <UserDataContext.Provider
       value={{
@@ -100,7 +100,7 @@ const App = () => {
 
           <Route
             path={"/SignUp"}
-            element={<HomeLayout signup={true} pageComponent={<SignUp />} />}
+            element={<HomeLayout pageComponent={<SignUp />} />}
           />
         </Routes>{" "}
       </BrowserRouter>
@@ -122,7 +122,8 @@ root.render(
 /* import { toast, Toaster } from "react-hot-toast";
  */
 
-/*<Toaster richColors position="top-right" />*/
+  /*<Toaster richColors position="top-right" />*/
+
 
 /* const [testG, setTest] = useState(false);
   const toggleTest = () => {
@@ -134,7 +135,7 @@ root.render(
       : toast.error("blabla error blabla");
   }; */
 
-/*  <Route
+  /*  <Route
             path={"/imed"}
             element={
               <HomeLayout
@@ -178,3 +179,4 @@ root.render(
               />
             }
           /> */
+}

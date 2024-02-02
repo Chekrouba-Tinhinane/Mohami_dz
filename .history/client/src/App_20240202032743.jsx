@@ -100,9 +100,13 @@ const App = () => {
 
           <Route
             path={"/SignUp"}
-            element={<HomeLayout signup={true} pageComponent={<SignUp />} />}
+            element={<HomeLayout pageComponent={<SignUp />} />}
           />
-        </Routes>{" "}
+          <Route
+            path={"/imed"}
+            element={<HomeLayout pageComponent={<div onClick={() => c{onsole.log()}>Click here to activate toast </div>} />}
+          />
+        </Routes>
       </BrowserRouter>
     </UserDataContext.Provider>
   );
@@ -118,63 +122,3 @@ root.render(
     <App />
   </I18nextProvider>
 );
-
-/* import { toast, Toaster } from "react-hot-toast";
- */
-
-/*<Toaster richColors position="top-right" />*/
-
-/* const [testG, setTest] = useState(false);
-  const toggleTest = () => {
-    setTest(!testG);
-  };
-  const showToast = () => {
-    testG
-      ? toast.success("La modification a bien été enregistrée !")
-      : toast.error("blabla error blabla");
-  }; */
-
-/*  <Route
-            path={"/imed"}
-            element={
-              <HomeLayout
-                pageComponent={
-                  <>
-                    <div>
-                      Pick one :{" "}
-                      <span
-                        className="text-green-400 rounded-lg bg-green-200 p-2"
-                        onClick={() => setTest(true)}
-                      >
-                        1
-                      </span>{" "}
-                      <span
-                        className="text-red-400 rounded-lg bg-red-200 p-2"
-                        onClick={() => setTest(false)}
-                      >
-                        2
-                      </span>
-                      <div
-                        onClick={showToast}
-                        className=" px-3 py-1.5 bg-gray-200 text-gray-400"
-                      >
-                        Confirm choice
-                      </div>
-                    </div>
-                    <div
-                      onClick={() => {
-                        toast.error((t) => (
-                          <span>
-                            <button onClick={() => {}}>Hmmm</button>
-                          </span>
-                        ));
-                        console.log("ok");
-                      }}
-                    >
-                      Click here to activate toast error{" "}
-                    </div>
-                  </>
-                }
-              />
-            }
-          /> */

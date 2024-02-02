@@ -14,6 +14,7 @@ import AdminPage from "./admin/AdminPage";
 import { I18nextProvider, useTranslation } from "react-i18next";
 import i18n from "../Translation/i18n";
 import Specialty from "./admin/Specialty";
+import { toast, Toaster } from "react-hot-toast";
 
 const UserDataContext = createContext();
 
@@ -42,7 +43,10 @@ const App = () => {
   }, []); // Empty dependency array ensures fetchLawyers is called only onc
 
   const [userData, setUserData] = useState(null);
-
+  const [testG, setTest] = useState(false);
+  const toggleTest = () => {
+    setTest(!testG)
+  }
   return (
     <UserDataContext.Provider
       value={{
@@ -100,66 +104,21 @@ const App = () => {
 
           <Route
             path={"/SignUp"}
-            element={<HomeLayout signup={true} pageComponent={<SignUp />} />}
+            element={<HomeLayout pageComponent={<SignUp />} />}
           />
-        </Routes>{" "}
-      </BrowserRouter>
-    </UserDataContext.Provider>
-  );
-};
-
-export const useUserData = () => useContext(UserDataContext);
-
-export default App;
-
-const root = createRoot(document.getElementById("root"));
-root.render(
-  <I18nextProvider i18n={i18n}>
-    <App />
-  </I18nextProvider>
-);
-
-/* import { toast, Toaster } from "react-hot-toast";
- */
-
-/*<Toaster richColors position="top-right" />*/
-
-/* const [testG, setTest] = useState(false);
-  const toggleTest = () => {
-    setTest(!testG);
-  };
-  const showToast = () => {
-    testG
-      ? toast.success("La modification a bien été enregistrée !")
-      : toast.error("blabla error blabla");
-  }; */
-
-/*  <Route
+          <Route
             path={"/imed"}
             element={
               <HomeLayout
                 pageComponent={
                   <>
-                    <div>
-                      Pick one :{" "}
-                      <span
-                        className="text-green-400 rounded-lg bg-green-200 p-2"
-                        onClick={() => setTest(true)}
-                      >
-                        1
-                      </span>{" "}
-                      <span
-                        className="text-red-400 rounded-lg bg-red-200 p-2"
-                        onClick={() => setTest(false)}
-                      >
-                        2
-                      </span>
-                      <div
-                        onClick={showToast}
-                        className=" px-3 py-1.5 bg-gray-200 text-gray-400"
-                      >
-                        Confirm choice
-                      </div>
+                    <div
+                      onClick={() => {
+                        toggleTest
+                        console.log("ok");
+                      }}
+                    >
+                        ... { testG ? toast.success("nice") : toast.error("nope")}
                     </div>
                     <div
                       onClick={() => {
@@ -177,4 +136,21 @@ root.render(
                 }
               />
             }
-          /> */
+          />
+        </Routes>{" "}
+        <Toaster richColors position="top-right" />
+      </BrowserRouter>
+    </UserDataContext.Provider>
+  );
+};
+
+export const useUserData = () => useContext(UserDataContext);
+
+export default App;
+
+const root = createRoot(document.getElementById("root"));
+root.render(
+  <I18nextProvider i18n={i18n}>
+    <App />
+  </I18nextProvider>
+);
