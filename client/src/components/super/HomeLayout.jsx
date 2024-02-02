@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import NavBar from "./NavBar";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
-const HomeLayout = ({ pageComponent, admin }) => {
+const HomeLayout = ({ pageComponent, admin, signup }) => {
   const { t } = useTranslation();
 
   const adminNav = [
@@ -13,12 +14,19 @@ const HomeLayout = ({ pageComponent, admin }) => {
     { label: t("home"), to: "/" },
     { label: t("findLawyer"), to: "/Search" },
   ];
+  const signLinks = [
+    { label: t("home"), to: "/" },
+  ];
   return (
     <div className=" flex flex-col min-h-screen items-center">
-      <header className=" p-3 recursive border-b border-b-primary w-[90%] text-center font-semibold text-xl">
-        DZ Mouhami
-      </header>
-      <NavBar links={admin ? adminNav : navLinks} landing={true} l={false} />
+      <div className="flex justify-center border-b border-b-primary w-[90%]">
+        <Link className=" w-max" to="/">
+          <header className=" cursor-pointer p-3 recursive text-center font-semibold text-xl">
+            DZ Mouhami
+          </header>
+        </Link>
+      </div>
+      <NavBar links={signup ? signLinks : admin ? adminNav : navLinks} landing={true} l={false} />
 
       <div className={`w-full`}>{pageComponent}</div>
     </div>
