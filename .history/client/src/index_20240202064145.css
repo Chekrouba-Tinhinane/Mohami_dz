@@ -1,0 +1,119 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=Lato:wght@100;300;400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Amiri:wght@200;300;400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100;200;300;400;500;600;700;800&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  a {
+    @apply cursor-pointer;
+  }
+  h1 {
+    @apply text-[50px] font-bold;
+  }
+  h2 {
+    @apply text-[2.5rem] font-bold;
+  }
+  p {
+  }
+  h3 {
+  }
+  h4 {
+    @apply text-[1rem] font-semibold;
+  }
+  textarea {
+  }
+  input {
+  }
+  select {
+  }
+}
+
+* {
+  /*font-family: 'Cormorant Garamond', serif; */
+  font-family: "Lato", sans-serif;
+  font-family: "Noto Kufi Arabic", sans-serif; 
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.recursive {
+  font-family: "Cormorant Garamond", serif;
+  font-family: "Amiri", serif;
+}
+
+.nav-item::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  margin-top: 5px;
+  background-color: rgb(212, 173, 107);
+  transition: width 0.4s;
+}
+
+.nav-item:hover::after,
+.nav-item.active::after {
+  width: 100%;
+}
+
+[lang="ar"] {
+  font-family: "Noto Kufi Arabic", sans-serif !important; 
+  direction: rtl;
+  text-align: right;
+  unicode-bidi: bidi-override;
+}
+
+.spinner {
+  animation: rotator 1.4s linear infinite;
+}
+
+@keyframes rotator {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(270deg);
+  }
+}
+
+.path {
+  stroke-dasharray: 187;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  animation: dash 1.4s ease-in-out infinite, colors 5s ease-in-out infinite;
+}
+
+@keyframes colors {
+  0% {
+    stroke: #d4ad6b;
+  }
+
+  50% {
+    stroke: #faf5ee;
+  }
+
+  100% {
+    stroke: #d4ad6b;
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 187;
+  }
+
+  50% {
+    stroke-dashoffset: 46.75;
+    transform: rotate(135deg);
+  }
+
+  100% {
+    stroke-dashoffset: 187;
+    transform: rotate(450deg);
+  }
+}
