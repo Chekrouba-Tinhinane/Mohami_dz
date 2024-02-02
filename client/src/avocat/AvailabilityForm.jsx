@@ -73,7 +73,7 @@ const AvailabilityForm = () => {
       <Grid item xs={12}></Grid>
       <Grid item xs={12}>
         {showForm && (
-          <form className="space-y-6 w-[50%]" onSubmit={formik.handleSubmit}>
+          <form className="space-y-6 w-[50%] phone:max-tablet:w-full" onSubmit={formik.handleSubmit}>
             <div>
               <label htmlFor="DateInterval">{t("Select a date")} :</label>
               <TextField
