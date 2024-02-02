@@ -70,7 +70,7 @@ const SearchContainer = ({ setLawyers }) => {
         {t("Advanced Search")}
       </h3>
 
-      <div className="flex justify-center gap-3 text-lightTypo font-semibold ">
+      <div className="flex justify-center gap-3 text-lightTypo font-semibold phone:max-tablet:flex-col mx-[2em] ">
         <div className="flex flex-col basis-[30%] gap-3">
           <div>{t("Specialty")}</div>
           <Selector
