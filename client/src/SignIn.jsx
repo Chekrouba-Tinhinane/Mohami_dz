@@ -59,17 +59,17 @@ const SignIn = () => {
   };
 
   return (
-    <div className="flex h-screen items-center">
-      <div className="basis-[60%]">
-        <img src={scene} className="bg- h-screen w-full object-cover" alt="" />
+    <div className="flex h-screen phone:max-lg:my-8">
+      <div className="basis-[60%] phone:max-lg:hidden">
+        <img src={scene} className="h-screen w-full object-cover" alt="" />
       </div>
 
-      <div className="relative w-[30%] flex flex-col h-[85%] pb-10 border border-primary mx-auto items-center">
-        <h1 className="recursive text-primary absolute -top-10 bg-white">
+      <div className="relative z-20 w-[30%] phone:max-lg:w-full phone:max-lg:h-full phone:max-lg:mx-[5rem] flex flex-col my-8 min-h-max border border-primary mx-auto items-center">
+        <h1 className="recursive text-primary absolute -top-8  bg-white">
           {t("signIn")}
         </h1>
 
-        <header className="text-center my-8">
+        <header className="text-center my-8 z-30">
           <small className="text-gray-500">{t("signInInfo")}</small>
         </header>
 
@@ -91,8 +91,8 @@ const SignIn = () => {
           onSubmit={handleSubmit}
         >
           {({ errors, touched }) => (
-            <Form className="basis-[60%] w-[65%]">
-              <div className="flex flex-col mb-8">
+            <Form className="flex flex-col gap-3">
+              <div className="flex flex-col">
                 <label htmlFor="userType">{t("loginAs")}</label>
                 <select
                   id="userType"
@@ -160,7 +160,7 @@ const SignIn = () => {
                 </div>
               )}
 
-              <div className="flex flex-col mt-8">
+              <div className="flex flex-col ">
                 <label htmlFor="password">{t("password")}</label>
                 <Field
                   type="password"
@@ -215,7 +215,7 @@ const SignIn = () => {
           )}
         </Formik>
 
-        <footer className="basis-[10%] mt-20">
+        <footer className="basis-[10%]">
           <span className="text-xs opacity-70">{t("noAccount")}</span>{" "}
           <Link to={"/Signup"} className="cursor-pointer text-sm font-semibold">
             {t("signup")}
