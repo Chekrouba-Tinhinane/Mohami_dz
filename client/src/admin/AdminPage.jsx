@@ -69,8 +69,8 @@ const AdminPage = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="flex justify-center w-full ">
-      <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full min-h-screen ">
+      <div className="flex flex-col w-full min-h-screen">
         <div className="flex flex-col mx-[4rem] gap-[5rem]">
           <div className="">
             <h2 onClick={() => console.log(userData)} className="recursive">
