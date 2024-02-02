@@ -45,7 +45,7 @@ const Specialty = () => {
                 id="nomSpecialite"
                 value={nomSpecialite}
                 onChange={(e) => setNomSpecialite(e.target.value)}
-                className="w-full border-gray-300 rounded-md px-4 py-2"
+                className="w-full border border-gray-300 rounded-md px-4 py-2"
               />
             </div>
             <div className="mb-4">
@@ -56,10 +56,10 @@ const Specialty = () => {
                 id="description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full border-gray-300 rounded-md px-4 py-2"
+                className="w-full border border-gray-300 rounded-md px-4 py-2"
               />
             </div>
-            <div className="flex justify-end">
+            <div className="flex gap-3 justify-end">
               <button
                 className="px-4 py-2 bg-primary text-white rounded-md hover:bg-opacity-70"
                 onClick={handleAddSpecialite}
