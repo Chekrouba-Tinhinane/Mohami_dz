@@ -31,7 +31,7 @@ const SignUp = () => {
 
   return (
     <div className="flex flex-col w-full bg-lightBrown pt-5">
-      <div className="bg-white flex flex-col mx-[4rem] px-[3rem] py-[1.5rem]">
+      <div className="bg-white flex flex-col mx-[4rem] phone:max-tablet:mx-[1rem] px-[3rem] py-[1.5rem]">
         <SignupForm specialities={specialities} />
       </div>
       <Footer />
@@ -122,7 +122,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
   }; */
 
   return (
-    <div className="mx-auto w-[65%]">
+    <div className="mx-auto w-[65%] phone:max-tablet:w-full">
       <h3 className="text-3xl tracking-wide font-semibold recursive">
         {t("signUp")}
       </h3>
@@ -201,8 +201,8 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                 className="text-red-500 text-sm"
               />
             </div>
-            <div className="flex space-x-[6rem]">
-              <div className="w-1/2">
+            <div className="flex  phone:max-tablet:flex-col gap-[2rem]">
+              <div className="w-1/2 phone:max-tablet:w-full">
                 <Field
                   as={TextField}
                   type="text"
@@ -217,7 +217,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                   className="text-red-500 text-sm"
                 />
               </div>
-              <div className="w-1/2">
+              <div className="w-1/2 phone:max-tablet:w-full">
                 <Field
                   as={TextField}
                   type="text"
@@ -282,8 +282,8 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
               />
             </div>
 
-            <div className="flex space-x-[6rem]">
-              <div className="w-1/3">
+            <div className="flex phone:max-tablet:flex-col gap-[2rem]">
+              <div className="w-1/3 phone:max-tablet:w-full">
                 <Field
                   as={TextField}
                   type="text"
@@ -298,7 +298,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                   className="text-red-500 text-sm"
                 />
               </div>
-              <div className="w-1/3">
+              <div className="w-1/3 phone:max-tablet:w-full">
                 <Field
                   as={TextField}
                   type="text"
@@ -313,7 +313,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                   className="text-red-500 text-sm"
                 />
               </div>
-              <div className="w-1/3">
+              <div className="w-1/3 phone:max-tablet:w-full">
                 <Field
                   as={TextField}
                   type="text"
