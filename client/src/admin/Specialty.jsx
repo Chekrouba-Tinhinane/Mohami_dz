@@ -21,7 +21,7 @@ const Specialty = () => {
 
   return (
     <div className="flex flex-col w-full pt-5 ">
-      <div className="mx-[4rem] flex justify-between items-center">
+      <div className="mx-[4rem] flex mb-4 phone:max-lg:flex-col phone:max-lg:items-start justify-between items-center">
         <h2 className="recursive flex-shrink-0">{t("list spec")}</h2>
         <button
           className="flex items-center gap-2 hover:bg-opacity-70 h-max px-6 py-1 text-base bg-primary text-white"
@@ -33,7 +33,7 @@ const Specialty = () => {
 
       {/* Modal/Dialog */}
       {showModal && (
-        <div className="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 flex z-50 justify-center items-center bg-black bg-opacity-50">
           <div className="bg-white p-8 rounded-lg">
             <h2 className="text-lg font-semibold mb-4">{t("add spec")}</h2>
             <div className="mb-4">
