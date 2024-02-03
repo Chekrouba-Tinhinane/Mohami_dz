@@ -6,7 +6,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../App";
 import { useTranslation } from "react-i18next";
-import i18n from "../../Translation/i18n";
 
 import Footer from "./super/Footer";
 
@@ -18,7 +17,7 @@ const SignUp = () => {
     const fetchSpecialities = async () => {
       try {
         const response = await axios.get(
-          "http://backend:8000/speciality/speciality_list"
+          "http://192.168.137.210:8000/speciality/speciality_list"
         );
         setSpecialities(response.data);
       } catch (error) {
@@ -41,8 +40,7 @@ const SignUp = () => {
 
 const SignupForm = ({ onCancel, onSubmit, specialities }) => {
   const navigate = useNavigate();
-  const { t, i18n } = useTranslation(); // Use useTranslation hook to access translation function
-  const rtlClass = i18n.language === "ar" ? "rtl" : "";
+  const { t } = useTranslation(); // Use useTranslation hook to access translation function
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   /*  const [values, setValues] = useState({
@@ -70,30 +68,44 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
   }; */
 
   const handleSubmit = async (values) => {
+    console.log(values);
     try {
+      const endpoint =
+        values.role === "Avocat"
+          ? "avocat/register_avocat"
+          : "client/register_client";
+
       const postData = {
-        avocat: {
-          first_name: values.first_name,
-          last_name: values.last_name,
+        ...(values.role === "Avocat" && {
+          avocat: {
+            first_name: values.first_name,
+            last_name: values.last_name,
+            ville: values.ville,
+            region: values.region,
+            codepostal: values.codepostal,
+            siteweb: values.siteweb || null,
+            langue: values.langue,
+            photo: values.photo,
+            email: values.email,
+            password: values.password,
+            telephone: values.telephone,
+            latitude: 4,
+            longitude: 4,
+          },
+          id_speciality: parseInt(values.id_speciality),
+        }),
+        ...(values.role === "Client" && {
+          username: values.username,
           email: values.email,
           password: values.password,
           telephone: values.telephone,
-          ville: values.ville,
-          region: values.region,
-          codepostal: values.codepostal,
-          siteweb: values.siteweb,
-          photo: values.photo,
-          langue: values.langue,
-          // Assuming default values for latitude, longitude, and langue
-          latitude: 0,
-          longitude: 0,
-        },
-        id_speciality: values.id_speciality,
+        }),
       };
+
       console.log(postData);
 
       const response = await axios.post(
-        "http://backend:8000/avocat/register_avocat",
+        `http://192.168.137.210:8000/${endpoint}`,
         postData
       );
 
@@ -101,9 +113,10 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
 
       console.log(response.data);
     } catch (error) {
-      console.error("Error creating avocat:", error);
+      console.error("Error creating user:", error);
     }
   };
+
   /*   const handleReset = () => {
     setValues({
       first_name: "",
@@ -131,6 +144,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
         initialValues={{
           first_name: "",
           last_name: "",
+          username: "",
           email: "",
           password: "",
           confirmPassword: "",
@@ -142,8 +156,10 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
           photo: null,
           id_speciality: "",
           langue: "",
+          role: "",
         }}
         validationSchema={Yup.object({
+          username: Yup.string().required(t("validation.userNameRequired")),
           langue: Yup.string().required(t("validation.langueRequired")),
           first_name: Yup.string().required(t("validation.firstNameRequired")),
           last_name: Yup.string().required(t("validation.lastNameRequired")),
@@ -165,13 +181,14 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
           id_speciality: Yup.string().required(
             t("validation.specialityRequired")
           ),
+          role: Yup.string().required(t("validation.roleRequired")),
         })}
         onSubmit={(values) => {
           console.log(values);
           handleSubmit(values);
         }}
       >
-        {({ resetForm, setFieldValue }) => (
+        {({ resetForm, setFieldValue, values }) => (
           <Form className="space-y-[2rem]">
             <div>
               <Field
@@ -201,38 +218,57 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                 className="text-red-500 text-sm"
               />
             </div>
-            <div className="flex  phone:max-tablet:flex-col gap-[2rem]">
-              <div className="w-1/2 phone:max-tablet:w-full">
+            {values.role === "Client" && (
+              <div className="phone:max-tablet:w-full">
                 <Field
                   as={TextField}
                   type="text"
-                  name="first_name"
-                  label={t("firstName")}
+                  name="username"
+                  label={t("userName")}
                   className="mt-1 w-full"
                   variant="standard"
                 />
                 <ErrorMessage
-                  name="first_name"
+                  name="username"
                   component="div"
                   className="text-red-500 text-sm"
                 />
               </div>
-              <div className="w-1/2 phone:max-tablet:w-full">
-                <Field
-                  as={TextField}
-                  type="text"
-                  name="last_name"
-                  label={t("lastName")}
-                  className="mt-1 w-full"
-                  variant="standard"
-                />
-                <ErrorMessage
-                  name="last_name"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+            )}
+            {values.role === "Avocat" && (
+              <div className="flex  phone:max-tablet:flex-col gap-[2rem]">
+                <div className="w-1/2 phone:max-tablet:w-full">
+                  <Field
+                    as={TextField}
+                    type="text"
+                    name="first_name"
+                    label={t("firstName")}
+                    className="mt-1 w-full"
+                    variant="standard"
+                  />
+                  <ErrorMessage
+                    name="first_name"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div className="w-1/2 phone:max-tablet:w-full">
+                  <Field
+                    as={TextField}
+                    type="text"
+                    name="last_name"
+                    label={t("lastName")}
+                    className="mt-1 w-full"
+                    variant="standard"
+                  />
+                  <ErrorMessage
+                    name="last_name"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
-            </div>
+            )}
 
             <div>
               <Field
@@ -282,54 +318,55 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
               />
             </div>
 
-            <div className="flex phone:max-tablet:flex-col gap-[2rem]">
-              <div className="w-1/3 phone:max-tablet:w-full">
-                <Field
-                  as={TextField}
-                  type="text"
-                  name="ville"
-                  label={t("city")}
-                  className="mt-1 w-full"
-                  variant="standard"
-                />
-                <ErrorMessage
-                  name="ville"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
+            {values.role === "Avocat" && (
+              <div className="flex phone:max-tablet:flex-col gap-[2rem]">
+                <div className="w-1/3 phone:max-tablet:w-full">
+                  <Field
+                    as={TextField}
+                    type="text"
+                    name="ville"
+                    label={t("city")}
+                    className="mt-1 w-full"
+                    variant="standard"
+                  />
+                  <ErrorMessage
+                    name="ville"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div className="w-1/3 phone:max-tablet:w-full">
+                  <Field
+                    as={TextField}
+                    type="text"
+                    name="region"
+                    label={t("region")}
+                    className="mt-1 w-full"
+                    variant="standard"
+                  />
+                  <ErrorMessage
+                    name="region"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div className="w-1/3 phone:max-tablet:w-full">
+                  <Field
+                    as={TextField}
+                    type="text"
+                    name="codepostal"
+                    label={t("postalCode")}
+                    className="mt-1 w-full"
+                    variant="standard"
+                  />
+                  <ErrorMessage
+                    name="codepostal"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
               </div>
-              <div className="w-1/3 phone:max-tablet:w-full">
-                <Field
-                  as={TextField}
-                  type="text"
-                  name="region"
-                  label={t("region")}
-                  className="mt-1 w-full"
-                  variant="standard"
-                />
-                <ErrorMessage
-                  name="region"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-              <div className="w-1/3 phone:max-tablet:w-full">
-                <Field
-                  as={TextField}
-                  type="text"
-                  name="codepostal"
-                  label={t("postalCode")}
-                  className="mt-1 w-full"
-                  variant="standard"
-                />
-                <ErrorMessage
-                  name="codepostal"
-                  component="div"
-                  className="text-red-500 text-sm"
-                />
-              </div>
-            </div>
-
+            )}
             <div>
               <Field
                 as={TextField}
@@ -346,97 +383,98 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
               />
             </div>
 
-            <div>
-              <Field
-                as={TextField}
-                type="text"
-                name="siteweb"
-                label={t("website")}
-                className="mt-1 w-full"
-                variant="standard"
-              />
-              <ErrorMessage
-                name="siteweb"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div>
+            {values.role === "Avocat" && (
+              <>
+                <div>
+                  <Field
+                    as={TextField}
+                    type="text"
+                    name="siteweb"
+                    label={t("website")}
+                    className="mt-1 w-full"
+                    variant="standard"
+                  />
+                  <ErrorMessage
+                    name="siteweb"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="photo"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    {t("profilePhoto")}
+                  </label>
+                  <Field
+                    type="file"
+                    name="photo"
+                    className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+                  />
+                  <ErrorMessage name="photo" className="text-red-500 text-sm" />
+                </div>
+                <div>
+                  <Field
+                    as={TextField}
+                    type="text"
+                    name="id_speciality"
+                    label={t("chooseSpecialty")}
+                    select
+                    SelectProps={{
+                      native: true,
+                    }}
+                    className="mt-1 w-full"
+                    variant="standard"
+                  >
+                    <option value=""></option>
+                    {specialities.map((speciality) => (
+                      <option key={speciality.id} value={speciality.id}>
+                        {speciality.name}
+                      </option>
+                    ))}
+                  </Field>
+                  <ErrorMessage
+                    name="id_speciality"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>
+                <div>
+                  <Field
+                    as={TextField}
+                    type="text"
+                    name="langue"
+                    label={t("chooseLanguage")}
+                    select
+                    SelectProps={{
+                      native: true,
+                    }}
+                    className=" px-2 py-1 mt-1 w-full"
+                    variant="standard"
+                  >
+                    <option value=""></option>
 
-            {/* Add other form fields here */}
-            <div>
-              <label
-                htmlFor="photo"
-                className="block text-sm font-medium text-gray-700"
-              >
-                {t("profilePhoto")}
-              </label>
-              <Field
-                type="file"
-                name="photo"
-                className="mt-1 p-2 border border-gray-300 rounded-md w-full"
-              />
-              <ErrorMessage name="photo" className="text-red-500 text-sm" />
-            </div>
-
-            <div>
-              <Field
-                as={TextField}
-                type="text"
-                name="id_speciality"
-                label={t("chooseSpecialty")}
-                select
-                SelectProps={{
-                  native: true,
-                }}
-                className="mt-1 w-full"
-                variant="standard"
-              >
-                <option value=""></option>
-                {specialities.map((speciality) => (
-                  <option key={speciality.id} value={speciality.id}>
-                    {speciality.name}
-                  </option>
-                ))}
-              </Field>
-              <ErrorMessage
-                name="id_speciality"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div>
-            <div>
-              <Field
-                as={TextField}
-                type="text"
-                name="langue"
-                label={t("chooseLanguage")}
-                select
-                SelectProps={{
-                  native: true,
-                }}
-                className=" px-2 py-1 mt-1 w-full"
-                variant="standard"
-              >
-                <option value=""></option>
-
-                <option className=" cursor-pointer px-2" value="french">
-                  {t("french")}
-                </option>
-                <option className=" cursor-pointer px-2" value="arabic">
-                  {t("arabic")}
-                </option>
-              </Field>
-              <ErrorMessage
-                name="langue"
-                component="div"
-                className="text-red-500 text-sm"
-              />
-            </div>
+                    <option className=" cursor-pointer px-2" value="french">
+                      {t("french")}
+                    </option>
+                    <option className=" cursor-pointer px-2" value="arabic">
+                      {t("arabic")}
+                    </option>
+                  </Field>
+                  <ErrorMessage
+                    name="langue"
+                    component="div"
+                    className="text-red-500 text-sm"
+                  />
+                </div>{" "}
+              </>
+            )}
 
             <div className="flex justify-between">
               <Button
+                onClick={() => handleSubmit(values)}
                 type="submit"
-                disabled={isSubmitting}
                 variant="contained"
                 style={{
                   backgroundColor: "#D4AD6B",
@@ -446,7 +484,6 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
               </Button>
               <Button
                 type="button"
-                disabled={isSubmitting}
                 onClick={resetForm}
                 variant="outlined"
                 color="primary"
