@@ -68,7 +68,9 @@
     "regionRequired": "Veuillez saisir votre région",
     "codepostalRequired": "Veuillez saisir votre code postal",
     "photoRequired": "Veuillez télécharger votre photo",
-    "specialityRequired": "Veuillez choisir une spécialité"
+    "specialityRequired": "Veuillez choisir une spécialité",
+    "roleRequired": "Veuillez choisir un rôle",
+    "userNameRequired": "Veuillez saisir votre nom d'utilisateur"
   },
 
   "signInInfo": "Veuillez saisir vos informations",
@@ -136,7 +138,7 @@
   "Appointment Date": "Date de rendez-vous",
   "Time": "Heure",
   "No pending requests at the moment.": "Aucune demande en attente pour le moment.",
-  "Accept": "Accepter",
+  "Accept": "Archiver",
 
   "Email": "Email",
   "Phone Number": "Numéro de téléphone",
@@ -170,5 +172,17 @@
   "add": "Ajouter",
   "list spec": "Liste des spécialités",
   "ajouter spec": "Ajouter une spécialité",
-  "add spec": "Ajouter une spécialité"
+  "add spec": "Ajouter une spécialité",
+
+  "update": "Modifier",
+  "delete": "Supprimer",
+
+  "maxAppointmentsReached": "Nombre maximum de rendez-vous atteint pour cette période.",
+  "appointmentBooked": "Rendez-vous pris! Merci!",
+
+  "Confirmation": "Confirmation",
+  "Are you sure you want to delete this lawyer?": "Êtes-vous sûr de vouloir supprimer cet avocat ?",
+  "Are you sure you want to approve this lawyer?": "Êtes-vous sûr de vouloir approuver cet avocat ?",
+  "Confirm": "Confirmer",
+  "Approve": "Approuver"
 }

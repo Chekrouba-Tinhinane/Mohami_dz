@@ -68,7 +68,11 @@
     "regionRequired": "الرجاء إدخال منطقتك",
     "codepostalRequired": "الرجاء إدخال الرمز البريدي الخاص بك",
     "photoRequired": "يرجى تحميل صورتك",
-    "specialityRequired": "يرجى اختيار تخصص"
+    "specialityRequired": "يرجى اختيار تخصص",
+    "roleRequired": "يرجى اختيار الدور",
+    "userNameRequired": "الرجاء إدخال اسم المستخدم"
+
+
   },
 
   "signInInfo": "الرجاء إدخال المعلومات الخاصة بك",
@@ -134,7 +138,7 @@
   "Appointment Date": "تاريخ الموعد",
   "Time": "الوقت",
   "No pending requests at the moment.": "لا توجد طلبات معلقة حاليًا.",
-  "Accept": "قبول",
+  "Accept": "Archiver",
 
   "Email": "البريد الإلكتروني",
   "Phone Number": "رقم الهاتف",
@@ -169,5 +173,17 @@
   "description": "الوصف",
   "add": "إضافة",
 
-  "add spec": "إضافة تخصص"
+  "add spec": "إضافة تخصص",
+
+  "update": "تغيير",
+  "delete": "حذف",
+
+  "maxAppointmentsReached": "الحد الأقصى المسموح به من المواعيد قد تم الوصول إليه لهذه الفترة.",
+  "appointmentBooked": "تم حجز الموعد! شكرا لك!",
+
+  "Confirmation": "تأكيد",
+  "Are you sure you want to delete this lawyer?": "هل أنت متأكد أنك تريد حذف هذا المحامي؟",
+  "Are you sure you want to approve this lawyer?": "هل أنت متأكد أنك تريد الموافقة على هذا المحامي؟",
+  "Confirm": "تأكيد",
+  "Approve": "الموافقة"
 }
