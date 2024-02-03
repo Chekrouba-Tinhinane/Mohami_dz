@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 const Coords = ({ lawyer, onClick, self }) => {
   const { t } = useTranslation();
   return (
-    <div className="flex w-full phone:max-lg:flex-col gap-4">
+    <div className="flex w-full phone:max-lg:flex-col gap-4 lg:items-center">
       <div className=" basis-[70%] flex flex-col gap-4 ">
         <div className="flex flex-col gap-2">
           {" "}
