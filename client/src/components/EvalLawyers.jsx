@@ -140,7 +140,7 @@ const LawyerList = ({
 }) => {
   const indexOfLastLawyer = currentPage * itemsPerPage;
   const indexOfFirstLawyer = indexOfLastLawyer - itemsPerPage;
-  const currentLawyers = lawyers.slice(indexOfFirstLawyer, indexOfLastLawyer);
+  const currentLawyers = lawyers.reverse().slice(indexOfFirstLawyer, indexOfLastLawyer);
 
   return (
     <div className="flex flex-col gap-8 px-6 py-3">
