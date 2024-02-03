@@ -109,7 +109,7 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
     const fetchAvailabilityIntervals = async () => {
       try {
         const response = await axios.post(
-          "http://backend:8000/creneau/afficher",
+          "http://192.168.137.210:8000/creneau/afficher",
           lawyer?.avocat?.id
         );
         console.log(response.data);
@@ -238,34 +238,33 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
     try {
       // Make a POST request to book the appointment
       const response = await axios.post(
-        "http://backend:8000/rdv/prendre_rdv",
+        "http://192.168.137.210:8000/rdv/prendre_rdv",
         bookingData
       );
       // Log the response data and a success message
       console.log(response.data);
       console.log(response);
       response.data.erreur
-        ? toast.error(
-            "Nombre maximum de rendez-vous atteint pour cette période."
-          )
-        : toast.success("Rendez-vous pris! Merci!");
+        ? toast.error(t("maxAppointmentsReached"))
+        : toast.success(t("appointmentBooked"));
 
       setShowTimeSelection(false); // Close the modal
       onClose(false);
     } catch (error) {
       // Log any errors
       toast.error("Error booking appointment:", error);
+      setShowTimeSelection(false); // Close the modal
+
     }
   };
 
   return (
     <div className="flex flex-col my-8">
-      <Toaster richColors position="top-right" />
       <div className="w-[100%] flex gap-6 justify-center">
         <div className="flex flex-col">
-          <div className="flex">
+          <div className="flex justify-between">
             {showTimeSelection ? (
-              <div className="ml-4">
+              <div className=" ml-[6rem] ">
                 {allTimes.length > 0 ? (
                   <TimeSelection
                     allTimes={allTimes}
