@@ -16,40 +16,53 @@ import {
 } from "@mui/material";
 
 const LawyerCard = ({ allL, admin, lawyer, onDelete, onApprove }) => {
-  const { lawyers, setLawyers } = useUserData();
   const { t } = useTranslation();
-  const [openDialog, setOpenDialog] = useState(false);
+  const [openApproveDialog, setOpenApproveDialog] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const handleApproving = () => {
+    setOpenApproveDialog(true);
+  };
 
-  const handleApproving = async () => {
+  const handleConfirmApprove = async () => {
     try {
+      // Call the API to approve the lawyer
       await axios.post(
         `http://192.168.137.210:8000/avocat/avocat_verify`,
         lawyer?.avocat?.id
       );
+      // Call the onApprove callback to update the UI
       onApprove(lawyer?.avocat?.id);
-      console.log(response.data);
+      console.log("Lawyer approved successfully.");
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error approving lawyer:", error);
+    } finally {
+      // Close the confirmation dialog after approval
+      setOpenApproveDialog(false);
     }
   };
 
   const handleDelete = async () => {
-    setOpenDialog(true);
+    setOpenDeleteDialog(true);
   };
   const confirmDelete = async () => {
     try {
       await axios.post(
-        `http://backend:8000/avocat/avocat_delete`,
+        `http://192.168.137.210:8000/avocat/avocat_delete`,
         lawyer?.avocat?.id
       );
       onDelete(lawyer?.avocat?.id); // Remove the lawyer from the list on deletion
+      setOpenDeleteDialog(false);
       console.log("Lawyer deleted successfully.");
     } catch (error) {
       console.error("Error deleting lawyer:", error);
     }
   };
   const cancelDelete = () => {
-    setOpenDialog(false);
+    setOpenDeleteDialog(false);
+  };
+  const cancelAction = () => {
+    // Close the confirmation dialog if canceled
+    setOpenApproveDialog(false);
   };
 
   return (
@@ -102,7 +115,7 @@ const LawyerCard = ({ allL, admin, lawyer, onDelete, onApprove }) => {
         </div>
         <div className="basis-[45%]"> {lawyer?.speciality_name}</div>
       </div>
-      <Dialog open={openDialog} onClose={cancelDelete}>
+      <Dialog open={openDeleteDialog} onClose={cancelDelete}>
         <DialogTitle>{t("Confirmation")}</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -114,6 +127,28 @@ const LawyerCard = ({ allL, admin, lawyer, onDelete, onApprove }) => {
             {t("Confirm")}
           </Button>
           <Button onClick={cancelDelete} variant="contained">
+            {t("Cancel")}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* Approval Confirmation dialog */}
+      <Dialog open={openApproveDialog} onClose={cancelAction}>
+        <DialogTitle>{t("Confirmation")}</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            {t("Are you sure you want to approve this lawyer?")}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleConfirmApprove}
+            variant="contained"
+            color="primary"
+          >
+            {t("Approve")}
+          </Button>
+          <Button onClick={cancelAction} variant="contained">
             {t("Cancel")}
           </Button>
         </DialogActions>
