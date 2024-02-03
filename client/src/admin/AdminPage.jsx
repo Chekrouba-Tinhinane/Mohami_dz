@@ -24,28 +24,13 @@ const AdminPage = () => {
       }
     };
 
-    /*  const fetchApprovedLawyers = async () => {
-      try {
-        const response = await axios.get("http://192.168.137.210:8000/avocat/avocat_approved");
-        console.log(response.data);
-        setApprovedLawyers(response.data);
-      } catch (error) {
-        console.error("Error fetching approved lawyers:", error);
-      }
-    };
- */
     fetchPendingLawyers(); // Call fetchPendingLawyers when the component mounts
-    /* fetchApprovedLawyers(); */ // Call fetchApprovedLawyers when the component mounts
   }, []); // Empty dependency array ensures functions are called only once
 
   const handleDeleteLawyer = (lawyerId) => {
     setPendingLawyers((prevLawyers) =>
       prevLawyers.filter((lawyer) => lawyer.avocat.id !== lawyerId)
     );
-    // Remove from approved lawyers as well if deleted from there
-    /* setApprovedLawyers((prevLawyers) =>
-      prevLawyers.filter((lawyer) => lawyer.avocat.id !== lawyerId)
-    ); */
   };
   const handleApproving = async (lawyerId) => {
     try {
