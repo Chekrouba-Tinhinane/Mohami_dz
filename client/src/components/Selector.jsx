@@ -11,7 +11,6 @@ const Selector = ({
   location,
   list,
   selectCategory,
-  icon,
   selectedOption,
   setSelectedOption,
 }) => {
@@ -24,12 +23,12 @@ const Selector = ({
     <FormControl fullWidth className="bg-white rounded-md min-w-max">
       <InputLabel id="select-label">
         <div className="flex items-center gap-4 tracking-wider">
-          <span className="text-gray-400 font-normal">{selectCategory}</span>
+           { !location &&  <span className="text-gray-400 font-normal">{selectCategory}</span> }  
         </div>
       </InputLabel>
       {location ? (
         <TextareaAutosize
-          placeholder="Localisation"
+          placeholder={selectCategory}
           value={selectedOption}
           onChange={handleChange}
           minRows={1.3} // Adjust the number of rows as needed
@@ -43,7 +42,7 @@ const Selector = ({
           onChange={handleChange}
           label="Select Option"
         >
-          <MenuItem value={null}>None</MenuItem> {/* Option to unselect */}
+          <MenuItem value={null}>None -</MenuItem> {/* Option to unselect */}
           {list.map((option) => (
             <MenuItem
               className=" text-red"

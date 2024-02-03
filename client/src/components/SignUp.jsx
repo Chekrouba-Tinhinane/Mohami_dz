@@ -5,16 +5,22 @@ import { TextField, Button } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useUserData } from "../App";
+import { useTranslation } from "react-i18next";
+import i18n from "../../Translation/i18n";
+
+import Footer from "./super/Footer";
 
 const SignUp = () => {
+
   const [specialities, setSpecialities] = useState([]);
-  const { userData } = useUserData()
+  const { userData } = useUserData();
 
   useEffect(() => {
     const fetchSpecialities = async () => {
       try {
         const response = await axios.get(
-          "http://backend:8000/speciality/speciality_list"
+
+          "http://localhost:8000/speciality/speciality_list"
         );
         setSpecialities(response.data);
       } catch (error) {
@@ -25,62 +31,23 @@ const SignUp = () => {
     fetchSpecialities();
   }, []);
 
-  const handleCancel = (resetForm) => {
-    resetForm();
-  };
-
-  const handleSubmit = async (values) => {
-    try {
-
-      const postData = {
-        avocat: {
-          first_name: values.first_name,
-          last_name: values.last_name,
-          email: values.email,
-          password: values.password,
-          telephone: values.telephone,
-          ville: values.ville,
-          region: values.region,
-          codepostal: values.codepostal,
-          siteweb: values.siteweb,
-          photo: values.photo,
-          // Assuming default values for latitude, longitude, and langue
-          latitude: 0,
-          longitude: 0,
-          langue: values.langue,
-        },
-        id_speciality: values.id_speciality,
-      };
-      console.log(postData);
-
-      const response = await axios.post(
-        "http://backend:8000/avocat/register_avocat",
-        postData
-      );
-
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error creating avocat:", error);
-    }
-  };
-
   return (
-    <div className="flex flex-col w-full bg-lightBrown py-5">
+    <div className="flex flex-col w-full bg-lightBrown pt-5">
       <div className="bg-white flex flex-col mx-[4rem] px-[3rem] py-[1.5rem]">
-        <SignupForm
-          specialities={specialities}
-          onCancel={handleCancel}
-          onSubmit={handleSubmit}
-        />
+        <SignupForm specialities={specialities} />
       </div>
+      <Footer />
     </div>
   );
 };
 
 const SignupForm = ({ onCancel, onSubmit, specialities }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { t, i18n } = useTranslation(); // Use useTranslation hook to access translation function
+  const rtlClass = i18n.language === "ar" ? "rtl" : "";
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [values, setValues] = useState({
+  /*  const [values, setValues] = useState({
     first_name: "",
     last_name: "",
     email: "",
@@ -93,20 +60,19 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
     siteweb: "",
     photo: null,
     id_speciality: "",
-    langue:""
-  });
+    langue: "",
+  }); */
 
-  const handleChange = (e) => {
+  /*   const handleChange = (e) => {
     const { name, value } = e.target;
     setValues((prevValues) => ({
       ...prevValues,
       [name]: value,
     }));
-  };
+  }; */
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (values) => {
     try {
-
       const postData = {
         avocat: {
           first_name: values.first_name,
@@ -119,7 +85,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
           codepostal: values.codepostal,
           siteweb: values.siteweb,
           photo: values.photo,
-          langue: "french",
+          langue: values.langue,
           // Assuming default values for latitude, longitude, and langue
           latitude: 0,
           longitude: 0,
@@ -128,19 +94,20 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
       };
       console.log(postData);
 
-      navigate("/SignIn")
-
       const response = await axios.post(
-        "http://backend:8000/avocat/register_avocat",
+
+        "http://localhost:8000/avocat/register_avocat",
         postData
       );
+
+      navigate("/SignIn");
 
       console.log(response.data);
     } catch (error) {
       console.error("Error creating avocat:", error);
     }
   };
-  /*  const handleReset = () => {
+  /*   const handleReset = () => {
     setValues({
       first_name: "",
       last_name: "",
@@ -160,37 +127,52 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
   return (
     <div className="mx-auto w-[75%]">
       <h3 className="text-3xl tracking-wide font-semibold recursive">
-        S'inscrire
+         {t("signUp")}
       </h3>
 
       <Formik
+        initialValues={{
+          first_name: "",
+          last_name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          telephone: "",
+          ville: "",
+          region: "",
+          codepostal: "",
+          siteweb: "",
+          photo: null,
+          id_speciality: "",
+          langue: "",
+        }}
         validationSchema={Yup.object({
-          langue: Yup.string().required(""),
-          first_name: Yup.string().required(""),
-          last_name: Yup.string().required(""),
+          langue: Yup.string().required(t('validation.langueRequired')),
+          first_name: Yup.string().required(t('validation.firstNameRequired')),
+          last_name: Yup.string().required(t('validation.lastNameRequired')),
           email: Yup.string()
-            .email("Invalid email address")
-            .required(""),
+            .email(t('validation.emailInvalid'))
+            .required(t('validation.emailRequired')),
           password: Yup.string()
-            .min(8, "Must be at least 8 characters")
-            .required(""),
+            .min(8, t('validation.passwordLength'))
+            .required(t('validation.passwordRequired')),
           confirmPassword: Yup.string()
-            .oneOf([Yup.ref("password"), null], "Passwords must match")
-            .required(""),
-          telephone: Yup.string().required(""),
-          ville: Yup.string().required(""),
-          region: Yup.string().required(""),
-          codepostal: Yup.string().required(""),
+            .oneOf(
+              [Yup.ref("password"), null],
+              t('validation.passwordMatch')
+            )
+            .required(t('validation.confirmPasswordRequired')),
+          telephone: Yup.string().required(t('validation.telephoneRequired')),
+          ville: Yup.string().required(t('validation.villeRequired')),
+          region: Yup.string().required(t('validation.regionRequired')),
+          codepostal: Yup.string().required(t('validation.codepostalRequired')),
           siteweb: Yup.string().notRequired(),
-          /*           photo: Yup.mixed().required("Required"),
-           */ id_speciality: Yup.string().required(""),
+          photo: Yup.mixed().required(t('validation.photoRequired')),
+          id_speciality: Yup.string().required(t('validation.specialityRequired')),
         })}
-        onSubmit={(values, { resetForm }) => {
+        onSubmit={(values) => {
           console.log(values);
-          onSubmit(values);
-          setIsSubmitting(true);
-          setIsSubmitting(false);
-          resetForm();
+          handleSubmit(values);
         }}
       >
         {({ resetForm, setFieldValue }) => (
@@ -201,10 +183,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                   as={TextField}
                   type="text"
                   name="first_name"
-                  label="Nom"
+                  label={t("firstName")}
                   className="mt-1 w-full"
                   variant="standard"
-                  onChange={handleChange}
                 />
                 <ErrorMessage
                   name="first_name"
@@ -217,10 +198,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                   as={TextField}
                   type="text"
                   name="last_name"
-                  label="Prénom"
+                  label={t("lastName")}
                   className="mt-1 w-full"
                   variant="standard"
-                  onChange={handleChange}
                 />
                 <ErrorMessage
                   name="last_name"
@@ -235,10 +215,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                 as={TextField}
                 type="email"
                 name="email"
-                label="Email"
+                label={t("email")}
                 className="mt-1 w-full"
                 variant="standard"
-                onChange={handleChange}
               />
               <ErrorMessage
                 name="email"
@@ -252,10 +231,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                 as={TextField}
                 type="password"
                 name="password"
-                label="Mot de passe"
+                label={t("password")}
                 className="mt-1 w-full"
                 variant="standard"
-                onChange={handleChange}
               />
               <ErrorMessage
                 name="password"
@@ -269,10 +247,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                 as={TextField}
                 type="password"
                 name="confirmPassword"
-                label="Confirmer le mot de passe"
+                label={t("confirmPassword")}
                 className="mt-1 w-full"
                 variant="standard"
-                onChange={handleChange}
               />
               <ErrorMessage
                 name="confirmPassword"
@@ -287,10 +264,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                   as={TextField}
                   type="text"
                   name="ville"
-                  label="Ville"
+                  label={t("city")}
                   className="mt-1 w-full"
                   variant="standard"
-                  onChange={handleChange}
                 />
                 <ErrorMessage
                   name="ville"
@@ -303,10 +279,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                   as={TextField}
                   type="text"
                   name="region"
-                  label="Région"
+                  label={t("region")}
                   className="mt-1 w-full"
                   variant="standard"
-                  onChange={handleChange}
                 />
                 <ErrorMessage
                   name="region"
@@ -319,10 +294,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                   as={TextField}
                   type="text"
                   name="codepostal"
-                  label="Code postal"
+                  label={t("postalCode")}
                   className="mt-1 w-full"
                   variant="standard"
-                  onChange={handleChange}
                 />
                 <ErrorMessage
                   name="codepostal"
@@ -337,10 +311,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                 as={TextField}
                 type="tel"
                 name="telephone"
-                label="Numéro de téléphone"
+                label={t("phoneNumber")}
                 className="mt-1 w-full"
                 variant="standard"
-                onChange={handleChange}
               />
               <ErrorMessage
                 name="telephone"
@@ -354,10 +327,9 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                 as={TextField}
                 type="text"
                 name="siteweb"
-                label="Site web (optional)"
+                label={t("website")}
                 className="mt-1 w-full"
                 variant="standard"
-                onChange={handleChange}
               />
               <ErrorMessage
                 name="siteweb"
@@ -372,12 +344,11 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                 htmlFor="photo"
                 className="block text-sm font-medium text-gray-700"
               >
-                Photo de profil (importer)
+                {t("profilePhoto")}
               </label>
               <Field
                 type="file"
                 name="photo"
-                onChange={handleChange}
                 className="mt-1 p-2 border border-gray-300 rounded-md w-full"
               />
               <ErrorMessage name="photo" className="text-red-500 text-sm" />
@@ -385,11 +356,10 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
 
             <div>
               <Field
-                onChange={handleChange}
                 as={TextField}
                 type="text"
                 name="id_speciality"
-                label="Choisir une spécialité"
+                label={t("chooseSpecialty")}
                 select
                 SelectProps={{
                   native: true,
@@ -412,22 +382,28 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
             </div>
             <div>
               <Field
-                onChange={handleChange}
                 as={TextField}
                 type="text"
                 name="langue"
-                label="Langue"
+                label={t("chooseLanguage")}
                 select
+                SelectProps={{
+                  native: true,
+                }}
                 className=" px-2 py-1 mt-1 w-full"
                 variant="standard"
               >
-                <option className=" cursor-pointer px-2" value="french">Français</option>
-                <option className=" cursor-pointer px-2" value="arabic">Arabe</option>
+                <option value=""></option>
 
-                
+                <option className=" cursor-pointer px-2" value="french">
+                {t("french")}
+                </option>
+                <option className=" cursor-pointer px-2" value="arabic">
+                {t("arabic")}
+                </option>
               </Field>
               <ErrorMessage
-                name="id_speciality"
+                name="langue"
                 component="div"
                 className="text-red-500 text-sm"
               />
@@ -437,20 +413,17 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                onClick={handleSubmit}
                 variant="contained"
                 style={{
                   backgroundColor: "#D4AD6B",
                 }}
               >
-                S'inscrire
+                {t("signUp")}
               </Button>
               <Button
                 type="button"
                 disabled={isSubmitting}
-                onClick={() => {
-                  onCancel(resetForm);
-                }}
+                onClick={resetForm}
                 variant="outlined"
                 color="primary"
                 style={{
@@ -459,7 +432,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
                   color: "#D4AD6B",
                 }}
               >
-                Annuler
+               {t("cancel")}
               </Button>
             </div>
           </Form>

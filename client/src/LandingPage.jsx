@@ -1,5 +1,8 @@
 import React, { useEffect } from "react";
 
+import { useTranslation } from 'react-i18next';
+import i18n from "../Translation/i18n";
+
 import header from "./assets/landing/header.jpg";
 import hero from "./assets/landing/hero.png";
 import section1 from "./assets/landing/section1.jpg";
@@ -17,11 +20,14 @@ import "aos/dist/aos.css";
 AOS.init();
 
 const LandingPage = () => {
+  const { t } = useTranslation(); 
+
+
   const navLinks = [
-    { label: "Accueil", id: "about", offset: -50 },
-    { label: "Trouver un avocat", id: "hero", offset: 0 },
-    { label: "Prendre un rendez-vous", id: "appoint", offset: 50 },
-    { label: "Contactez nous", id: "footer", offset: -100 }
+    { label: t("home"), id: "about", offset: -50 },
+    { label: t("findLawyer"), id: "hero", offset: 0 },
+    { label: t("makeAppointment"), id: "appoint", offset: 50 },
+    { label: t("contactUs"), id: "footer", offset: -100 }
   ];
   useEffect(() => {
     AOS.refresh();
@@ -30,14 +36,12 @@ const LandingPage = () => {
   return (
     <div className="overflow-hidden flex flex-col relative mx-auto items-center bg-white z-10">
       <header className=" p-3 recursive border-b border-b-primary w-[90%] text-center font-semibold text-xl">
-        {" "}
-        DZ Mouhami{" "}
+        {t("DZMouhami")}
       </header>
-      <NavBar links={navLinks} landing={true} />
+      <NavBar links={navLinks} landing={true} l={true} />
       <Header />
       <About />
       <Feedback />
-
       <Achievements />
       <Hero />
       <Appoint />
@@ -49,6 +53,8 @@ const LandingPage = () => {
 export default LandingPage;
 
 function Header() {
+  const { t } = useTranslation(); // Use useTranslation hook to access translation function
+
   return (
     <section
       id="header"
@@ -56,14 +62,15 @@ function Header() {
     >
       <img src={header} className="w-full h-[600px] object-cover" alt="" />
       <h2 className=" recursive absolute bottom-[7%] left-[10%] text-white w-[60%]">
-        "Legal Solutions, Trusted Advocacy: Your Path to Justice Begins with
-        Us."
+        {t("slogan")}
       </h2>
     </section>
   );
 }
 
 function About() {
+  const { t } = useTranslation(); // Use useTranslation hook to access translation function
+
   return (
     <section
       id="about"
@@ -71,28 +78,23 @@ function About() {
       data-aos-duration="1000"
       className="mx-3 my-10 flex gap-[6rem] justify-center items-center"
     >
-      {/* fifth section */}
       <div className=" flex flex-col w-[40%] ">
         <h2 className=" recursive w-[40%] place-self-end">
-          A propos de DZ Mouhami
+          {t("aboutTitle")}
         </h2>
         <img src={hero} className="" alt="" />
       </div>
 
       <div className=" basis-[40%] mb-16 ">
-        {" "}
-        {/*  */}
-        <h2 className=" recursive tracking-wider w-[50%] my-4">DZ-Mouhami</h2>
+        <h2 className=" recursive tracking-wider w-[50%] my-4">{t("DZMouhami")}</h2>
         <p className=" w-[80%] opacity-60 font-light leading-relaxed mb-7">
-          DZMouhami est un annuaire web d'avocats, vous offrant la possibilité
-          de trouver rapidement et facilement un professionnel du droit dans une
-          région spécifique, spécialisé dans un domaine particulier.
+          {t("aboutText")}
         </p>
         <a
           href=""
           className=" py-2 px-5 text-white bg-primary hover:bg-opacity-65"
         >
-          Trouver un avocat
+          {t("findLawyerBtn")}
         </a>
       </div>
     </section>
@@ -100,25 +102,22 @@ function About() {
 }
 
 function Feedback() {
+  const { t } = useTranslation(); // Use useTranslation hook to access translation function
+
   const userComments = [
     {
       username: "User123",
-      comment:
-        "Effortlessly found the right lawyer for my needs – the detailed profiles and client reviews streamlined the decision-making process.",
+      comment: t("testimonial1"),
     },
     {
       username: "LegalEagle",
-      comment:
-        "Incredibly user-friendly directory; comprehensive lawyer profiles and responsive design made my search for legal representation hassle-free.",
+      comment: t("testimonial2"),
     },
     {
       username: "LawSeeker",
-      comment:
-        "Highly impressed with the intuitive interface and wealth of information – this directory simplified the task of finding a skilled attorney.",
+      comment: t("testimonial3"),
     },
   ];
-
-  // You can now use the userComments array as needed in your code.
 
   return (
     <section
@@ -135,13 +134,13 @@ function Feedback() {
           <div className="flex items-center my-5 gap-4">
             <span className=" font-semibold select-none">____________</span>
             <h2 className=" recursive  tracking-wider ">
-              Nos Témoignages
+              {t("feedbackTitle")}
             </h2>{" "}
             <span className=" font-semibold select-none">____________</span>
           </div>
 
           <h2 className=" mt-16 mb-8 recursive w-[85%] text-center">
-            CE QUE NOS CLIENTS PENSENT DE NOUS
+            {t("feedbackSubtitle")}
           </h2>
           <div className=" flex gap-10 w-[75%] ">
             {userComments.map((el, i) => {
@@ -164,13 +163,15 @@ function Feedback() {
 }
 
 function Achievements() {
+  const { t } = useTranslation(); // Use useTranslation hook to access translation function
+
   return (
     <div className=" flex flex-col w-[80%] items-center mx-auto my-10 gap-8 ">
       <div className="flex items-center my-5 gap-4">
         <span className=" font-semibold select-none text-primary">
           ____________
         </span>
-        <h2 className=" recursive tracking-wider">Nos Réalisations</h2>{" "}
+        <h2 className=" recursive tracking-wider">{t("achievementsTitle")}</h2>{" "}
         <span className=" font-semibold select-none text-primary">
           ____________
         </span>
@@ -183,7 +184,7 @@ function Achievements() {
             879+
           </h4>{" "}
           <span className=" w-[70%] text-center recursive font-semibold text-xl">
-            Consultations
+            {t("consultations")}
           </span>
         </div>
         <div className="flex flex-col items-center basis-[33%] gap-4">
@@ -192,7 +193,7 @@ function Achievements() {
             12 Mil
           </h4>{" "}
           <span className=" w-[70%] text-center recursive font-semibold text-xl">
-            Coûts recouvrés au bénéfice du client
+            {t("recoveredCosts")}
           </span>
         </div>
         <div className="flex flex-col items-center basis-[33%] gap-4">
@@ -201,7 +202,7 @@ function Achievements() {
             92%
           </h4>{" "}
           <span className=" w-[70%] text-center recursive font-semibold text-xl">
-            Affaires pénales défendues avec succès
+            {t("successfulCases")}
           </span>
         </div>
       </div>
@@ -210,6 +211,8 @@ function Achievements() {
 }
 
 function Hero() {
+  const { t } = useTranslation(); // Use useTranslation hook to access translation function
+
   return (
     <section id="hero" className=" relative flex w-screen justify-center my-8 ">
       <img
@@ -222,7 +225,7 @@ function Hero() {
           <div className="flex items-center my-5 gap-4">
             <span className=" font-semibold select-none">____________</span>
             <h2 className=" recursive  tracking-wider ">
-              Parmi nos meilleurs avocats
+              {t("heroSubtitle")}
             </h2>{" "}
             <span className=" font-semibold select-none">____________</span>
           </div>
@@ -259,7 +262,7 @@ function Hero() {
                 href=""
                 className="flex w-max recursive text-white bg-primary px-6 py-3 font-semibold hover:bg-opacity-75"
               >
-                View Profile
+                {t("viewProfileBtn")}
               </a>
             </div>
           </div>
@@ -269,9 +272,9 @@ function Hero() {
   );
 }
 
-
-
 function Appoint() {
+  const { t } = useTranslation(); // Use useTranslation hook to access translation function
+
   return (
     <section
       id="appoint"
@@ -282,7 +285,7 @@ function Appoint() {
           <span className=" font-semibold select-none text-primary">
             ____________
           </span>
-          <h2 className=" recursive  tracking-wider ">Prise de Rendez-Vous</h2>{" "}
+          <h2 className=" recursive  tracking-wider ">{t("appointTitle")}</h2>{" "}
           <span className=" font-semibold select-none text-primary">
             ____________
           </span>
@@ -292,18 +295,15 @@ function Appoint() {
       <div className=" flex w-[80%] items-center justify-between ">
         <div className=" basis-[40%] mb-16 ">
           {" "}
-          {/*  */}
-          <h2 className=" recursive tracking-wider w-[50%] my-4">DZ-Mouhami</h2>
+          <h2 className=" recursive tracking-wider w-[50%] my-4">{t("DZMouhami")}</h2>
           <p className=" w-[80%] opacity-60 font-light leading-relaxed mb-7">
-            DZMouhami est un annuaire web d'avocats, vous offrant la possibilité
-            de trouver rapidement et facilement un professionnel du droit dans
-            une région spécifique, spécialisé dans un domaine particulier.
+            {t("appointText")}
           </p>
           <a
             href=""
             className=" py-3 px-5 text-white bg-primary hover:bg-opacity-65"
           >
-            Prendre un rendez-vous{" "}
+            {t("makeAppointmentBtn")}
           </a>
         </div>
 

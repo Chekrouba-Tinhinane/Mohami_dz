@@ -19,7 +19,8 @@ const navigate = useNavigate();
     try {
       console.log(values);
       const response = await axios.post(
-        "http://backend:8000/client/login",
+
+        "http://localhost:8000/client/login",
         values
       );
       const { jwt, UserData } = response.data;

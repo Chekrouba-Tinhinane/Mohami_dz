@@ -48,9 +48,10 @@ def register_avocat(db:Session,avocat:schemas.AvocatCreate,id_speciality:models.
             print(e)
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail=f"Validation error: {e}",
+                detail=f"Validation error",
                 
             )
+            return {"error":"error"}
             
 
 
@@ -129,6 +130,7 @@ def register_specialities(db:Session,speciality:schemas.speciality):
         db.commit()
         db.refresh(db_speciality)
         return {"success":f"speciality '{db_speciality.id}' has been created"}
+
 
 def update_speciality(db:Session,speciality:schemas.speciality,id_speciality:models.Speciality.id):
         db_old_speciality = db.query(models.Speciality).filter(models.Speciality.id == id_speciality).one_or_none()

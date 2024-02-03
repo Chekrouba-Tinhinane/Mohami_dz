@@ -22,10 +22,11 @@ def get_db():
         db.close()
 
 
+
 @routerAvocat.post("/register_avocat")
 async def register_avocat(avocat:schemas.AvocatCreate,id_speciality:int=Body(...),db:Session=Depends(get_db)):
-    return crud.register_avocat(db,avocat,id_speciality=id_speciality)
-
+    avocats=crud.register_avocat(db,avocat,id_speciality)
+    return avocats
 @routerAvocat.get('/avocat_list')
 async def get_avocat(db:Session=Depends(get_db)):
     avocats=crud.show_avocats(db)
@@ -49,14 +50,14 @@ async def get_pending_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db))
 @routerAvocat.post('/avocat_delete')
 async def delete_avocat(avocat_id:int=Body(...),db:Session=Depends(get_db)):
     avocats=crud.delete_avocats(db,avocat_id)
-    return avocats
-
+    return avocats 
+ 
 @routerAvocat.post('/avocat_update')
 async def update_Avocat(avocat:schemas.AvocatCreate,avocat_id:int=Body(...),db:Session=Depends(get_db)):
-    return crud.update_avocat(db,avocat,avocat_id)
+    avocats=crud.update_avocat(db,avocat,avocat_id)
+    return avocats
 
-
-@routerAvocat.get("/recherche-basic/")
+@routerAvocat.get("/recherche-basic")
 async def perform_basic_search(
     keyword: str = Query(None),
     db: Session = Depends(get_db)

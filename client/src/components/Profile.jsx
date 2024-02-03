@@ -8,13 +8,15 @@ import Location from "./Location";
 import Modal from "react-modal";
 import close from "../assets/icons/x.svg";
 import calendar from "../assets/icons/appoint/calendar.svg";
-import Review from "./Review";
 import { useParams } from "react-router-dom";
 import Footer from "./super/Footer";
 import axios from "axios";
 import { useUserData } from "../App";
+import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 const Profile = ({ lawyers }) => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const [lawyer, setLawyer] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,12 +38,11 @@ const Profile = ({ lawyers }) => {
   };
 
   const navLinks = [
-    { label: "A propos", id: "about", offset: -50 },
-    { label: "Catégories", id: "categories", offset: 0 },
-    { label: "Avis", id: "reviews", offset: 50 },
-    { label: "Localisation", id: "location", offset: -100 },
+    { label: t("nav-profile.about"), id: "about", offset: -50 },
+    { label: t("nav-profile.categories"), id: "categories", offset: 0 },
+    { label: t("nav-profile.reviews"), id: "reviews", offset: 50 },
+    { label: t("nav-profile.location"), id: "location", offset: -100 },
   ];
-
   return (
     <>
       <div className="flex flex-col items-center mx-[4rem] my-4 py-8 px-12 bg-lightBrown min-h-max relative">
@@ -52,6 +53,7 @@ const Profile = ({ lawyers }) => {
         />
         <Coords lawyer={lawyer} onClick={openModal} />
         <NavBar links={navLinks} landing={false} />
+
         {lawyer && (
           <>
             <About lawyer={lawyer} />
@@ -59,12 +61,10 @@ const Profile = ({ lawyers }) => {
             <Avis lawyer={lawyer} />
             <div className="w-full my-8"></div>
             <Location lawyer={lawyer.avocat} />
-            {/*             <Review />
-             */}
           </>
         )}
       </div>
-      <Footer />{" "}
+      <Footer />
     </>
   );
 };
@@ -73,7 +73,7 @@ export default Profile;
 
 function CalendarModal({ lawyer, isOpen, onRequestClose }) {
   const [showCalendar, setShowCalendar] = useState(false);
-
+  const { t } = useTranslation()
   const handleToggleCalendar = () => {
     setShowCalendar((prevShowCalendar) => !prevShowCalendar);
   };
@@ -82,54 +82,61 @@ function CalendarModal({ lawyer, isOpen, onRequestClose }) {
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      contentLabel="Prendre un rendez-vous"
-      className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[600px] h-[436px]  "
+      contentLabel={t("Book an appointment")}
+      className={`transition-all duration-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[700px] h-[436px]`}
       overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 backdrop-blur-xs z-40"
     >
-      <div className={`flex h-full ${showCalendar ? " flex gap-[2rem]" : ""}`}>
+      <motion.div
+        initial={{ scale: 0 }}
+        animate={{ scale: isOpen ? 1 : 0 }}
+        transition={{ duration: 0.3 }}
+        className={`flex h-full ${showCalendar ? "gap-[1rem]" : ""}`}
+      >
         <div
           className={`  ${
-            showCalendar ? "basis-[60%]" : " w-full"
-          } flex flex-col justify-center  flex-shrink-0 `}
+            showCalendar ? "w-[60%] border-r pr-5 border-r-primary" : "w-full"
+          } flex flex-col justify-center flex-shrink-0 transition-all transform duration-300  `}
         >
           <div className="flex w-full justify-between border-b border-b-primary pb-4">
-            <h3>Prendre un rendez-vous</h3>
+            <h3>{t("Book an appointment")}</h3>
             <button onClick={onRequestClose}>
               <img src={close} className="border border-primary p-2" alt="" />
             </button>
           </div>
-          <h3 className="py-5">Choisissez la date et les horaires</h3>
+          <h3 className="py-5">{t("Choose the date and time")}</h3>
           <div
             className="flex border border-primary py-2 px-2 gap-3 cursor-pointer"
             onClick={handleToggleCalendar}
           >
             <img src={calendar} className="w-4" alt="" />
             <div className="flex flex-col">
-              <small>DATE</small>
-              <p className="font-medium">Sélectionner une date</p>
+              <small>{t("DATE")}</small>
+              <p className="font-medium">{t("Select a date")}</p>
             </div>
           </div>
           <div className="flex-grow"></div>
           <div className="flex justify-end">
-            <button
-              className="bg-primary text-white px-4 py-1"
-              onClick={onRequestClose}
-            >
-              Réserver
-            </button>
           </div>
         </div>
         {showCalendar && (
           <div className="w-full place-self-center">
-            <Calendar lawyer={lawyer} onClose={onRequestClose} />
+            <Calendar
+              onOpen={setShowCalendar}
+              isOpen={showCalendar}
+              lawyer={lawyer}
+              onClose={onRequestClose}
+            />
           </div>
         )}
-      </div>
+      </motion.div>
     </Modal>
   );
+  
 }
 
 function About({ lawyer }) {
+  const { t } = useTranslation();
+
   return (
     <div
       id="about"
@@ -137,20 +144,21 @@ function About({ lawyer }) {
     >
       <div className="w-[90%] flex flex-col gap-[2rem] tracking-wide ">
         <p>
-          <strong>Nom: </strong> {lawyer?.avocat?.first_name}{" "}
+          <strong>{t("Nom")}: </strong> {lawyer?.avocat?.first_name}{" "}
           {lawyer?.avocat?.last_name}
         </p>
         <p>
-          <strong>Email: </strong> {lawyer?.avocat?.email}
+          <strong>{t("Email")}: </strong> {lawyer?.avocat?.email}
         </p>
         <p>
-          <strong>Ville: </strong> {lawyer?.avocat?.ville}
+          <strong>{t("Ville")}: </strong> {lawyer?.avocat?.ville}
         </p>
         <p>
-          <strong>Langue: </strong> {lawyer?.avocat?.langue}
+          <strong>{t("Langue")}: </strong> {lawyer?.avocat?.langue}
         </p>
         <p>
-          <strong>Site Web: </strong> <a href={lawyer?.avocat?.siteweb}></a>
+          <strong>{t("Site Web")}: </strong>{" "}
+          <a href={lawyer?.avocat?.siteweb}>{lawyer?.avocat?.siteweb}</a>
         </p>
       </div>
     </div>
@@ -158,18 +166,24 @@ function About({ lawyer }) {
 }
 
 function Categories({ speciality }) {
+  const { t } = useTranslation();
+
   return (
     <div
       id="categories"
       className=" w-full my-[3rem] border-t-2 border-t-lightTypo opacity-70  pt-2"
     >
-      <h3 className="font-semibold tracking-wide text-lightTypo">Spécialité</h3>
+      <h3 className="font-semibold tracking-wide text-lightTypo">
+        {t("Spécialité")}
+      </h3>
       <p>{speciality}</p>
     </div>
   );
 }
 
 function Avis({ lawyer }) {
+  const { t } = useTranslation();
+
   const [comments, setComments] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); // Add state for modal
   const { userData } = useUserData();
@@ -178,21 +192,22 @@ function Avis({ lawyer }) {
   const submitFeedback = async (feedbackData) => {
     try {
       const response = await axios.post(
-        "http://backend:8000/ratings/register_rating",
+
+        "http://localhost:8000/ratings/register_rating",
         feedbackData
       );
       console.log("Feedback submitted successfully:", response.data);
 
       // Fetch updated comments after submitting feedback
       const updatedResponse = await axios.get(
-        `http://backend:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
+
+        `http://localhost:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
       );
       setComments(updatedResponse.data);
 
       closeModal(); // Close modal after successful submission
     } catch (error) {
       console.error("Error submitting feedback:", error);
-      // Handle errors, such as displaying an error message to the user
     }
   };
 
@@ -200,7 +215,8 @@ function Avis({ lawyer }) {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          `http://backend:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
+
+          `http://localhost:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
         );
         setComments(response.data);
       } catch (error) {
@@ -225,7 +241,7 @@ function Avis({ lawyer }) {
       className=" w-full my-[3rem] border-t-2 border-t-lightTypo opacity-70  pt-2 flex flex-col gap-3"
     >
       <div className="flex justify-between font-semibold tracking-wide text-lightTypo">
-        Avis
+        {t("Avis")}
         <GiveFeedBack
           lawyer={lawyer}
           userData={userData}
@@ -250,6 +266,8 @@ const GiveFeedBack = ({
   lawyer,
   userData,
 }) => {
+  const { t } = useTranslation();
+
   const [feedback, setFeedback] = useState("");
   const [rating, setRating] = useState(0);
 
@@ -277,20 +295,20 @@ const GiveFeedBack = ({
       <Modal
         isOpen={isOpen}
         onRequestClose={onClose}
-        contentLabel="Give Feedback"
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[400px]"
+        contentLabel={t("Give Feedback")}
+        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 rounded-md z-50 w-[450px]"
         overlayClassName="fixed top-0 left-0 right-0 bottom-0 bg-gray-900 bg-opacity-50 backdrop-blur-xs z-40 flex justify-center items-center"
       >
         <div>
-          <h2 className="text-lg font-semibold mb-4">Give Feedback</h2>
+          <h2 className="text-lg font-semibold mb-4">{t("Donner un avis")}</h2>
           <textarea
             value={feedback}
             onChange={(e) => setFeedback(e.target.value)}
-            placeholder="Write your feedback..."
+            placeholder={t("Write your feedback...")}
             className="w-full p-2 border border-gray-300 rounded-md mb-2"
           />
           <div className="flex items-center gap-2 mb-2">
-            <span>Your Rating:</span>
+            <span>{t("Votre évaluation")}:</span>
             <Rating
               name="feedback-rating"
               value={rating}
@@ -302,18 +320,20 @@ const GiveFeedBack = ({
               onClick={handleSubmit}
               className=" bg-primary text-white px-4 py-2 rounded-md hover:opacity-80 mr-2"
             >
-              Submit
+              {t("Confirmer")}
             </button>
             <button
               onClick={onClose}
               className="text-gray-600 px-4 py-2 rounded-md hover:text-gray-800"
             >
-              Cancel
+              {t("Cancel")}
             </button>
           </div>
         </div>
       </Modal>
-      <p onClick={() => onOpen()}>Give Feedback</p>
+      <p className=" cursor-pointer hover:opacity-75" onClick={() => onOpen()}>
+        {t("Donner un avis")}
+      </p>
     </>
   );
 };
