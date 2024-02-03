@@ -10,38 +10,80 @@ import phone from "./assets/icons/contact/phone.svg";
 import calendar from "./assets/icons/appoint/calendar.svg";
 import clock from "./assets/icons/appoint/clock.svg";
 import { useTranslation } from "react-i18next";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import Button from "@mui/material/Button";
+import { useQuery, useQueryClient } from "react-query";
+import Loading from "./components/Loading";
 
 const OwnProfile = ({ lawyer }) => {
   const { t } = useTranslation();
-  const [ratings, setRatings] = useState([]);
-  const [pendingRequests, setPendingRequests] = useState([]);
-  const [showAvailabilityModal, setShowAvailabilityModal] = useState(false); // State for controlling the modal visibility
+  const [showAvailabilityModal, setShowAvailabilityModal] = useState(false);
   const { userData } = useUserData();
+  const [showConfirmationDialog, setShowConfirmationDialog] = useState(false);
+  const [appointmentToArchive, setAppointmentToArchive] = useState(null);
+  const [dummyPendingRequests, setDummyPendingRequests] = useState([]);
 
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      try {
-        const ratingsResponse = await axios.get(
-          `http://backend:8000/ratings/avocat_rating?id=${lawyer?.avocat?.id}`
-        );
-        setRatings(ratingsResponse.data);
+  const fetchRatings = async (id) => {
+    const { data } = await axios.get(
+      `http://192.168.137.210:8000/ratings/avocat_rating?id=${id}`
+    );
+    return data;
+  };
 
-        const pendingRequestsResponse = await axios.post(
-          `http://backend:8000/rdv/afficher_rdv_par_avocat`,
-          lawyer?.avocat?.id
-        );
-        setPendingRequests(pendingRequestsResponse.data);
-      } catch (error) {
-        console.error("Error fetching profile data:", error);
-        // Handle errors here, e.g., show an error message to the user
-      }
-    };
+  const fetchPendingRequests = async (id) => {
+    const { data } = await axios.post(
+      `http://192.168.137.210:8000/rdv/afficher_rdv_par_avocat`,
+      id
+    );
+    return data;
+  };
 
-    fetchProfileData();
-  }, [lawyer?.avocat?.id, userData?.id]);
+  const { data: ratings, isLoading: ratingsLoading } = useQuery(
+    ["ratings", lawyer?.avocat?.id],
+    () => fetchRatings(lawyer?.avocat?.id)
+  );
+
+  const { data: pendingRequests, isLoading: requestsLoading } = useQuery(
+    ["pendingRequests", lawyer?.avocat?.id],
+    () => fetchPendingRequests(lawyer?.avocat?.id),
+    {
+      onError: () => {
+        // If there's an error fetching pending requests, set dummy data
+      },
+    }
+  );
+  const queryClient = useQueryClient();
 
   const setAvailability = () => {
-    setShowAvailabilityModal(!showAvailabilityModal); // Toggle the visibility of the availability modal
+    setShowAvailabilityModal(!showAvailabilityModal);
+  };
+
+  const handleArchive = (appointmentId) => {
+    setAppointmentToArchive(appointmentId);
+    setShowConfirmationDialog(true);
+  };
+
+  const handleConfirmArchive = async () => {
+    try {
+      // Implement the logic to archive the appointment using appointmentToArchive
+      console.log("Appointment archived:", appointmentToArchive);
+      // Remove the archived appointment from pendingRequests
+      await queryClient.invalidateQueries([
+        "pendingRequests",
+        lawyer?.avocat?.id,
+      ]);
+    } catch (error) {
+      console.error("Error archiving appointment:", error);
+      // Close the confirmation dialog
+    }
+    setShowConfirmationDialog(false);
+  };
+
+  const handleCloseConfirmationDialog = () => {
+    setShowConfirmationDialog(false);
   };
 
   return (
@@ -58,7 +100,7 @@ const OwnProfile = ({ lawyer }) => {
           <div className="space-y-8">
             <Coords
               lawyer={lawyer}
-              self={userData?.avocat?.id == lawyer?.avocat?.id}
+              self={userData?.avocat?.id === lawyer?.avocat?.id} // Use strict equality operator
             />
             <Location lawyer={lawyer} />
             <p>{t("Other personal information...")}</p>
@@ -67,8 +109,12 @@ const OwnProfile = ({ lawyer }) => {
         <div className="border-b border-gray-300 pb-4">
           <h3 className="text-lg font-semibold mb-4">{t("Your Reviews")}</h3>
           <div className="space-y-4">
-            {ratings.length > 0 ? (
-              ratings?.map((rating, index) => <Comment comment={rating} />)
+            {ratingsLoading ? (
+              <Loading />
+            ) : ratings ? (
+              ratings?.map((rating, index) => (
+                <Comment key={index} comment={rating} />
+              ))
             ) : (
               <p>{t("No reviews available at the moment.")}</p>
             )}
@@ -86,63 +132,49 @@ const OwnProfile = ({ lawyer }) => {
           </button>
           {showAvailabilityModal && <AvailabilityForm />}
         </div>
-        <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-4">
           <h3 className="text-lg font-semibold mb-4">
             {t("Pending Requests")}
           </h3>
-
-          {pendingRequests?.length > 0 ? (
-            pendingRequests?.map((request, index) => (
-              <div
-                key={index}
-                className="flex bg-white px-5 py-4 gap-4 justify-between rounded-md"
-              >
-                <div className="space-y-2 w-full">
-                  <p className="font-semibold text-xl text-lightTypo">
-                    {request?.client?.username}
-                  </p>
-                  <p className="text-sm text-gray-400">
-                    {request?.client?.email}
-                  </p>
-                  <p className="flex items-center gap-2 font-semibold pb-3 border-b-2 border-b-primary">
-                    <span>
-                      {" "}
-                      <img src={phone} alt="" />{" "}
-                    </span>{" "}
-                    {request?.client?.telephone}
-                  </p>
-                  <p className="">
-                    <span className="font-bold gap-2 flex items-center">
-                      {" "}
-                      <img src={calendar} className="w-4" alt="" />{" "}
-                      {t("Appointment Date")}:
-                      <span className="font-normal">
-                        {request?.timing?.DateInterval}
-                      </span>
-                    </span>
-                  </p>
-                  <p className="flex items-center gap-2">
-                    {" "}
-                    <img src={clock} className="w-4" alt="" />{" "}
-                    <span className="font-bold">{t("Time")}: </span>{" "}
-                    {request?.timing?.HeureDebut} - {request?.timing?.HeureFin}
-                  </p>
-                </div>
-                <button className="bg-primary text-white px-4 py-2 h-max w-max rounded-md hover:opacity-80">
-                  {t("Accept")}
-                </button>
-              </div>
-            ))
+          {requestsLoading ? (
+            <Loading />
+          ) : pendingRequests ? (
+            pendingRequests
+              ?.reverse()
+              .map((request) => (
+                <PendingRequest onArchive={handleArchive} request={request} />
+              ))
           ) : (
             <p>{t("No pending requests at the moment.")}</p>
           )}
         </div>
       </div>
       <Footer />
+      {/* Confirmation Dialog */}
+      <Dialog
+        open={showConfirmationDialog}
+        onClose={handleCloseConfirmationDialog}
+      >
+        <DialogTitle>{t("Confirm Archive")}</DialogTitle>
+        <DialogContent>
+          {t("Are you sure you want to archive this appointment?")}
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={handleConfirmArchive}
+            className="bg-primary"
+            variant="contained"
+          >
+            {t("Yes")}
+          </Button>
+          <Button onClick={handleCloseConfirmationDialog} variant="outlined">
+            {t("Cancel")}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };
-
 export default OwnProfile;
 
 function Comment({ comment }) {
@@ -165,5 +197,49 @@ function Comment({ comment }) {
         <p>{comment?.rating?.comment}</p>
       </div>
     </li>
+  );
+}
+
+function PendingRequest({ request, onArchive }) {
+  const { t } = useTranslation();
+  return (
+    <div
+      key={request.id}
+      className="flex bg-white px-5 py-4 gap-4 justify-between rounded-md"
+    >
+      <div className="space-y-2 w-full">
+        <p className="font-semibold text-xl text-lightTypo">
+          {request?.client?.username || "imed"}
+        </p>
+        <p className="text-sm text-gray-400">{request?.client?.email}</p>
+        <p className="flex items-center gap-2 font-semibold pb-3 border-b-2 border-b-primary">
+          <span>
+            <img src={phone} alt="" />
+          </span>{" "}
+          {request?.client?.telephone}
+        </p>
+        <p>
+          <span className="font-bold gap-2 flex items-center">
+            <img src={calendar} className="w-4" alt="" />
+            {t("Appointment Date")}:
+            <span className="font-normal">
+              {request?.timing?.DateInterval || "1"}
+            </span>
+          </span>
+        </p>
+        <p className="flex items-center gap-2">
+          <img src={clock} className="w-4" alt="" />
+          <span className="font-bold">{t("Time")}: </span>
+          {request?.timing?.HeureDebut || "a"} -{" "}
+          {request?.timing?.HeureFin || "1"}
+        </p>
+      </div>
+      <button
+        onClick={() => onArchive(request.id)}
+        className="bg-primary text-white px-4 py-2 h-max w-max rounded-md hover:opacity-80"
+      >
+        {t("Accept")}
+      </button>
+    </div>
   );
 }
