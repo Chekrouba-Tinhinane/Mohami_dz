@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import NavBar from "./NavBar";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 const HomeLayout = ({ pageComponent, admin, signup }) => {
   const { t } = useTranslation();
@@ -17,6 +18,8 @@ const HomeLayout = ({ pageComponent, admin, signup }) => {
   const signLinks = [{ label: t("home"), to: "/" }];
   return (
     <div className=" flex flex-col min-h-screen items-center">
+      <Toaster position="top-right" />
+
       <div className="flex justify-center border-b border-b-primary w-[90%]">
         <Link className=" w-max" to="/">
           <header className=" cursor-pointer p-3 recursive text-center font-semibold text-xl">
