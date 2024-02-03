@@ -18,7 +18,7 @@ const SearchContainer = ({ setLawyers }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://backend:8000/speciality/speciality_list"
+          "http://192.168.137.210:8000/speciality/speciality_list"
         );
         setSpecialities(response.data);
         setLoading(false);
@@ -48,13 +48,13 @@ const SearchContainer = ({ setLawyers }) => {
     // You can filter the lawyers based on the selected filters
     axios
 
-      .get("http://backend:8000/avocat/recherche-avec-filtre", {
+      .get("http://192.168.137.210:8000/avocat/recherche-avec-filtre", {
         params: filters,
-      }) // Adjust the URL according to your backend route
+      }) // Adjust the URL according to your 192.168.137.210 route
       .then((response) => {
         console.log(response.data);
         setLawyers(response.data);
-        // Update search results state with filtered data from the backend
+        // Update search results state with filtered data from the 192.168.137.210
         // Reset current page to 1 when applying new filters
       })
       .catch((error) => {

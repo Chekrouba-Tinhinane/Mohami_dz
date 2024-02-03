@@ -86,7 +86,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 };
 
 const ResultsPage = ({ lawyers }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState();
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -104,12 +104,11 @@ const ResultsPage = ({ lawyers }) => {
 
   const handleSearch = (query) => {
     axios
-      .get(`http://backend:8000/avocat/recherche-basic?keyword=${query}`)
+      .get(`http://192.168.137.210:8000/avocat/recherche-basic?keyword=${query}`)
       .then((response) => {
         console.log(response.data);
         setSearchResults(response.data);
         setLoading(false);
-
         setCurrentPage(1);
       })
       .catch((error) => {
@@ -126,7 +125,6 @@ const ResultsPage = ({ lawyers }) => {
         </div>
         {totalSearchResults === 0 ? (
           <div className="flex justify-center">
-            {" "}
             {t("No compatible results found")}
           </div>
         ) : loading ? (
