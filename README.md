@@ -11,12 +11,12 @@ fournit des informations détaillées sur les avocats, allant de leurs coordonn�
 but de faciliter l’accès à des conseils juridiques de qualité, promouvant ainsi
 la transparence et l’efficacité dans le processus de recherche.
 # Fonctionnalités Clés :
-* *Inscription et Profils d’Avocats : * Les avocats peuvent créer des profils détaillés, fournissant aux utilisateurs des informations essentielles
+* *Inscription et Profils d’Avocats :* Les avocats peuvent créer des profils détaillés, fournissant aux utilisateurs des informations essentielles
 16 sur leurs compétences et expériences.
-* *Recherche Avancée : * Une fonction de recherche avancée permet aux utilisateurs de filtrer les avocats en fonction de critères tels que la spécialité, la localisation, et la langue.
-* *Gestion des Rendez-vous : * Les utilisateurs peuvent planifier des rendezvous en ligne avec les avocats, offrant flexibilité et commodité.
-* *Évaluation et Commentaires : * Les clients peuvent laisser des évaluations et des commentaires, facilitant ainsi la prise de décision pour lesfuturs utilisateurs.
-* *Administration : * L’administration de la liste des avocats inscrits est assurée pour maintenir la qualité des informations disponibles.
+* *Recherche Avancée :* Une fonction de recherche avancée permet aux utilisateurs de filtrer les avocats en fonction de critères tels que la spécialité, la localisation, et la langue.
+* *Gestion des Rendez-vous :* Les utilisateurs peuvent planifier des rendezvous en ligne avec les avocats, offrant flexibilité et commodité.
+* *Évaluation et Commentaires :* Les clients peuvent laisser des évaluations et des commentaires, facilitant ainsi la prise de décision pour lesfuturs utilisateurs.
+* *Administration :* L’administration de la liste des avocats inscrits est assurée pour maintenir la qualité des informations disponibles.
 
 
 
