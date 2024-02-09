@@ -8,15 +8,9 @@ import { getDaysArray, INTERVAL } from "../../config";
 import "../../Calendar.css";
 import axios from "axios";
 import { useUserData } from "../../App";
+import { toast, Toaster } from "react-hot-toast";
 
-const TimeRow = ({
-  index,
-  style,
-  data,
-  activeTime,
-  onClick,
-  availabilityIntervals,
-}) => {
+const TimeRow = ({ index, style, data, activeTime, onClick }) => {
   const { t } = useTranslation(); // Use useTranslation hook
   const isActive = activeTime ? true : false;
 
@@ -115,7 +109,6 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
     const fetchAvailabilityIntervals = async () => {
       try {
         const response = await axios.post(
-
           "http://localhost:8000/creneau/afficher",
           lawyer?.avocat?.id
         );
@@ -245,7 +238,6 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
     try {
       // Make a POST request to book the appointment
       const response = await axios.post(
-
         "http://localhost:8000/rdv/prendre_rdv",
         bookingData
       );
@@ -253,14 +245,16 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
       console.log(response.data);
       console.log(response);
       response.data.erreur
-        ? alert("Nombre maximum de rendez-vous atteint pour cette période.")
-        : alert("Rendez-vous pris! Merci!");
+        ? toast.error(t("maxAppointmentsReached"))
+        : toast.success(t("appointmentBooked"));
 
       setShowTimeSelection(false); // Close the modal
       onClose(false);
     } catch (error) {
       // Log any errors
-      alert("Error booking appointment:", error);
+      toast.error("Error booking appointment:", error);
+      setShowTimeSelection(false); // Close the modal
+
     }
   };
 
@@ -268,9 +262,9 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
     <div className="flex flex-col my-8">
       <div className="w-[100%] flex gap-6 justify-center">
         <div className="flex flex-col">
-          <div className="flex">
+          <div className="flex justify-between">
             {showTimeSelection ? (
-              <div className="ml-4">
+              <div className=" ml-[6rem] ">
                 {allTimes.length > 0 ? (
                   <TimeSelection
                     allTimes={allTimes}
@@ -325,7 +319,6 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
       </div>
     </div>
   );
-  
 };
 
 export default Calendar;

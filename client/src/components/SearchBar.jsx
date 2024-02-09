@@ -22,18 +22,18 @@ const SearchBar = ({ onSearch }) => {
   };
   return (
     <form onSubmit={handleSubmit}>
-      <div className="flex w-max bg-white items-center border border-primary rounded px-2">
+      <div className="flex w-max phone:max-tablet:w-[80%] bg-white items-center border border-primary rounded pl-1.5 ">
         <input
           type="text"
           value={searchQuery}
           onChange={handleChange}
           placeholder={t("searchPlaceholder")}
-          className="flex outline-none py-1.5 px-1.5"
+          className="flex outline-none py-1.5 w-[90%]  "
         />
         <img
           src={search}
           onClick={handleSearchIconClick}
-          className=" cursor-pointer bg-light"
+          className=" cursor-pointer pr-2"
           alt=""
         />
       </div>

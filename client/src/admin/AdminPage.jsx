@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Footer from "./components/super/Footer";
-import { useUserData } from "./App";
-import EvalLawyers from "./components/EvalLawyers";
+import Footer from "../components/super/Footer";
+import { useUserData } from "../App";
+import EvalLawyers from "../components/EvalLawyers";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 
@@ -24,28 +24,13 @@ const AdminPage = () => {
       }
     };
 
-    /*  const fetchApprovedLawyers = async () => {
-      try {
-        const response = await axios.get("http://localhost:8000/avocat/avocat_approved");
-        console.log(response.data);
-        setApprovedLawyers(response.data);
-      } catch (error) {
-        console.error("Error fetching approved lawyers:", error);
-      }
-    };
- */
     fetchPendingLawyers(); // Call fetchPendingLawyers when the component mounts
-    /* fetchApprovedLawyers(); */ // Call fetchApprovedLawyers when the component mounts
   }, []); // Empty dependency array ensures functions are called only once
 
   const handleDeleteLawyer = (lawyerId) => {
     setPendingLawyers((prevLawyers) =>
       prevLawyers.filter((lawyer) => lawyer.avocat.id !== lawyerId)
     );
-    // Remove from approved lawyers as well if deleted from there
-    /* setApprovedLawyers((prevLawyers) =>
-      prevLawyers.filter((lawyer) => lawyer.avocat.id !== lawyerId)
-    ); */
   };
   const handleApproving = async (lawyerId) => {
     try {
@@ -55,24 +40,22 @@ const AdminPage = () => {
       );
       console.log("Lawyer approved successfully.");
       // Remove the approved lawyer from the pending lawyers list
-      setPendingLawyers(prevLawyers =>
-        prevLawyers.filter(lawyer => lawyer.avocat.id !== lawyerId)
+      setPendingLawyers((prevLawyers) =>
+        prevLawyers.filter((lawyer) => lawyer.avocat.id !== lawyerId)
       );
     } catch (error) {
       console.error("Error approving lawyer:", error);
     }
   };
 
-
-
   const toggleView = () => {
     setShowPending((prev) => !prev);
   };
-  const { t } = useTranslation()
+  const { t } = useTranslation();
 
   return (
-    <div className="flex justify-center w-full ">
-      <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full min-h-screen ">
+      <div className="flex flex-col w-full min-h-screen">
         <div className="flex flex-col mx-[4rem] gap-[5rem]">
           <div className="">
             <h2 onClick={() => console.log(userData)} className="recursive">
@@ -99,10 +82,7 @@ const AdminPage = () => {
                 lawyers={pendingLawyers}
               />
             ) : (
-              <EvalLawyers
-                all={false}
-                lawyers={lawyers}
-              />
+              <EvalLawyers all={false} lawyers={lawyers} />
             )}
           </div>
         </div>
@@ -110,7 +90,6 @@ const AdminPage = () => {
       </div>
     </div>
   );
-  
 };
 
 export default AdminPage;

@@ -23,7 +23,9 @@ const Selector = ({
     <FormControl fullWidth className="bg-white rounded-md min-w-max">
       <InputLabel id="select-label">
         <div className="flex items-center gap-4 tracking-wider">
-           { !location &&  <span className="text-gray-400 font-normal">{selectCategory}</span> }  
+          {!location && (
+            <span className="text-gray-400 font-normal">{selectCategory}</span>
+          )}
         </div>
       </InputLabel>
       {location ? (

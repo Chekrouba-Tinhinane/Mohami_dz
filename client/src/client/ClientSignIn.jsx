@@ -5,33 +5,26 @@ import scene from "./assets/sign/scene2.jpg";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
-import { useUserData } from "./App";
-
-
+import { useUserData } from "../App";
 
 const ClientSignIn = () => {
+  const { userData, setUserData } = useUserData();
+  const navigate = useNavigate();
 
-const {userData, setUserData} = useUserData()
-const navigate = useNavigate();
-
-  
   const handleSubmit = async (values) => {
     try {
       console.log(values);
       const response = await axios.post(
-
-        "http://localhost:8000/client/login",
+        "http://backend:8000/client/login",
         values
       );
       const { jwt, UserData } = response.data;
 
       localStorage.setItem("token", jwt.token);
       document.cookie = `jwt=${jwt.token}`;
-      console.log(document.cookie, UserData)
+      console.log(document.cookie, UserData);
       setUserData(UserData);
 
-
-    
       // Navigate to "/Results" after successful login
       navigate("/Search");
     } catch (error) {
@@ -40,7 +33,7 @@ const navigate = useNavigate();
   };
 
   return (
-     <div className="flex h-screen items-center">
+    <div className="flex h-screen items-center">
       <div className="basis-[60%]">
         <img src={scene} className="bg- h-screen w-full object-cover" alt="" />
       </div>
@@ -143,9 +136,7 @@ const navigate = useNavigate();
         </footer>
       </div>
     </div>
-    
   );
 };
-
 
 export default ClientSignIn;

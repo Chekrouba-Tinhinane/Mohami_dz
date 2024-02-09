@@ -10,7 +10,7 @@ COPY ./client .
 RUN rm -rf ./node_modules
 
 RUN npm install
-
+RUN npm install yup
 RUN npm install --force @emotion/styled
 
 # Expose the port on which your application will run

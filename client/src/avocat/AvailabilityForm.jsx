@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import axios from "axios";
 import { TextField, Button, Grid, Typography } from "@mui/material";
-import { useUserData } from "./App";
+import { useUserData } from "../App";
 import { useTranslation } from "react-i18next";
 
 const validate = (values) => {
@@ -44,7 +44,6 @@ const AvailabilityForm = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
-
           "http://localhost:8000/creneau/add_creneau",
           values
         );
@@ -74,7 +73,7 @@ const AvailabilityForm = () => {
       <Grid item xs={12}></Grid>
       <Grid item xs={12}>
         {showForm && (
-          <form className="space-y-6" onSubmit={formik.handleSubmit}>
+          <form className="space-y-6 w-[50%] phone:max-tablet:w-full" onSubmit={formik.handleSubmit}>
             <div>
               <label htmlFor="DateInterval">{t("Select a date")} :</label>
               <TextField

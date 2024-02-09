@@ -82,8 +82,8 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-const EvalLawyers = ({all, lawyers, onDelete, onApprove }) => {
-  const { t } = useTranslation()
+const EvalLawyers = ({ all, lawyers, onDelete, onApprove }) => {
+  const { t } = useTranslation();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -103,7 +103,9 @@ const EvalLawyers = ({all, lawyers, onDelete, onApprove }) => {
     <div>
       <div className="bg-lightBrown px-5 py-6">
         {totalSearchResults === 0 ? (
-        <div className="flex justify-center">{t("No compatible results found")}</div>
+          <div className="flex justify-center">
+            {t("No compatible results found")}
+          </div>
         ) : (
           <>
             <LawyerList
@@ -127,15 +129,30 @@ const EvalLawyers = ({all, lawyers, onDelete, onApprove }) => {
   );
 };
 
-const LawyerList = ({ admin, all, onDelete, onApprove, lawyers, currentPage, itemsPerPage }) => {
+const LawyerList = ({
+  admin,
+  all,
+  onDelete,
+  onApprove,
+  lawyers,
+  currentPage,
+  itemsPerPage,
+}) => {
   const indexOfLastLawyer = currentPage * itemsPerPage;
   const indexOfFirstLawyer = indexOfLastLawyer - itemsPerPage;
-  const currentLawyers = lawyers.slice(indexOfFirstLawyer, indexOfLastLawyer);
+  const currentLawyers = lawyers.reverse().slice(indexOfFirstLawyer, indexOfLastLawyer);
 
   return (
     <div className="flex flex-col gap-8 px-6 py-3">
       {currentLawyers.map((lawyer, index) => (
-        <LawyerCard allL={all} onDelete={onDelete} admin key={index} lawyer={lawyer} onApprove={onApprove} />
+        <LawyerCard
+          allL={all}
+          onDelete={onDelete}
+          admin
+          key={index}
+          lawyer={lawyer}
+          onApprove={onApprove}
+        />
       ))}
     </div>
   );

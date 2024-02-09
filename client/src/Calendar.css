@@ -1,5 +1,6 @@
 /* React Calendar Styles */
-.react-calendar {
+
+  .react-calendar {
     width: 450px;
     max-width: 100%;
     background: white;
@@ -214,5 +215,14 @@
   .react-calendar__tile--now:focus {
     background: #d8c28d;
   }
+  @media screen and (max-width: 1024px) and (min-width: 400px) {
+    .react-calendar {
+      width: 450px;
+      max-width: 100%; /* Reset max-width */
+      height: 320px;
+    }
   
+   
   
+    /* Additional styles for smaller screens if needed */
+  }

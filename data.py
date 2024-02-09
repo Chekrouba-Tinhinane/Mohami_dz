@@ -24,7 +24,7 @@ admin_jwt='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOjEsInJvbGUiOiJhZG1p
 
 
 def adding_specialities():
-    url = "http://127.0.0.1:8000/speciality/create_speciality"
+    url = "http://localhost:8000/speciality/create_speciality"
     cookies = {"jwt": admin_jwt}
     for name in specialities:
         payload = {"name": name}
@@ -93,4 +93,7 @@ def approve_all():
           else:
                 print(f"Request failed with status code {response.status_code}")
                 print("Response content:", response.text)
+
+
 approve_all()
+

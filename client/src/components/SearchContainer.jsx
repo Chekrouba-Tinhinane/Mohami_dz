@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Selector from "./Selector";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import Loading from "./Loading";
 
 const SearchContainer = ({ setLawyers }) => {
   const { t } = useTranslation();
@@ -17,7 +18,6 @@ const SearchContainer = ({ setLawyers }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-
           "http://localhost:8000/speciality/speciality_list"
         );
         setSpecialities(response.data);
@@ -32,7 +32,7 @@ const SearchContainer = ({ setLawyers }) => {
   }, []);
 
   if (loading) {
-    return <div>{t("Loading")}...</div>;
+    return <Loading className="py-12 px-2" />;
   }
 
   const handleFilterClick = () => {
@@ -65,12 +65,12 @@ const SearchContainer = ({ setLawyers }) => {
   const lang = [{ value: "french" }, { value: "arabic" }];
 
   return (
-    <div className="flex flex-col gap-3 pb-4 w-full bg-lightBrown">
+    <div className="  flex flex-col gap-3 pb-4 w-full bg-lightBrown">
       <h3 className="place-self-start text-lightTypo text-opacity-65 font-semibold tracking-wide p-4">
         {t("Advanced Search")}
       </h3>
 
-      <div className="flex justify-center gap-3 text-lightTypo font-semibold ">
+      <div className="flex justify-center gap-3 text-lightTypo font-semibold phone:max-tablet:flex-col mx-[2em] ">
         <div className="flex flex-col basis-[30%] gap-3">
           <div>{t("Specialty")}</div>
           <Selector
