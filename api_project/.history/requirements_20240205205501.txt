@@ -107,7 +107,7 @@ azure-mgmt-consumption==8.0.0b1
 azure-mgmt-containerinstance==7.0.0
 azure-mgmt-containerregistry==8.0.0b1
 azure-mgmt-containerservice==14.0.0
-azure-mgmt-core==1.4.0
+azure-mgmt-core==1.4.
 azure-mgmt-cosmosdb==6.0.0
 azure-mgmt-costmanagement==0.2.0
 azure-mgmt-customproviders==1.0.0b1

@@ -6,7 +6,6 @@ from sqlalchemy.sql.expression import or_, and_
 import models, schemas
 from auth.JWThandler import signJWT,decodeJWT,signJWT_client,signJWT_admin,signJWT_avocat
 from fastapi import HTTPException,status,Body
-
 def show_client(db:Session):
     clients=db.query(models.Client).all()
     return clients

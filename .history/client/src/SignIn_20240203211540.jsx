@@ -99,7 +99,7 @@ const SignIn = () => {
                   name="userType"
                   value={userType}
                   onChange={(e) => setUserType(e.target.value)}
-                  className=" cursor-pointer border-b border-primary rounded-sm outline-none px-1 py-1.5"
+                  className=" z-50 border-b border-primary rounded-sm outline-none px-1 py-1.5"
                 >
                   <option value="client">{t("client")}</option>
                   <option value="avocat">{t("lawyer")}</option>
