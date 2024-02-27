@@ -19,6 +19,6 @@ la transparence et l’efficacité dans le processus de recherche.
 * *Administration :* L’administration de la liste des avocats inscrits est assurée pour maintenir la qualité des informations disponibles.
 
 # Déploiement :
-[![Netlify Status](https://api.netlify.com/api/v1/badges/d27de8a1-0706-4f06-a28c-482d7f9654ff/deploy-status)](https://app.netlify.com/sites/dz-mouhami/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/65dde56f05e6a800081c919a/deploy-status)](https://app.netlify.com/sites/dz-mouhami/deploys)
 
 
