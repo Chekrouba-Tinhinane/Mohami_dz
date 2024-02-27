@@ -6,6 +6,10 @@ export default defineConfig({
   plugins: [react()],
   server:{
     host:'0.0.0.0',
+    mimeTypes: {
+      '.js': 'application/javascript',
+      '.jsx': 'application/javascript',
+    },
   },
   build: {
     rollupOptions: {
