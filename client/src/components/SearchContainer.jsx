@@ -18,7 +18,7 @@ const SearchContainer = ({ setLawyers }) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/speciality/speciality_list"
+          "https://mohami-dz-estin.onrender.com/speciality/speciality_list"
         );
         setSpecialities(response.data);
         setLoading(false);
@@ -48,7 +48,7 @@ const SearchContainer = ({ setLawyers }) => {
     // You can filter the lawyers based on the selected filters
     axios
 
-      .get("http://127.0.0.1:8000/avocat/recherche-avec-filtre", {
+      .get("https://mohami-dz-estin.onrender.com/avocat/recherche-avec-filtre", {
         params: filters,
       }) // Adjust the URL according to your 192.168.137.210 route
       .then((response) => {
