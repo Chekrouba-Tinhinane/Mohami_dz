@@ -32,7 +32,7 @@ const SignIn = () => {
       }
 
       const response = await axios.post(
-        `http://192.168.137.210:8000/${loginEndpoint}`,
+        `http://127.0.0.1:8000/${loginEndpoint}`,
         values
       );
       console.log(response.data);

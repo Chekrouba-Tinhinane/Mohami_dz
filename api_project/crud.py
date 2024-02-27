@@ -48,38 +48,38 @@ def register_avocat(db:Session,avocat:schemas.AvocatCreate,id_speciality:models.
     """
     Register a new avocat and generate a JWT token for authentication.
     """
-        try:
-            print(avocat)
-            db_avocat= models.Avocat(**avocat.model_dump(),id_speciality=id_speciality)
-            db.add(db_avocat)
-            db.commit()
-            db.refresh(db_avocat)
-            response=signJWT_avocat(db_avocat.id)
-            return response
-        except ValueError as e:
-        # Handle validation errors
-            print(e)
-            raise HTTPException(
-                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail=f"Validation error: {e}",
-                
-            )
+    try:
+        print(avocat)
+        db_avocat= models.Avocat(**avocat.model_dump(),id_speciality=id_speciality)
+        db.add(db_avocat)
+        db.commit()
+        db.refresh(db_avocat)
+        response=signJWT_avocat(db_avocat.id)
+        return response
+    except ValueError as e:
+    # Handle validation errors
+        print(e)
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=f"Validation error: {e}",
             
+        )
+        
 
 
 def update_avocat(db:Session,new_avocat:schemas.AvocatCreate,id_avocat:int): 
     """
     Update avocat information, given a valid authentication token.
     """
-        db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
-        if db_old_avocat is None:
-            return {"erreur":"avocat non existant"}
-        for field, value in new_avocat.model_dump(exclude_unset=True).items():
-            setattr(db_old_avocat, field, value)
-        
-        db.commit()
-        db.refresh(db_old_avocat)
-        return {"success":f"avocat '{db_old_avocat.id}' has been updated"}
+    db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
+    if db_old_avocat is None:
+        return {"erreur":"avocat non existant"}
+    for field, value in new_avocat.model_dump(exclude_unset=True).items():
+        setattr(db_old_avocat, field, value)
+    
+    db.commit()
+    db.refresh(db_old_avocat)
+    return {"success":f"avocat '{db_old_avocat.id}' has been updated"}
 
 
 def show_pending_avocats(db:Session):
@@ -106,26 +106,27 @@ def verify_avocats(db:Session,id_avocat:int):
     """
     Verify an avocat, requires admin authentication.
     """
-        db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
-        if db_old_avocat is None:
-            return {"erreur":"avocat non existante"}
-    
-        setattr(db_old_avocat, "verified", True)
-    
-        db.commit()
-        db.refresh(db_old_avocat)
-        return {"success":f"avocat '{db_old_avocat.id}' has been approved"}
+    db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
+    if db_old_avocat is None:
+        return {"erreur":"avocat non existante"}
+
+    setattr(db_old_avocat, "verified", True)
+
+    db.commit()
+    db.refresh(db_old_avocat)
+    return {"success":f"avocat '{db_old_avocat.id}' has been approved"}
+
 def delete_avocats(db:Session,id_avocat:int):
     """
     Delete an avocat, requires admin authentication.
     """
-        db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
-        if db_old_avocat is None:
-            return {"error":"avocat not found"}
-        
-        db.delete(db_old_avocat)
-        db.commit()
-        return {"success":f"avocat '{db_old_avocat.id}' has been deleted"}
+    db_old_avocat = db.query(models.Avocat).filter(models.Avocat.id == id_avocat).one_or_none()
+    if db_old_avocat is None:
+        return {"error":"avocat not found"}
+    
+    db.delete(db_old_avocat)
+    db.commit()
+    return {"success":f"avocat '{db_old_avocat.id}' has been deleted"}
 
 def show_approved_avocats(db:Session):
     """
@@ -158,36 +159,36 @@ def register_specialities(db:Session,speciality:schemas.speciality):
     """
     Register a new speciality, requires admin authentication.
     """
-        db_speciality= models.Speciality(**speciality.model_dump())
-        db.add(db_speciality)
-        db.commit()
-        db.refresh(db_speciality)
-        return {"success":f"speciality '{db_speciality.id}' has been created"}
+    db_speciality= models.Speciality(**speciality.model_dump())
+    db.add(db_speciality)
+    db.commit()
+    db.refresh(db_speciality)
+    return {"success":f"speciality '{db_speciality.id}' has been created"}
 
 def update_speciality(db:Session,speciality:schemas.speciality,id_speciality:models.Speciality.id):
     """
     Update a speciality, requires admin authentication.
     """
-        db_old_speciality = db.query(models.Speciality).filter(models.Speciality.id == id_speciality).one_or_none()
-        if db_old_speciality is None:
-            return {"erreur":"speciality non existante"}
-        for field, value in speciality.model_dump(exclude_unset=True).items():
-            setattr(db_old_speciality, field, value)
-        
-        db.commit()
-        db.refresh(db_old_speciality)
-        return {"success":f"speciality '{db_old_speciality.id}' has been updated"}
+    db_old_speciality = db.query(models.Speciality).filter(models.Speciality.id == id_speciality).one_or_none()
+    if db_old_speciality is None:
+        return {"erreur":"speciality non existante"}
+    for field, value in speciality.model_dump(exclude_unset=True).items():
+        setattr(db_old_speciality, field, value)
+    
+    db.commit()
+    db.refresh(db_old_speciality)
+    return {"success":f"speciality '{db_old_speciality.id}' has been updated"}
 
 def delete_speciality(db:Session,id_speciality:int): 
     """
     Delete a speciality, requires admin authentication.
     """
-        db_speciality = db.query(models.Speciality).filter(models.Speciality.id == id_speciality).first()
-        if db_speciality is None:
-            return {"erreur":"speciality non existante"}
-        db.delete(db_speciality)
-        db.commit()
-        return {"success":f"speciality '{id_speciality}' has been deleted"}
+    db_speciality = db.query(models.Speciality).filter(models.Speciality.id == id_speciality).first()
+    if db_speciality is None:
+        return {"erreur":"speciality non existante"}
+    db.delete(db_speciality)
+    db.commit()
+    return {"success":f"speciality '{id_speciality}' has been deleted"}
 
 
 
@@ -202,36 +203,36 @@ def register_competence(db:Session,competence:schemas.competenceCreate,id_avocat
     """
     Register a new competence for an avocat, requires avocat authentication.
     """
-        db_competence= models.Competence(**competence.model_dump(),id_avocat=id_avocat)
-        db.add(db_competence)
-        db.commit()
-        db.refresh(db_competence)
-        return {"success":f"competence '{db_competence.id}' has been created"}
+    db_competence= models.Competence(**competence.model_dump(),id_avocat=id_avocat)
+    db.add(db_competence)
+    db.commit()
+    db.refresh(db_competence)
+    return {"success":f"competence '{db_competence.id}' has been created"}
 
 def update_competence(db:Session,new_competence:schemas.competenceCreate,id_avocat:int,id_competence:int):
     """
     Update a competence for an avocat, requires avocat authentication.
     """
-        db_old_competence = db.query(models.Competence).filter(models.Competence.id == id_competence).filter(models.Competence.id_avocat==id_avocat).one_or_none()
-        if db_old_competence is None:
-            return {"erreur":"compentece non existante"}
-        for field, value in new_competence.model_dump(exclude_unset=True).items():
-            setattr(db_old_competence, field, value)
-        
-        db.commit()
-        db.refresh(db_old_competence)
-        return {"success":f"competence '{db_old_competence.id}' has been updated"}
+    db_old_competence = db.query(models.Competence).filter(models.Competence.id == id_competence).filter(models.Competence.id_avocat==id_avocat).one_or_none()
+    if db_old_competence is None:
+        return {"erreur":"compentece non existante"}
+    for field, value in new_competence.model_dump(exclude_unset=True).items():
+        setattr(db_old_competence, field, value)
+    
+    db.commit()
+    db.refresh(db_old_competence)
+    return {"success":f"competence '{db_old_competence.id}' has been updated"}
 
 def delete_competence(db:Session,id_competence:int,id_avocat:int):
     """
     Delete a competence for an avocat, requires avocat authentication.
     """
-        db_competence = db.query(models.Competence).filter(models.Competence.id == id_competence).filter(models.Competence.id_avocat==id_avocat).first()
-        if db_competence is None:
-            return {"erreur":"competence non existante"}
-        db.delete(db_competence)
-        db.commit()
-        return {"success":f"competence '{id_competence}' has been deleted"}
+    db_competence = db.query(models.Competence).filter(models.Competence.id == id_competence).filter(models.Competence.id_avocat==id_avocat).first()
+    if db_competence is None:
+        return {"erreur":"competence non existante"}
+    db.delete(db_competence)
+    db.commit()
+    return {"success":f"competence '{id_competence}' has been deleted"}
 
 
 def show_competence(db:Session):
@@ -252,30 +253,30 @@ def take_rdv(db:Session,rdv_pris:schemas.Rdv_pris):
     """
     Schedule an appointment (rendez-vous) for a client, requires client authentication.
     """
-        rdv=db.query(models.Interval_libre).filter(models.Interval_libre.id==rdv_pris.id_interval_libre).filter(models.Interval_libre.id_avocat==rdv_pris.id_avocat).first()
-        if rdv==None:
-            return {"error":"schedule not found"}
-        nbrMax=rdv.NbrMaxRdv
-        nbr_rdv_deja_pris=db.query(models.Rdv_pris).filter(models.Rdv_pris.id_interval_libre==rdv_pris.id_interval_libre).count()
-        if nbrMax>nbr_rdv_deja_pris:
-            db_rdv= models.Rdv_pris(**rdv_pris.model_dump())
-            db.add(db_rdv)
-            db.commit()
-            db.refresh(db_rdv)
-            return {"message":"rendez vous pris"}
-        return {"erreur":"nombre max de rdv pour ce creneau atteint"}
+    rdv=db.query(models.Interval_libre).filter(models.Interval_libre.id==rdv_pris.id_interval_libre).filter(models.Interval_libre.id_avocat==rdv_pris.id_avocat).first()
+    if rdv==None:
+        return {"error":"schedule not found"}
+    nbrMax=rdv.NbrMaxRdv
+    nbr_rdv_deja_pris=db.query(models.Rdv_pris).filter(models.Rdv_pris.id_interval_libre==rdv_pris.id_interval_libre).count()
+    if nbrMax>nbr_rdv_deja_pris:
+        db_rdv= models.Rdv_pris(**rdv_pris.model_dump())
+        db.add(db_rdv)
+        db.commit()
+        db.refresh(db_rdv)
+        return {"message":"rendez vous pris"}
+    return {"erreur":"nombre max de rdv pour ce creneau atteint"}
 
 
 def ajout_creneau(db:Session,creneau:schemas.Interval_libreCreate):
     """
     Add a new time slot (creneau) for an avocat, requires avocat authentication.
     """
-        print(str(creneau.model_dump()))
-        db_creneau= models.Interval_libre(**creneau.model_dump())
-        db.add(db_creneau)
-        db.commit()
-        db.refresh(db_creneau)
-        return {"message":f"creneau id={db_creneau.id} added"}
+    print(str(creneau.model_dump()))
+    db_creneau= models.Interval_libre(**creneau.model_dump())
+    db.add(db_creneau)
+    db.commit()
+    db.refresh(db_creneau)
+    return {"message":f"creneau id={db_creneau.id} added"}
 
 def afficher_creneau(db:Session,avocat:int):
     """
@@ -329,11 +330,11 @@ def rate_avocat(db: Session, client_id: int, avocat_id: int, rating: float, comm
     """
     Rate an avocat, requires client authentication.
     """
-        rating_entry = models.Rating(client_id=client_id, avocat_id=avocat_id, rating=rating, comment=comment)
-        db.add(rating_entry)
-        db.commit()
-        db.refresh(rating_entry)
-        return {"success":f"rating {rating_entry.id} published"}
+    rating_entry = models.Rating(client_id=client_id, avocat_id=avocat_id, rating=rating, comment=comment)
+    db.add(rating_entry)
+    db.commit()
+    db.refresh(rating_entry)
+    return {"success":f"rating {rating_entry.id} published"}
 
 def get_top_rated_avocats(db: Session, limit: int = 5):
     """

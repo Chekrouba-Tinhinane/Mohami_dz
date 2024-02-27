@@ -28,14 +28,14 @@ const OwnProfile = ({ lawyer }) => {
 
   const fetchRatings = async (id) => {
     const { data } = await axios.get(
-      `http://192.168.137.210:8000/ratings/avocat_rating?id=${id}`
+      `http://127.0.0.1:8000/ratings/avocat_rating?id=${id}`
     );
     return data;
   };
 
   const fetchPendingRequests = async (id) => {
     const { data } = await axios.post(
-      `http://192.168.137.210:8000/rdv/afficher_rdv_par_avocat`,
+      `http://127.0.0.1:8000/rdv/afficher_rdv_par_avocat`,
       id
     );
     return data;

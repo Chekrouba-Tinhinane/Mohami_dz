@@ -15,7 +15,7 @@ const AdminPage = () => {
     const fetchPendingLawyers = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.137.210:8000/avocat/avocat_pending"
+          "http://127.0.0.1:8000/avocat/avocat_pending"
         );
         console.log(response.data);
         setPendingLawyers(response.data);
@@ -35,7 +35,7 @@ const AdminPage = () => {
   const handleApproving = async (lawyerId) => {
     try {
       await axios.post(
-        `http://192.168.137.210:8000/avocat/avocat_verify`,
+        `http://127.0.0.1:8000/avocat/avocat_verify`,
         lawyerId
       );
       console.log("Lawyer approved successfully.");
