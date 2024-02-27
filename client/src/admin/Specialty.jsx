@@ -17,7 +17,7 @@ const Specialty = () => {
     refetch,
   } = useQuery("specialities", async () => {
     const response = await axios.get(
-      "http://127.0.0.1:8000/speciality/speciality_list"
+      "https://mohami-dz-estin.onrender.com/speciality/speciality_list"
     );
     return response.data;
   });
@@ -25,7 +25,7 @@ const Specialty = () => {
   const addSpecialtyMutation = useMutation(
     (newSpecialty) =>
       axios.post(
-        "http://127.0.0.1:8000/speciality/create_speciality",
+        "https://mohami-dz-estin.onrender.com/speciality/create_speciality",
         newSpecialty
       ),
     {
@@ -43,7 +43,7 @@ const Specialty = () => {
   const updateSpecialtyMutation = useMutation(
     (updatedSpecialty) =>
       axios.post(
-        "http://127.0.0.1:8000/speciality/speciality_update",
+        "https://mohami-dz-estin.onrender.com/speciality/speciality_update",
         updatedSpecialty
       ),
     {
@@ -56,7 +56,7 @@ const Specialty = () => {
   const deleteSpecialtyMutation = useMutation(
     (specialtyId) =>
       axios.post(
-        `http://127.0.0.1:8000/speciality/speciality_delete`,
+        `https://mohami-dz-estin.onrender.com/speciality/speciality_delete`,
         specialtyId
       ),
     {
