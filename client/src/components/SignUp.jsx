@@ -11,13 +11,12 @@ import Footer from "./super/Footer";
 
 const SignUp = () => {
   const [specialities, setSpecialities] = useState([]);
-  const { userData } = useUserData();
 
   useEffect(() => {
     const fetchSpecialities = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.137.210:8000/speciality/speciality_list"
+          "http://127.0.0.1:8000/speciality/speciality_list"
         );
         setSpecialities(response.data);
       } catch (error) {
@@ -105,7 +104,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
       console.log(postData);
 
       const response = await axios.post(
-        `http://192.168.137.210:8000/${endpoint}`,
+        `http://127.0.0.1:8000/${endpoint}`,
         postData
       );
 

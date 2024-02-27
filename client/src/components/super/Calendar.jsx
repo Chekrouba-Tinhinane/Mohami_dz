@@ -109,7 +109,7 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
     const fetchAvailabilityIntervals = async () => {
       try {
         const response = await axios.post(
-          "http://192.168.137.210:8000/creneau/afficher",
+          "http://127.0.0.1:8000/creneau/afficher",
           lawyer?.avocat?.id
         );
         console.log(response.data);
@@ -238,7 +238,7 @@ export const Calendar = ({ isOpen, onOpen, lawyer, onClose }) => {
     try {
       // Make a POST request to book the appointment
       const response = await axios.post(
-        "http://192.168.137.210:8000/rdv/prendre_rdv",
+        "http://127.0.0.1:8000/rdv/prendre_rdv",
         bookingData
       );
       // Log the response data and a success message

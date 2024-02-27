@@ -32,7 +32,7 @@ const SignIn = () => {
       }
 
       const response = await axios.post(
-        `http://192.168.137.210:8000/${loginEndpoint}`,
+        `http://127.0.0.1:8000/${loginEndpoint}`,
         values
       );
       console.log(response.data);
@@ -99,7 +99,7 @@ const SignIn = () => {
                   name="userType"
                   value={userType}
                   onChange={(e) => setUserType(e.target.value)}
-                  className="border-b border-primary rounded-sm outline-none px-1 py-1.5"
+                  className=" cursor-pointer border-b border-primary rounded-sm outline-none px-1 py-1.5"
                 >
                   <option value="client">{t("client")}</option>
                   <option value="avocat">{t("lawyer")}</option>

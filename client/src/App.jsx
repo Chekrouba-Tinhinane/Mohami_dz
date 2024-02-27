@@ -32,7 +32,7 @@ const App = () => {
     const fetchLawyers = async () => {
       try {
         const response = await axios.get(
-          "http://192.168.137.210:8000/avocat/avocats"
+          "http://127.0.0.1:8000/avocat/avocats"
         );
         console.log(response.data);
         setLawyers(response.data);
@@ -42,7 +42,7 @@ const App = () => {
     };
 
     fetchLawyers(); // Call fetchLawyers when the component mounts
-  }, []); // Empty dependency array ensures fetchLawyers is called only onc
+  }, []); // Empty dependency array ensures fetchLawyers is called only once
 
   const [userData, setUserData] = useState(null);
   const queryClient = new QueryClient();
