@@ -9,7 +9,7 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
-      external: ['yup']
+      external: ['yup'] //  Exclude yup from being bundled in the library
     }
   }
 })
