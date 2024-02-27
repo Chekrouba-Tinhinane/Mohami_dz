@@ -18,7 +18,7 @@ models.Base.metadata.create_all(bind=engine)
 #app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
 app=FastAPI()
 
-origins = ["*"]
+origins = ["*", "https://mohami-dz-estin.vercel.app"]
 
 app.add_middleware(
     CORSMiddleware,
