@@ -27,7 +27,7 @@ const LawyerCard = ({ allL, admin, lawyer, onDelete, onApprove }) => {
     try {
       // Call the API to approve the lawyer
       await axios.post(
-        `http://127.0.0.1:8000/avocat/avocat_verify`,
+        `https://mohami-dz-estin.onrender.com/avocat/avocat_verify`,
         lawyer?.avocat?.id
       );
       // Call the onApprove callback to update the UI
@@ -47,7 +47,7 @@ const LawyerCard = ({ allL, admin, lawyer, onDelete, onApprove }) => {
   const confirmDelete = async () => {
     try {
       await axios.post(
-        `http://127.0.0.1:8000/avocat/avocat_delete`,
+        `https://mohami-dz-estin.onrender.com/avocat/avocat_delete`,
         lawyer?.avocat?.id
       );
       onDelete(lawyer?.avocat?.id); // Remove the lawyer from the list on deletion

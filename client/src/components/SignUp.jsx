@@ -16,7 +16,7 @@ const SignUp = () => {
     const fetchSpecialities = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/speciality/speciality_list"
+          "https://mohami-dz-estin.onrender.com/speciality/speciality_list"
         );
         setSpecialities(response.data);
       } catch (error) {
@@ -104,7 +104,7 @@ const SignupForm = ({ onCancel, onSubmit, specialities }) => {
       console.log(postData);
 
       const response = await axios.post(
-        `http://127.0.0.1:8000/${endpoint}`,
+        `https://mohami-dz-estin.onrender.com/${endpoint}`,
         postData
       );
 

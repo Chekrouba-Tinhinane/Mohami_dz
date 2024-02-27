@@ -194,14 +194,14 @@ function Avis({ lawyer }) {
   const submitFeedback = async (feedbackData) => {
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8000/ratings/register_rating",
+        "https://mohami-dz-estin.onrender.com/ratings/register_rating",
         feedbackData
       );
       console.log("Feedback submitted successfully:", response.data);
 
       // Fetch updated comments after submitting feedback
       const updatedResponse = await axios.get(
-        `http://127.0.0.1:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
+        `https://mohami-dz-estin.onrender.com/ratings/avocat_rating?id=${lawyer.avocat?.id}`
       );
       setComments(updatedResponse.data);
 
@@ -215,7 +215,7 @@ function Avis({ lawyer }) {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
-          `http://127.0.0.1:8000/ratings/avocat_rating?id=${lawyer.avocat?.id}`
+          `https://mohami-dz-estin.onrender.com/ratings/avocat_rating?id=${lawyer.avocat?.id}`
         );
         setComments(response.data);
       } catch (error) {

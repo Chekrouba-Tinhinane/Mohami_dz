@@ -32,7 +32,7 @@ const App = () => {
     const fetchLawyers = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/avocat/avocats"
+          "https://mohami-dz-estin.onrender.com/avocat/avocats"
         );
         console.log(response.data);
         setLawyers(response.data);

@@ -44,7 +44,7 @@ const AvailabilityForm = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
-          "http://127.0.0.1:8000/creneau/add_creneau",
+          "https://mohami-dz-estin.onrender.com/creneau/add_creneau",
           values
         );
         console.log("Response:", response.data);
