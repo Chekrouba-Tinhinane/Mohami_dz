@@ -11,9 +11,4 @@ export default defineConfig({
       '.jsx': 'application/javascript',
     },
   },
-  build: {
-    rollupOptions: {
-      external: ['yup'] //  Exclude yup from being bundled in the library
-    }
-  }
 })
