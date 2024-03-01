@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import maria from "../assets/maria/maria.jpg";
 import msg from "../assets/icons/contact/msg.svg";
 import phone from "../assets/icons/contact/phone.svg";
 import { Link } from "react-router-dom";
-import { useUserData } from "../App";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import {

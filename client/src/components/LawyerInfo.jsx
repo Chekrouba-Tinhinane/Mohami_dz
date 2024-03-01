@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 const LawyerInfo = ({ lawyer, onClick, self }) => {
   const { t } = useTranslation();
-  const { userData } = useUserData();
+
   return (
     <div className=" flex flex-col basis-[30%] border-l border-l-primary gap-6 pl-8">
       <div className=" flex items-center gap-4 ">
